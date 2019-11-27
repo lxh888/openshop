@@ -1,0 +1,107 @@
+<script id="content" type="text/template">
+	
+	<div class="form-group">
+    	<label>菜单名称：</label>
+    	<input type="text" class="form-control" placeholder="菜单名称" name="management_name">
+  	</div>
+  	<div class="form-group">
+    	<label>菜单简介：</label>
+    	<textarea class="form-control" rows="3" placeholder="菜单简介" name="management_info"></textarea>
+  	</div>
+	
+	<div class="form-group">
+    	<label>页面标识：</label>
+    	<input type="text" class="form-control" placeholder="页面标识" name="management_page">
+  	</div>
+  	
+  	<div class="form-group">
+    	<label>父级：</label>
+	  	<select class="form-control" name="management_parent_id">
+		  <option value="">-顶级-</option>
+		  <!--if{response.management_parent_option}-->
+		  <!--for{var i in response.management_parent_option}-->
+		  
+		  <option value="<!--{response.management_parent_option[i].management_id}-->" >
+		  <!--{response.management_parent_option[i].management_name}-->
+		  </option>
+		  
+		  <!--/for-->
+		  <!--/if-->
+		</select>
+  	</div>
+  	
+  	<div class="form-group">
+    	<label>权限码：</label>
+	  	<select class="form-control" name="authority_id">
+		<option value="">-无权限-</option>
+		<!--if{response.authority_option}-->
+		<!--for{var i in response.authority_option}-->
+		  	<optgroup label="<!--{response.authority_option[i].module_name}-->">
+		  	<!--if{response.authority_option[i].authority}-->
+			<!--for{var a in response.authority_option[i].authority}-->
+				<option value="<!--{response.authority_option[i].authority[a].authority_id}-->" >
+				<!--{response.authority_option[i].authority[a].authority_name}-->
+				<!--{response.authority_option[i].authority[a].authority_id}-->
+				</option>
+		  	<!--/for-->
+			<!--/if-->
+			</optgroup>	
+		<!--/for-->
+		<!--/if-->
+		</select>
+  	</div>
+  	
+  	<div class="form-group">
+    	<label>排序：</label>
+    	<input type="text" class="form-control" placeholder="分类的排序" name="management_sort">
+  	</div>
+  	
+  	<div class="form-group">
+    	<label>是否隐藏菜单：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="management_hide"> 是
+		</label>
+  	</div>
+	<div class="form-group">
+    	<label>是否关闭菜单：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="0" name="management_state"> 是
+		</label>
+  	</div>
+  	
+  	<div class="form-group">
+    	<label>关于获取标签的方法（图标）：</label>
+    	<a href="https://v3.bootcss.com/components/#glyphicons" target="_blank">Glyphicons 字体图标</a><br/>
+    	示例：<code>&lt;span class=&quot;glyphicon glyphicon-edit&quot;&gt;&lt;/span&gt;</code>
+  	</div>
+  	
+	<div class="form-group">
+    	<label>前标签：</label>
+    	<textarea class="form-control" rows="1" placeholder="前标签。放在名称前面的html标签，如图标" name="management_label_before"></textarea>
+  	</div>
+	<div class="form-group">
+    	<label>后标签：</label>
+    	<textarea class="form-control" rows="1" placeholder="后标签。放在名称后面的html标签，如图标" name="management_label_after"></textarea>
+  	</div>
+	<div class="form-group">
+    	<label>跳转链接：</label>
+    	<input type="text" class="form-control" placeholder="跳转链接" name="management_href">
+  	</div>
+	<div class="form-group">
+    	<label>跳转目标：</label>
+    	<input type="text" class="form-control" placeholder="跳转目标" name="management_target" value="_blank">
+  	</div>
+	<div class="form-group">
+    	<label>query参数：</label>
+    	<textarea class="form-control" rows="1" placeholder='query参数。是一个json数据。如{"id":"123","name":"456"}' name="management_query"></textarea>
+  	</div>
+	<div class="form-group">
+    	<label>path参数：</label>
+    	<textarea class="form-control" rows="1" placeholder='path参数。是一个json数据。如{0:"id",1:"name"}' name="management_path"></textarea>
+  	</div>
+	
+	<br/>
+  	<button type="button" class="btn btn-primary" name="submit">确定添加</button>
+	<div style="height: 100px;"></div>
+	
+</script>

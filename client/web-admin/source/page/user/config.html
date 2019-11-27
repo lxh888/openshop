@@ -1,0 +1,584 @@
+<script id="action-button" type="text/template">
+	<div class="btn-group">
+		<!--if{response.data}-->
+		<!--for{var i in response.data}-->
+		<a href="<!--helper {'action-query-href'(response.data[i].config_id)}-->" class="btn btn-default <!--if{action==response.data[i].config_id}-->active<!--/if-->"><!--{response.data[i].config_name}--></a>
+		<!--/for-->
+		<!--/if-->
+	</div>
+</script>
+
+
+<script id="content" type="text/template">
+<!--helper{'action-button'}-->
+<hr/>
+<div class="alert alert-warning alert-dismissible" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	<strong>友情提示!</strong> 请选择上面的按钮，编辑需要更新的配置。
+</div>	
+</script>
+
+
+
+
+<script id="content-recommend_reward_user_money" type="text/template">
+<!--helper{'action-button'}-->
+<hr/>
+<!--if{response.get}-->
+	<div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<strong>程序开发提示：</strong> <!--{response.get.config_info}-->
+	</div>
+	
+	<h4><!--{response.get.config_name}--></h4>
+	<div class="form-group">
+    	<label>固定赠送金额（元，非随机时有效）：</label>
+    	<input type="text" class="form-control" placeholder="固定赠送金额" name="money" value="<!--if{typeof response.get.config_value.money != 'undefined'}--><!--{(response.get.config_value.money/100).toFixed(2)}--><!--/if-->">
+  	</div>
+  	<div class="form-group">
+    	<label>是否开启随机：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="random" <!--if{parseInt(response.get.config_value.random)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+  	<div class="form-group">
+    	<label>最小随机金额（元，随机时有效）：</label>
+    	<input type="text" class="form-control" placeholder="最小随机金额" name="money_min" value="<!--if{typeof response.get.config_value.money_min != 'undefined'}--><!--{(response.get.config_value.money_min/100).toFixed(2)}--><!--/if-->">
+  	</div>
+  	<div class="form-group">
+    	<label>最大随机金额（元，随机时有效）：</label>
+    	<input type="text" class="form-control" placeholder="最大随机金额" name="money_max" value="<!--if{typeof response.get.config_value.money_max != 'undefined'}--><!--{(response.get.config_value.money_max/100).toFixed(2)}--><!--/if-->">
+  	</div>
+  	<div class="form-group">
+    	<label>是否开启：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="state" <!--if{parseInt(response.get.config_value.state)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+	
+	<br/>
+  	<button type="button" class="btn btn-primary" name="submit-recommend_reward_user_money">确定编辑</button>
+	<hr/>
+	<span style="color: #999999;">更新时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.update_time) * 1000)}--></span>
+	<div style="height: 100px;"></div>
+	
+	
+<!--else-->
+<div class="alert alert-danger">未知配置</div>
+<!--/if-->
+</script>
+
+
+
+
+
+<script id="content-rmb_withdraw_user_money" type="text/template">
+<!--helper{'action-button'}-->
+<hr/>
+<!--if{response.get}-->
+	<div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<strong>程序开发提示：</strong> <!--{response.get.config_info}-->
+	</div>
+	
+	<h4><!--{response.get.config_name}--></h4>
+  	<div class="form-group">
+    	<label>最小提现金额（元）：</label>
+    	<input type="text" class="form-control" placeholder="最小提现金额" name="min_user_money" value="<!--if{typeof response.get.config_value.min_user_money!= 'undefined'}--><!--{(response.get.config_value.min_user_money/100).toFixed(2)}--><!--/if-->">
+  	</div>
+  	<div class="form-group">
+    	<label>最大提现金额（元）：</label>
+    	<input type="text" class="form-control" placeholder="最大提现金额" name="max_user_money" value="<!--if{typeof response.get.config_value.max_user_money!= 'undefined'}--><!--{(response.get.config_value.max_user_money/100).toFixed(2)}--><!--/if-->">
+  	</div>
+  	<div class="form-group">
+    	<label>收取的服务费比值：<span style="color: #999;">请输入小数，如0.01，即1%</span></label>
+    	<input type="text" class="form-control" placeholder="收取的服务费比值" name="ratio_service_money" value="<!--{response.get.config_value.ratio_service_money}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>运算法则(收取的服务费比值)：<span style="color: #999;">"round"对浮点数进行四舍五入 、"ceil"进一法取整、"floor"舍去法取整</span></label>
+    	<input type="text" class="form-control" placeholder="round|ceil|floor" name="algorithm" value="<!--{response.get.config_value.algorithm}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>是否需要支付密码：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="pay_password_state" <!--if{parseInt(response.get.config_value.pay_password_state)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+  	<div class="form-group">
+    	<label>是否要求实名认证：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="user_identity_state" <!--if{parseInt(response.get.config_value.user_identity_state)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+  	<div class="form-group">
+    	<label>是否开启：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="state" <!--if{parseInt(response.get.config_value.state)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+	
+	<br/>
+  	<button type="button" class="btn btn-primary" name="submit-rmb_withdraw_user_money">确定编辑</button>
+	<hr/>
+	<span style="color: #999999;">更新时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.update_time) * 1000)}--></span>
+	<div style="height: 100px;"></div>
+	
+	
+<!--else-->
+<div class="alert alert-danger">未知配置</div>
+<!--/if-->
+</script>
+
+
+
+<script id="content-rmb_withdraw_user_money_earning" type="text/template">
+<!--helper{'action-button'}-->
+<hr/>
+<!--if{response.get}-->
+	<div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<strong>程序开发提示：</strong> <!--{response.get.config_info}-->
+	</div>
+	
+	<h4><!--{response.get.config_name}--></h4>
+  	<div class="form-group">
+    	<label>最小提现金额（元）：</label>
+    	<input type="text" class="form-control" placeholder="最小提现金额" name="min_user_money_earning" value="<!--if{response.get.config_value.min_user_money_earning}--><!--{(response.get.config_value.min_user_money_earning/100).toFixed(2)}--><!--/if-->">
+  	</div>
+  	<div class="form-group">
+    	<label>最大提现金额（元）：</label>
+    	<input type="text" class="form-control" placeholder="最大提现金额" name="max_user_money_earning" value="<!--if{response.get.config_value.max_user_money_earning}--><!--{(response.get.config_value.max_user_money_earning/100).toFixed(2)}--><!--/if-->">
+  	</div>
+  	<div class="form-group">
+    	<label>收取的用户服务费比值：<span style="color: #999;">请输入小数，如0.01，即1%</span></label>
+    	<input type="text" class="form-control" placeholder="收取的用户服务费比值" name="ratio_user_money_service" value="<!--{response.get.config_value.ratio_user_money_service}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>运算法则(收取的用户服务费比值)：<span style="color: #999;">"round"对浮点数进行四舍五入 、"ceil"进一法取整、"floor"舍去法取整</span></label>
+    	<input type="text" class="form-control" placeholder="round|ceil|floor" name="algorithm" value="<!--{response.get.config_value.algorithm}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>是否需要支付密码：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="pay_password_state" <!--if{parseInt(response.get.config_value.pay_password_state)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+  	<div class="form-group">
+    	<label>是否要求实名认证：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="user_identity_state" <!--if{parseInt(response.get.config_value.user_identity_state)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+  	<div class="form-group">
+    	<label>是否开启：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="state" <!--if{parseInt(response.get.config_value.state)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+	
+	<br/>
+  	<button type="button" class="btn btn-primary" name="submit-rmb_withdraw_user_money_earning">确定编辑</button>
+	<hr/>
+	<span style="color: #999999;">更新时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.update_time) * 1000)}--></span>
+	<div style="height: 100px;"></div>
+	
+	
+<!--else-->
+<div class="alert alert-danger">未知配置</div>
+<!--/if-->
+</script>
+
+
+
+
+
+<script id="content-daily_attendance_earn_user_credit" type="text/template">
+<!--helper{'action-button'}-->
+<hr/>
+<!--if{response.get}-->
+	<div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<strong>程序开发提示：</strong> <!--{response.get.config_info}-->
+	</div>
+	
+	<h4><!--{response.get.config_name}--></h4>
+	
+	<div class="form-group">
+    	<label>积分数量：</label>
+    	<input type="text" class="form-control" placeholder="签到赚取的积分数量" name="credit" value="<!--if{response.get.config_value.credit}--><!--{(response.get.config_value.credit/response.application_config.credit.scale).toFixed(response.application_config.credit.precision)}--><!--/if-->">
+  	</div>
+	<div class="form-group">
+    	<label>是否开启：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="state" <!--if{parseInt(response.get.config_value.state)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+	
+	<br/>
+  	<button type="button" class="btn btn-primary" name="submit-daily_attendance_earn_user_credit">确定编辑</button>
+	<hr/>
+	<span style="color: #999999;">更新时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.update_time) * 1000)}--></span>
+	<div style="height: 100px;"></div>
+<!--else-->
+<div class="alert alert-danger">未知配置</div>
+<!--/if-->	
+</script>
+
+
+
+<script id="content-parent_recommend_user_credit" type="text/template">
+<!--helper{'action-button'}-->
+<hr/>
+<!--if{response.get}-->
+	<div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<strong>程序开发提示：</strong> <!--{response.get.config_info}-->
+	</div>
+	
+	<h4><!--{response.get.config_name}--></h4>
+	
+	<div class="form-group">
+    	<label>消费用户推荐人平台赠送积分比值：<span style="color: #999;">请输入小数，如0.01，即1%</span></label>
+    	<input type="text" class="form-control" placeholder="[推荐人] 可获得 [被推荐人(无论是普通用户还是其他商家用户)] 与 商家 交易时的所得积分的比值" name="ratio_user_credit" value="<!--{response.get.config_value.ratio_user_credit}-->">
+  	</div>
+	<div class="form-group">
+    	<label>商家用户推荐人平台赠送积分比值：<span style="color: #999;">请输入小数，如0.01，即1%</span></label>
+    	<input type="text" class="form-control" placeholder="[推荐人] 可获得 [被推荐商家用户] 与 [其他普通用户或是其他商家用户] 交易时的送出积分的比值" name="ratio_merchant_user_credit" value="<!--{response.get.config_value.ratio_merchant_user_credit}-->">
+  	</div>
+	<div class="form-group">
+    	<label>运算法则：<span style="color: #999;">"round"对浮点数进行四舍五入 、"ceil"进一法取整、"floor"舍去法取整</span></label>
+    	<input type="text" class="form-control" placeholder="round|ceil|floor" name="algorithm" value="<!--{response.get.config_value.algorithm}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>是否开启：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="state" <!--if{parseInt(response.get.config_value.state)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+  	
+	<br/>
+  	<button type="button" class="btn btn-primary" name="submit-parent_recommend_user_credit">确定编辑</button>
+	<hr/>
+	<span style="color: #999999;">更新时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.update_time) * 1000)}--></span>
+	<div style="height: 100px;"></div>
+<!--else-->
+<div class="alert alert-danger">未知配置</div>
+<!--/if-->		
+</script>
+
+
+
+
+<script id="content-rmb_consume_user_credit" type="text/template">
+<!--helper{'action-button'}-->
+<hr/>
+<!--if{response.get}-->
+	<div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<strong>程序开发提示：</strong> <!--{response.get.config_info}-->
+	</div>
+	
+	<h4><!--{response.get.config_name}--></h4>
+	
+	<div class="form-group">
+    	<label>积分比值：</label>
+    	<input type="text" class="form-control" placeholder="积分比值" name="ratio_credit" value="<!--if{response.get.config_value.ratio_credit}--><!--{(response.get.config_value.ratio_credit/response.application_config.credit.scale).toFixed(response.application_config.credit.precision)}--><!--/if-->">
+  	</div>
+  	<div class="form-group">
+    	<label>人民币比值（元）：</label>
+    	<input type="text" class="form-control" placeholder="人民币比值" name="ratio_rmb" value="<!--if{response.get.config_value.ratio_rmb}--><!--{(response.get.config_value.ratio_rmb/100).toFixed(2)}--><!--/if-->">
+  	</div>
+  	<div class="form-group">
+    	<label>运算法则：<span style="color: #999;">"round"对浮点数进行四舍五入 、"ceil"进一法取整、"floor"舍去法取整</span></label>
+    	<input type="text" class="form-control" placeholder="round|ceil|floor" name="algorithm" value="<!--{response.get.config_value.algorithm}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>是否开启：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="state" <!--if{parseInt(response.get.config_value.state)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+	
+	<br/>
+  	<button type="button" class="btn btn-primary" name="submit-rmb_consume_user_credit">确定编辑</button>
+	<hr/>
+	<span style="color: #999999;">更新时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.update_time) * 1000)}--></span>
+	<div style="height: 100px;"></div>
+<!--else-->
+<div class="alert alert-danger">未知配置</div>
+<!--/if-->		
+</script>
+
+
+<script id="content-user_credit_conversion_user_money_share" type="text/template">
+<!--helper{'action-button'}-->
+<hr/>
+<!--if{response.get}-->
+	<div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<strong>程序开发提示：</strong> <!--{response.get.config_info}-->
+	</div>
+	
+	<h4><!--{response.get.config_name}--></h4>
+	
+	<div class="form-group">
+    	<label>转换率的基数：</label>
+    	<input type="text" class="form-control" placeholder="转换率的基数" name="basic_conversion_ratio" value="<!--{response.get.config_value.basic_conversion_ratio}-->">
+  	</div>
+	<div class="form-group">
+    	<label>最小的转换率：</label>
+    	<input type="text" class="form-control" placeholder="最小的转换率" name="min_conversion_ratio" value="<!--{response.get.config_value.min_conversion_ratio}-->">
+  	</div>
+	<div class="form-group">
+    	<label>最大的转换率：</label>
+    	<input type="text" class="form-control" placeholder="最大的转换率" name="max_conversion_ratio" value="<!--{response.get.config_value.max_conversion_ratio}-->">
+  	</div>
+	<div class="form-group">
+    	<label>转换率的精度（小数点后的位数）：</label>
+    	<input type="text" class="form-control" placeholder="转换率的精度" name="precision_conversion_ratio" value="<!--{response.get.config_value.precision_conversion_ratio}-->">
+  	</div>
+	
+	<div class="form-group">
+    	<label>积分倍数：<span style="color: #999;">必须满该倍数积分，并且能整除才能被转换</span></label>
+    	<input type="text" class="form-control" placeholder="积分倍数" name="multiple_user_credit" value="<!--if{response.get.config_value.multiple_user_credit}--><!--{(response.get.config_value.multiple_user_credit/response.application_config.credit.scale).toFixed(response.application_config.credit.precision)}--><!--/if-->">
+  	</div>
+	
+	<div class="form-group">
+    	<label>是否开启：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="state" <!--if{parseInt(response.get.config_value.state)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+	
+	
+	<br/>
+  	<button type="button" class="btn btn-primary" name="submit-user_credit_conversion_user_money_share">确定编辑</button>
+	<hr/>
+	<span style="color: #999999;">更新时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.update_time) * 1000)}--></span>
+	<div style="height: 100px;"></div>
+<!--else-->
+<div class="alert alert-danger">未知配置</div>
+<!--/if-->		
+</script>
+
+
+
+
+<script id="content-user_identity" type="text/template">
+<!--helper{'action-button'}-->
+<hr/>
+<!--if{response.get}-->
+	<div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<strong>程序开发提示：</strong> <!--{response.get.config_info}-->
+	</div>
+	
+	<h4><!--{response.get.config_name}--></h4>
+	
+	<div class="form-group">
+    	<label>认证时间有效期（秒）：</label>
+    	<input type="text" class="form-control" placeholder="认证时间有效期" name="expire_time" value="<!--{response.get.config_value.expire_time}-->">
+  	</div>
+	<div class="form-group">
+    	<label>是否开启有效期（开启后在失效后自动转为 审核中）：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="expire_state" <!--if{parseInt(response.get.config_value.expire_state)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+	<div class="form-group">
+    	<label>是否开启自动认证（开启后用户提交认证资料的时候不用审核）：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="auto_state" <!--if{parseInt(response.get.config_value.auto_state)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+  	
+	<br/>
+  	<button type="button" class="btn btn-primary" name="submit-user_identity">确定编辑</button>
+	<hr/>
+	<span style="color: #999999;">更新时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.update_time) * 1000)}--></span>
+	<div style="height: 100px;"></div>
+<!--else-->
+<div class="alert alert-danger">未知配置</div>
+<!--/if-->		
+</script>
+
+
+
+
+<script id="content-user_money_earning_transfer_user_money" type="text/template">
+<!--helper{'action-button'}-->
+<hr/>
+<!--if{response.get}-->
+	<div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<strong>程序开发提示：</strong> <!--{response.get.config_info}-->
+	</div>
+	
+	<h4><!--{response.get.config_name}--></h4>
+	
+	<div class="form-group">
+    	<label>最小转账金额（元）：</label>
+    	<input type="text" class="form-control" placeholder="最小转账金额" name="min_user_money_earning" value="<!--if{response.get.config_value.min_user_money_earning}--><!--{(response.get.config_value.min_user_money_earning/100).toFixed(2)}--><!--/if-->">
+  	</div>
+  	<div class="form-group">
+    	<label>最大转账金额（元）：</label>
+    	<input type="text" class="form-control" placeholder="最大转账金额" name="max_user_money_earning" value="<!--if{response.get.config_value.max_user_money_earning}--><!--{(response.get.config_value.max_user_money_earning/100).toFixed(2)}--><!--/if-->">
+  	</div>
+	<div class="form-group">
+    	<label>收取的用户服务费比值：<span style="color: #999;">请输入小数，如0.01，即1%</span></label>
+    	<input type="text" class="form-control" placeholder="收取的用户服务费比值" name="ratio_user_money_service" value="<!--{response.get.config_value.ratio_user_money_service}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>运算法则(收取的用户服务费比值)：<span style="color: #999;">"round"对浮点数进行四舍五入 、"ceil"进一法取整、"floor"舍去法取整</span></label>
+    	<input type="text" class="form-control" placeholder="round|ceil|floor" name="algorithm" value="<!--{response.get.config_value.algorithm}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>是否需要支付密码：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="pay_password_state" <!--if{parseInt(response.get.config_value.pay_password_state)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+  	<div class="form-group">
+    	<label>是否要求实名认证：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="user_identity_state" <!--if{parseInt(response.get.config_value.user_identity_state)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+  	
+	<div class="form-group">
+    	<label>是否开启：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="state" <!--if{parseInt(response.get.config_value.state)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+	
+	<br/>
+  	<button type="button" class="btn btn-primary" name="submit-user_money_earning_transfer_user_money">确定编辑</button>
+	<hr/>
+	<span style="color: #999999;">更新时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.update_time) * 1000)}--></span>
+	<div style="height: 100px;"></div>
+<!--else-->
+<div class="alert alert-danger">未知配置</div>
+<!--/if-->			
+</script>
+
+
+
+
+
+<script id="content-user_money_earning_transfer_user_money_help" type="text/template">
+<!--helper{'action-button'}-->
+<hr/>
+<!--if{response.get}-->
+	<div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<strong>程序开发提示：</strong> <!--{response.get.config_info}-->
+	</div>
+	
+	<h4><!--{response.get.config_name}--></h4>
+	
+	<div class="form-group">
+    	<label>最小转账金额（元）：</label>
+    	<input type="text" class="form-control" placeholder="最小转账金额" name="min_user_money_earning" value="<!--if{response.get.config_value.min_user_money_earning}--><!--{(response.get.config_value.min_user_money_earning/100).toFixed(2)}--><!--/if-->">
+  	</div>
+  	<div class="form-group">
+    	<label>最大转账金额（元）：</label>
+    	<input type="text" class="form-control" placeholder="最大转账金额" name="max_user_money_earning" value="<!--if{response.get.config_value.max_user_money_earning}--><!--{(response.get.config_value.max_user_money_earning/100).toFixed(2)}--><!--/if-->">
+  	</div>
+	<div class="form-group">
+    	<label>收取的用户服务费比值：<span style="color: #999;">请输入小数，如0.01，即1%</span></label>
+    	<input type="text" class="form-control" placeholder="收取的用户服务费比值" name="ratio_user_money_service" value="<!--{response.get.config_value.ratio_user_money_service}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>运算法则(收取的用户服务费比值)：<span style="color: #999;">"round"对浮点数进行四舍五入 、"ceil"进一法取整、"floor"舍去法取整</span></label>
+    	<input type="text" class="form-control" placeholder="round|ceil|floor" name="algorithm" value="<!--{response.get.config_value.algorithm}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>是否需要支付密码：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="pay_password_state" <!--if{parseInt(response.get.config_value.pay_password_state)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+  	<div class="form-group">
+    	<label>是否要求实名认证：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="user_identity_state" <!--if{parseInt(response.get.config_value.user_identity_state)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+	
+	<div class="form-group">
+    	<label>是否开启：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="state" <!--if{parseInt(response.get.config_value.state)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+	
+	<br/>
+  	<button type="button" class="btn btn-primary" name="submit-user_money_earning_transfer_user_money_help">确定编辑</button>
+	<hr/>
+	<span style="color: #999999;">更新时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.update_time) * 1000)}--></span>
+	<div style="height: 100px;"></div>
+<!--else-->
+<div class="alert alert-danger">未知配置</div>
+<!--/if-->				
+</script>
+
+
+
+<script id="content-user_money_share_conversion_annuity_earning_help" type="text/template">
+<!--helper{'action-button'}-->
+<hr/>
+<!--if{response.get}-->
+	<div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<strong>程序开发提示：</strong> <!--{response.get.config_info}-->
+	</div>
+	
+	<h4><!--{response.get.config_name}--></h4>
+	
+	<div class="form-group">
+    	<label>消费共享金倍数（元）：<span style="color: #999;">必须满足该倍数消费共享金，并且能整除才能转换</span></label>
+    	<input type="text" class="form-control" placeholder="消费共享金倍数" name="multiple_user_money_share" value="<!--if{response.get.config_value.multiple_user_money_share}--><!--{(response.get.config_value.multiple_user_money_share/100).toFixed(2)}--><!--/if-->">
+  	</div>
+	
+	<div class="form-group">
+    	<label>消费共享金转换到扶贫资金账户比例：<span style="color: #999;">请输入小数，如0.01，即1%</span></label>
+    	<input type="text" class="form-control" placeholder="消费共享金转换到扶贫资金账户比例" name="ratio_user_money_help" value="<!--{response.get.config_value.ratio_user_money_help}-->">
+  	</div>
+	<div class="form-group">
+    	<label>消费共享金转换到养老金比例：<span style="color: #999;">请输入小数，如0.01，即1%</span></label>
+    	<input type="text" class="form-control" placeholder="消费共享金转换到养老金比例" name="ratio_user_money_annuity" value="<!--{response.get.config_value.ratio_user_money_annuity}-->">
+  	</div>
+	<div class="form-group">
+    	<label>消费共享金转换到赠送收益账户比例：<span style="color: #999;">请输入小数，如0.01，即1%</span></label>
+    	<input type="text" class="form-control" placeholder="消费共享金转换到赠送收益账户比例" name="ratio_user_money_earning" value="<!--{response.get.config_value.ratio_user_money_earning}-->">
+  	</div>
+	<div class="form-group">
+    	<label>是否开启：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="state" <!--if{parseInt(response.get.config_value.state)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+  	
+	<br/>
+  	<button type="button" class="btn btn-primary" name="submit-user_money_share_conversion_annuity_earning_help">确定编辑</button>
+	<hr/>
+	<span style="color: #999999;">更新时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.update_time) * 1000)}--></span>
+	<div style="height: 100px;"></div>
+<!--else-->
+<div class="alert alert-danger">未知配置</div>
+<!--/if-->		
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,21 @@
+<div style="padding: 30px 0;">
+	<div class="panel panel-default" style="margin: 0 20px;">
+		<div class="panel-body">
+          	<div>接口ID：{{api_id}}</div>
+			<div>接口名称：{{api_name}}</div>
+			<div>接口版本ID：{{api_version.api_version_id}}</div>
+			<div>接口版本程序入口：<code av-if="api_version.api_version_program">{{api_version.api_version_program}}</code><span av-else style="color: #999;">未设置</span></div>
+			<div>接口版本状态：<span av-if="api_version.api_version_state == 1" class="label label-success">已开启</span><span av-else-if="api_version.api_version_state == 0" class="label label-danger">已关闭</span><span av-else class="label label-default">未知</span></div>
+		</div>
+	</div>
+	<input type="text" input-focus="page-administrator-apiEdit::apiVersionApplication" style="position: fixed;left: 99999999px;" />
+	<label av-if="applicationOption" av-class="{'checkbox-checked':checkChecked(value.application_id)}" av-for="(value, index)applicationOption" class="checkbox-inline" style="margin: 10px 20px;">
+		<input type="checkbox" name="apiVersionApplication-checkbox" style="margin-left: -16px;" av-attr="[value] value.application_id" av-event="[click]eventCheckbox(:node,:event,value.application_id)" av-attr="[checked] checkChecked(value.application_id)?'checked':false">
+		{{value.application_name}}
+	</label>
+	<span av-else style="color: #999999;margin-left: 15px;">没有应用数据</span>
+	<hr av-if="applicationOption"/>
+	<div style="margin: 0 20px;">
+		<button av-if="applicationOption" type="button" class="btn btn-primary" av-event="[click] eventSubmit(:node,:event)" av-class="{'disabled':submitLock}">确定提交</button>
+	</div>
+</div>

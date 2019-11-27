@@ -1,0 +1,79 @@
+<script id="content" type="text/template">
+<div style="max-width: 1200px;width: 100%;margin: 0 auto;">
+	<div style="padding: 20px;">
+	<!--if{response.get}-->
+	
+	<div class="btn-group">
+		<button type="button" class="btn btn-default action-repeat"><span class="glyphicon glyphicon-repeat"></span> 刷新内容</button>
+		<button type="button" class="btn btn-default action-state_yes"><span class="glyphicon glyphicon-ok-circle"></span> 审核成功</button>
+		<button type="button" class="btn btn-default action-state_not"><span class="glyphicon glyphicon-ban-circle"></span> 驳回发布</button>
+	</div>
+	<hr/>
+	<span class="label label-default">基础信息</span>
+	
+	<h2><!--{response.get.house_product_name}--></h2>
+	<div>ID：<!--{response.get.house_product_id}--></div>
+	<div>楼盘地址：
+		<span style="color: #999;">省:</span><!--{response.get.house_product_province}--> 
+		<span style="color: #999;">市:</span><!--{response.get.house_product_city}--> 	
+		<span style="color: #999;">区:</span><!--{response.get.house_product_district}--> 	
+		<span style="color: #999;">/</span> <!--{response.get.house_product_address}--></div>
+	<div>参考佣金：<!--{response.get.house_product_agent_commision}--></div>
+	<div>销售均价：¥<!--{(response.get.house_product_room_price/100).toFixed(2)}--> 平/米</div>
+	<div>开发商：<!--{response.get.house_product_developer}--></div>
+	<div>分类：<!--{response.get.house_product_type}--></div>
+	<div>
+		状态：
+		<!--if{parseInt(response.get.house_product_state) == 0}-->
+		<span class="label label-danger">审核失败</span>
+		<!--elseif{parseInt(response.get.house_product_state) == 1}-->
+		<span class="label label-success">发布成功</span>
+		<!--elseif{parseInt(response.get.house_product_state) == 2}-->
+		<span class="label label-warning">等待审核</span>
+		<!--elseif{parseInt(response.get.house_product_state) == 3}-->
+		<span class="label label-info">编辑中</span>
+		<!--elseif{parseInt(response.get.house_product_state) == 4}-->
+		<span class="label label-info">初始化</span>
+		<!--else-->
+		<span class="label label-default">未知</span>
+		<!--/if-->
+	</div>
+	 	
+	<hr/>
+	<span class="label label-default">楼盘概况</span>
+	<br/><br/>
+	<div>物业公司：<!--{response.get.house_product_manage_company}--></div>
+	<div>物业费：¥<!--{(response.get.house_product_manage_money/100).toFixed(2)}--> 元/平方</div>
+	<div>梯户比：<!--{response.get.house_product_ladder_ratio}--></div>
+	<div>总体量(总房子数)：<!--{response.get.house_product_total_room}--></div>
+	<div>绿化率：<!--{response.get.house_product_greening_rate}-->%</div>
+	<div>得房率：<!--{response.get.house_product_room_rate}-->%</div>
+	<div>容积率：<!--{response.get.house_product_plot_ratio}-->%</div>
+	<div>层高：<!--{response.get.house_product_room_height}-->米</div>
+	<div>开盘时间：<!--{response.get.house_product_time_sale}--></div>
+	<div>交房时间：<!--{response.get.house_product_time_delivery}--></div>
+	
+	<hr/>
+	<!--if{response.get.house_product_image_type}-->
+	<!--for{var i in response.get.house_product_image_type}-->
+	<span class="label label-default"><!--{response.get.house_product_image_type[i].name}--></span>
+	<br/><br/>
+	
+	<!--if{response.get.house_product_image_type[i].image.length}-->
+	<!--for{var img in response.get.house_product_image_type[i].image}-->
+	
+	<img class="image-look" src="<!--{response.application_config.qiniu_domain+response.get.house_product_image_type[i].image[img].image_id+'?imageView2/0/h/100'}-->" data-src="<!--{response.application_config.qiniu_domain+response.get.house_product_image_type[i].image[img].image_id}-->" data-width="<!--{response.get.house_product_image_type[i].image[img].image_width}-->" data-height="<!--{response.get.house_product_image_type[i].image[img].image_height}-->" style="cursor: pointer;" />
+	
+	<!--/for-->
+	<!--/if-->
+	
+	<hr/>
+	<!--/for-->
+	<!--/if-->
+	
+	<!--else-->
+    <div style="color: #999;">无数据，或者没有权限访问</div>
+    <!--/if-->  
+    </div>  
+</div>
+</script>

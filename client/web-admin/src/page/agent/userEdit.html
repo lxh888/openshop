@@ -1,0 +1,62 @@
+<div class="form-group">
+	<label>用户信息：</label>
+	<div>
+      <img av-if="data.user_logo_image_id" av-attr="[src] applicationConfig.qiniu_domain+data.user_logo_image_id+'?imageView2/1/w/40'" class="img-circle">
+      <span av-if="data.user_nickname" av-text="data.user_nickname"></span>
+      <span av-else style="color: #999999;">未设置昵称</span>	
+      <span av-if="data.user_phone_verify_list" style="word-wrap:break-word;">
+      	({{data.user_phone_verify_list}})
+      </span>
+      <span av-else style="color: #999999;">无认证手机</span>
+  	</div>
+</div>
+
+<div class="form-group">
+	<label>选择代理地区：</label>
+	<select class="form-control" name="agent_region_id">
+		<option value="">无代理地区</option>
+		<option av-attr="[value] arV.agent_region_id" av-for="(arV,arK)agentRegionOption" av-attr="[selected] data.agent_region_id == arV.agent_region_id? 'selected':false">
+			{{agentRegionOptionShow(arV)}}
+		</option>
+	</select>
+</div>
+
+
+<div class="form-group">
+	<label>面试联系方式：</label>
+	<input type="text" class="form-control" placeholder="面试联系方式" name="agent_user_interview_phone" av-attr="[value] data.agent_user_interview_phone">
+</div>
+
+<div class="form-group">
+	<label>面试时间：</label>
+	<input type="text" class="form-control" placeholder="面试时间" name="agent_user_interview_time" av-attr="[value] av.date('yyyy-MM-dd HH:mm:ss', parseInt(data.agent_user_interview_time) * 1000)">
+</div>
+
+<div class="form-group">
+	<label>面试地址：</label>
+	<textarea class="form-control" rows="3" name="agent_user_interview_address" placeholder="面试地址">{{data.agent_user_interview_address}}</textarea>
+</div>
+
+
+<div class="form-group">
+	<label>开启积分奖励赠送：</label>
+	<label class="checkbox-inline">
+		<input type="checkbox" value="1" av-event="[click] eventUserCreditAward(:node,:event)" av-attr="[checked] data.agent_user_award_state==1? 'checked':false" name="agent_user_json.user_credit_award.state"> 开启
+	</label>
+</div>
+<div class="form-group" av-if="userCreditAwardState">
+	<label>积分赠送比例：<span style="color: #999;">请输入小数，如0.01，即1%</span></label>
+	<input type="text" class="form-control" placeholder="积分赠送比例" name="agent_user_json.user_credit_award.ratio" av-attr="[value] data.agent_user_json.user_credit_award.ratio">
+</div>
+<div class="form-group" av-if="userCreditAwardState">
+	<label>运算法则(积分赠送比例)：<span style="color: #999;">"round"对浮点数进行四舍五入 、"ceil"进一法取整、"floor"舍去法取整</span></label>
+	<input type="text" class="form-control" placeholder="round|ceil|floor" name="agent_user_json.user_credit_award.algorithm" av-attr="[value] data.agent_user_json.user_credit_award.algorithm">
+</div>
+
+
+<br/>
+<button type="button" class="btn btn-primary" av-event="[click] eventSubmit(:node,:event)" av-class="{'disabled':submitLock}" >确定编辑</button>
+
+<hr/>
+<span style="color: #999999;">更新时间：{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(data.agent_user_update_time) * 1000)}}</span>
+<div style="height: 100px;"></div>

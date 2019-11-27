@@ -1,0 +1,17 @@
+<script id="content" type="text/template">
+	<div class="form-group">
+    	<label>产品ID：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{response.get.ss_product_id}-->">
+  	</div>
+	<div class="form-group">
+    	<label>产品名称：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{response.get.ss_product_name}-->">
+  	</div>
+	
+  	<button type="button" class="btn btn-primary" name="product-details-submit"><span class="glyphicon glyphicon-floppy-disk"></span> 保存编辑</button>
+  	<br/><br/>
+	<script id="ss_product_details_editor" type="text/plain" style="width:100%;min-height: 500px;"><!--html {response.get.ss_product_details}--><\/script>
+	<div name="UEditor-javascript">
+		
+	</div>
+</script>

@@ -1,0 +1,235 @@
+<div class="btn-group" style="margin-right: 5px;">
+	<a av-event="[click] eventQuery(:node,:event,'transaction_state', false)" class="btn btn-default"
+		av-class="{'active':( typeof transaction_state == 'undefined' )}">全部交易状态</a>
+	<a av-event="[click] eventQuery(:node,:event,'transaction_state', '1')" class="btn btn-default"
+		av-class="{'active':( transaction_state == '1' )}">已完成</a>
+	<a av-event="[click] eventQuery(:node,:event,'transaction_state', '0')" class="btn btn-default"
+		av-class="{'active':( transaction_state == '0' )}">未完成</a>
+</div>
+
+<div class="btn-group" style="margin-right: 5px;">
+	<a av-event="[click] eventQuery(:node,:event,'state', false)" class="btn btn-default"
+		av-class="{'active':( typeof state == 'undefined' )}">全部订单状态</a>
+	<a av-event="[click] eventQuery(:node,:event,'state', '1')" class="btn btn-default" av-class="{'active':( state == '1' )}">已确认</a>
+	<a av-event="[click] eventQuery(:node,:event,'state', '0')" class="btn btn-default" av-class="{'active':( state == '0' )}">已取消</a>
+</div>
+<div class="btn-group" style="margin-right: 5px;">
+	<a av-event="[click] eventQuery(:node,:event,'pay_state', false)" class="btn btn-default"
+		av-class="{'active':( typeof pay_state == 'undefined' )}">全部支付状态</a>
+	<a av-event="[click] eventQuery(:node,:event,'pay_state', '1')" class="btn btn-default"
+		av-class="{'active':( pay_state == '1' )}">已支付</a>
+	<a av-event="[click] eventQuery(:node,:event,'pay_state', '2')" class="btn btn-default"
+		av-class="{'active':( pay_state == '2' )}">支付中</a>
+	<a av-event="[click] eventQuery(:node,:event,'pay_state', '0')" class="btn btn-default"
+		av-class="{'active':( pay_state == '0' )}">未支付</a>
+</div>
+<div class="btn-group" style="margin-right: 5px;">
+	<a av-event="[click] eventQuery(:node,:event,'shipping_state', false)" class="btn btn-default"
+		av-class="{'active':( typeof shipping_state == 'undefined' )}">全部物流状态</a>
+	<a av-event="[click] eventQuery(:node,:event,'shipping_state', '0')" class="btn btn-default"
+		av-class="{'active':( shipping_state == '0' )}">未发货/待发货</a>
+	<a av-event="[click] eventQuery(:node,:event,'shipping_state', '2')" class="btn btn-default"
+		av-class="{'active':( shipping_state == '2' )}">运送中</a>
+		<a av-if="applicationCheckYouli()" av-event="[click] eventQuery(:node,:event,'shipping_state', '3')" class="btn btn-default"
+		av-class="{'active':( shipping_state == '3' )}">已到货</a>
+	<a av-event="[click] eventQuery(:node,:event,'shipping_state', '1')" class="btn btn-default"
+		av-class="{'active':( shipping_state == '1' )}">已收货</a>
+</div>
+
+<button class="btn btn-warning" type="button" av-event="[click] eventTrash(:node,:event)" style="margin-left: 5px;"><span
+		class="glyphicon glyphicon-trash"></span> 回收</button>
+<button class="btn btn-default" av-event="[click] eventSearch(:node,:event)" type="button" style="margin-left: 5px;"><span
+		class="glyphicon glyphicon-filter"></span> 筛选</button>
+<span av-if="checkRouterAnchorQuerySearch()" class="label label-default" style="margin-left: 5px;">存在筛选</span>
+<hr />
+
+<div style="width: 98%; height: 100px; border: 1px #d8d8d8 solid; line-height: 28px; padding-left: 1%;" av-if="applicationCheckYouli()">
+	<span>筛选统计<span><br />
+	<span>总金额:</span><span>{{(list.sum/100).toFixed(2)}}</span><br/>
+	<span>交易量:</span><span>{{list.row_count}}</span>
+</div>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th><input type="checkbox" checkbox="checkbox-all"></th>
+			<th>#</th>
+			<th>
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'order_id_asc', 'order_id_desc')">
+					<span av-if="existSort('order_id_asc', 'order_id_desc')" class="glyphicon"
+						av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('order_id_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('order_id_desc')}"></span>订单ID</a><br />
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'consignee_asc', 'consignee_desc')">
+					<span av-if="existSort('consignee_asc', 'consignee_desc')" class="glyphicon"
+						av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('consignee_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('consignee_desc')}"></span>收货人信息</a>
+			</th>
+			<th>
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'user_id_asc', 'user_id_desc')">
+					<span av-if="existSort('user_id_asc', 'user_id_desc')" class="glyphicon"
+						av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('user_id_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('user_id_desc')}"></span>用户信息</a>
+			</th>
+			<th>
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'insert_time_asc', 'insert_time_desc')">
+					<span av-if="existSort('insert_time_asc', 'insert_time_desc')" class="glyphicon"
+						av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('insert_time_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('insert_time_desc')}"></span>下单时间</a>
+				/
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'update_time_asc', 'update_time_desc')">
+					<span av-if="existSort('update_time_asc', 'update_time_desc')" class="glyphicon"
+						av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('update_time_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('update_time_desc')}"></span>更新时间</a>
+			</th>
+
+			<th>
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'money_asc', 'money_desc')">
+					<span av-if="existSort('money_asc', 'money_desc')" class="glyphicon"
+						av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('money_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('money_desc')}"></span>应付金额</a>
+				/
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'credit_asc', 'credit_desc')">
+					<span av-if="existSort('credit_asc', 'credit_desc')" class="glyphicon"
+						av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('credit_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('credit_desc')}"></span>应付积分</a>
+			</th>
+
+			<th>
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'pay_money_asc', 'pay_money_desc')">
+					<span av-if="existSort('pay_money_asc', 'pay_money_desc')" class="glyphicon"
+						av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('pay_money_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('pay_money_desc')}"></span>付款金额</a>
+				/
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'pay_credit_asc', 'pay_credit_desc')">
+					<span av-if="existSort('pay_credit_asc', 'pay_credit_desc')" class="glyphicon"
+						av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('pay_credit_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('pay_credit_desc')}"></span>付款积分</a>
+			</th>
+			<th style="width:18%">
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'state_asc', 'state_desc')">
+					<span av-if="existSort('state_asc', 'state_desc')" class="glyphicon"
+						av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('state_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('state_desc')}"></span>订单状态</a>/
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'pay_state_asc', 'pay_state_desc')">
+					<span av-if="existSort('pay_state_asc', 'pay_state_desc')" class="glyphicon"
+						av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('pay_state_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('pay_state_desc')}"></span>付款状态</a>/
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'shipping_state_asc', 'shipping_state_desc')">
+					<span av-if="existSort('shipping_state_asc', 'shipping_state_desc')" class="glyphicon"
+						av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('shipping_state_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('shipping_state_desc')}"></span>物流状态</a>
+			</th>
+			<th style="width:7%" av-if="applicationCheckEmshop()">区域代理</th>
+			<th>操作</th>
+			<th style="width:7%" av-if="applicationCheckYouli()">核销地区</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr av-if="list && list.data &&list.data.length" av-for="(value,key)list.data" av-event="[dblclick] eventTrDblclick(:node,:event)"
+			av-attr="[data-id] value.shop_order_id" data-checkbox="checkbox">
+			<th><input type="checkbox" checkbox="checkbox" av-attr="[data-id] value.shop_order_id"></th>
+			<td>{{parseInt(key)+1+((parseInt(list.page_now) - 1) * list.page_size)}}</td>
+			<td>{{value.shop_order_id}}<br />{{value.user_address_consignee}}</td>
+			<td style="max-width: 200px;">
+				<div style="max-width: 200px;display: inline-block;">
+					<img av-is="value.user_logo_image_id"
+						av-attr="[src] applicationConfig.qiniu_domain+value.user_logo_image_id+'?imageView2/1/w/30'"
+						class="img-circle">
+					<span av-if="value.user_nickname">
+						{{value.user_nickname}}
+					</span>
+					<span av-else style="color: #999999;">未设置昵称</span>
+					<span av-if="value.user_phone_verify_list"
+						style="word-wrap:break-word;">({{value.user_phone_verify_list}})</span>
+					<span av-else style="color: #999999;">无认证手机</span>
+				</div>
+			</td>
+			<td>
+				<div>{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(value.shop_order_insert_time) * 1000)}}</div>
+				<div>{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(value.shop_order_update_time) * 1000)}}</div>
+			</td>
+			<td>
+				{{(value.shop_order_money/100).toFixed(2)}} 元/
+				{{(value.shop_order_credit/applicationConfig.credit.scale).toFixed(applicationConfig.credit.precision)}} 积分
+			</td>
+			<td>
+				{{(value.shop_order_pay_money/100).toFixed(2)}} 元/
+				{{(value.shop_order_pay_credit/applicationConfig.credit.scale).toFixed(applicationConfig.credit.precision)}}积分
+			</td>
+			<td>
+				<span av-if="value.shop_order_state==0" class="label label-danger" style="margin-right:5px">已取消</span>
+				<span av-elseif="value.shop_order_state==1" class="label label-success" style="margin-right:5px">已确认</span>
+				<span av-else class="label label-default" style="margin-right:5px">未知</span>
+
+				<span av-if="value.shop_order_pay_state==0" class="label label-danger" style="margin-right:5px">未支付</span>
+				<span av-elseif="value.shop_order_pay_state==1" class="label label-success" style="margin-right:5px">已支付</span>
+				<span av-elseif="value.shop_order_pay_state==2" class="label label-warning" style="margin-right:5px">支付中</span>
+				<span av-else class="label label-default" style="margin-right:5px">未知</span>
+
+				<div av-if="value.shop_order_shipping_state==0" style="margin-right:5px;display: inline;">
+					<span av-if="value.shop_order_pay_state==1" class="label label-warning">待发货</span>
+					<span av-else class="label label-danger">未发货</span>
+				</div>
+				<span av-elseif="value.shop_order_shipping_state==2 && value.shop_order_goods_state==1" class="label label-info"
+				style="margin-right:5px">已到货</span>
+				<span av-elseif="value.shop_order_shipping_state==2" class="label label-info"
+					style="margin-right:5px">运送中</span>
+				<span av-elseif="value.shop_order_shipping_state==1" class="label label-success"
+					style="margin-right:5px">已收货</span>
+				<span av-else class="label label-default" style="margin-right:5px">未知</span>
+			</td>
+			<td av-if="applicationCheckEmshop()&&value.agent!=null">
+					{{value.agent}}
+			</td>
+			<td av-else-if="applicationCheckEmshop()">
+				未设置昵称
+		</td>
+		
+			<!-- <td>
+						<span av-if="value.shop_order_pay_state==0" class="label label-danger">未支付</span>
+						<span av-elseif="value.shop_order_pay_state==1" class="label label-success">已支付</span>
+						<span av-elseif="value.shop_order_pay_state==2" class="label label-warning">支付中</span>
+						<span av-else class="label label-default">未知</span>
+					</td>
+					
+					<td>
+					<div av-if="value.shop_order_shipping_state==0">
+						<span av-if="value.shop_order_pay_state==1" class="label label-warning">待发货</span>
+						<span av-else class="label label-danger">未发货</span>
+					</div>
+					<span av-elseif="value.shop_order_shipping_state==2" class="label label-info">运送中</span>
+					<span av-elseif="value.shop_order_shipping_state==1" class="label label-success">已收货</span>
+					<span av-else class="label label-default">未知</span>
+					</td> -->
+			<td>
+				<a av-attr="[href] '#/shop-orderDetails/?id='+value.shop_order_id" class="btn btn-default btn-sm"><span
+						class="glyphicon glyphicon-share"></span>查看详情</a>
+				<a av-if="applicationCheckYouli()" av-attr="[href] '#/shop-orderDetailsPrint/?id='+value.shop_order_id" class="btn btn-default btn-sm"><span
+					class="glyphicon glyphicon-share"></span>打印</a>
+			</td>
+			<td  av-if="applicationCheckYouli()"  >
+				<button av-if="!value.shop_order_receive_address" class="btn btn-default" av-event="[click] eventArea (value.shop_order_id)" type="button" >核销区域</button>
+				<span av-else > 已锁定区域</span>
+				<button av-if="value.shop_order_write_off_state==0" class="btn btn-default" av-event="[click] eventHexiaoOrder (value.shop_order_id)" type="button" >核销订单</button>
+				
+
+				
+		</td>
+		</tr>
+		<tr av-else>
+			<td colspan="10" align="center">无数据</td>
+		</tr>
+	</tbody>
+</table>
+<div av-if="list.data.length" style="text-align: center;">
+	<button class="btn btn-default" data-page="1" av-class="{'disabled':isFirstPage(list.page_now)}" type="button"
+		style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">首页</button>
+	<button class="btn btn-default" av-attr="[data-page] parseInt(list.page_now) - 1"
+		av-class="{'disabled':isFirstPage(list.page_now)}" type="button" style="margin-right: 5px;"
+		av-event="[click] eventPageRequest(:node,:event)">上一页</button>
+	<button class="btn btn-default" type="button" style="margin-right: 5px;">
+		第{{list.page_now}}页
+		/ 共{{list.page_count}}页
+		/ 有{{list.row_count}}条数据</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] parseInt(list.page_now) + 1"
+		av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;"
+		av-event="[click] eventPageRequest(:node,:event)">下一页</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] list.page_count"
+		av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;"
+		av-event="[click] eventPageRequest(:node,:event)">尾页</button>
+</div>
+<div class="form-inline" style="text-align: center;margin-top: 10px;">
+	<div class="form-group" style="margin-right: 5px;">
+		<input type="text" class="form-control" input-page="requestPageRequestValue" placeholder="输入跳转页"
+			style="width: 100px;">
+	</div>
+	<button type="button" class="btn btn-default" av-event="[click]eventPageRequestSubmit(:node,:event)">跳转</button>
+</div>

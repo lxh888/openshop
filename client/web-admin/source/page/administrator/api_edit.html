@@ -1,0 +1,83 @@
+<script id="content" type="text/template">
+	
+	<div class="form-group">
+    	<label>接口ID：</label>
+    	<input type="text" class="form-control" placeholder="接口ID" name="api_id" value="<!--{response.get.api_id}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>程序入口：</label>
+    	<div class="alert alert-warning" style="margin-bottom: 5px;padding: 5px;">
+    		<strong>程序入口必须是一个JSON数据，格式要求：</strong> {"class":"类名称","method":"方法"}
+    	</div>
+    	<textarea class="form-control" rows="3" placeholder="程序入口" name="api_program"><!--{response.get.api_program}--></textarea>
+  	</div>
+  	<div class="form-group">
+    	<label>接口名称：</label>
+    	<input type="text" class="form-control" placeholder="接口名称" name="api_name" value="<!--{response.get.api_name}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>接口简介：</label>
+    	<textarea class="form-control" rows="3" placeholder="接口简介" name="api_info"><!--{response.get.api_info}--></textarea>
+  	</div>
+  	<div class="form-group">
+    	<label>模块：</label>
+	  	<select class="form-control" name="module_id">
+		  <option value="">-请选择-</option>
+		  <!--if{response.module_option.length}-->
+		  <!--for{var i in response.module_option}-->
+		  <option value="<!--{response.module_option[i].module_id}-->" <!--if{response.get.module_id == response.module_option[i].module_id}-->selected="selected"<!--/if--> >
+		  <!--{response.module_option[i].module_name}-->
+		  </option>
+		  <!--/for-->
+		  <!--/if-->
+		</select>
+  	</div>
+  	<div class="form-group">
+    	<label>排序：</label>
+    	<input type="text" class="form-control" placeholder="排序" name="api_sort" value="<!--{response.get.api_sort}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>是否为系统接口：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="administrator" <!--if{parseInt(response.get.administrator)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+  	<div class="form-group">
+    	<label>是否为后台接口：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="api_admin" <!--if{parseInt(response.get.api_admin)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+  	<div class="form-group">
+    	<label>是否关闭该接口：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="0" name="api_state" <!--if{parseInt(response.get.api_state)}--><!--else-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+  	
+  	<div class="alert alert-warning">
+    		<strong>请求参数、响应参数的格式要求：</strong> [{"(参数)[类型][是否必填][最小长度或最大长度][名称]":"描述。示例值:示例值1|示例值2|示例值3"}]<br/>
+    		<strong>示例，如果没有长度限制：</strong> [{"(name)[string][必填][-][用户名]":"必须是汉字。"}]<br/>
+    		<strong>示例，如果只有最大长度限制：</strong> [{"(name)[string][必填][&gt;=100][用户名]":"描述"}]<br/>
+    		<strong>示例，如果有最小最大长度限制：</strong> [{"(name)[string][必填][&gt;=100|&lt;=1000][用户名]":"描述"}]
+    </div>
+  	
+  	<div class="form-group">
+    	<label>请求参数：</label>
+    	<textarea class="form-control" rows="5" placeholder="请求参数" name="api_request_args"><!--{response.get.api_request_args}--></textarea>
+  	</div>
+  	<div class="form-group">
+    	<label>响应参数：</label>
+    	<textarea class="form-control" rows="5" placeholder="响应参数" name="api_response_args"><!--{response.get.api_response_args}--></textarea>
+  	</div>
+  	
+  	<div class="form-group">
+  		<label>详细说明：</label>
+  		<script id="api_explain_editor" type="text/plain" style="width:100%;min-height: 500px;"><!--html {response.get.api_explain}--><\/script>
+		<div name="UEditor-javascript"></div>
+  	</div>
+  	
+  	<br/>
+  	<button type="button" class="btn btn-primary" name="submit">确定更新</button>
+  	<div style="height: 100px;"></div>
+</script>

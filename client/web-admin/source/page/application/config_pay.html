@@ -1,0 +1,170 @@
+<script id="action-button" type="text/template">
+	<div class="btn-group">
+		<!--if{response.data}-->
+		<!--for{var i in response.data}-->
+		<a href="<!--helper {'action-query-href'(response.data[i].config_id)}-->" class="btn btn-default <!--if{action==response.data[i].config_id}-->active<!--/if-->"><!--{response.data[i].config_name}--></a>
+		
+		<!--/for-->
+		<!--/if-->
+	</div>
+</script>
+
+<script id="content" type="text/template">
+<!--helper{'action-button'}-->
+<hr/>
+<div class="alert alert-warning alert-dismissible" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	<strong>友情提示!</strong> 请选择上面的按钮，编辑需要更新的配置。
+</div>	
+</script>
+
+
+
+<script id="content-alipay_access" type="text/template">
+<!--helper{'action-button'}-->
+<hr/>
+<!--if{response.get}-->
+	<div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<strong>程序开发提示：</strong> <!--{response.get.config_info}-->
+	</div>
+	
+	<h4><!--{response.get.config_name}--></h4>
+  	<div class="form-group">
+    	<label>appId：</label>
+    	<input type="text" class="form-control" placeholder="appId" name="id" value="<!--{response.get.config_value.id}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>开发者私钥 rsaPrivateKey(去头去尾去回车，一行字符串)：</label>
+    	<textarea class="form-control" rows="8" placeholder="rsaPrivateKey" name="rsa_private_key"><!--{response.get.config_value.rsa_private_key}--></textarea>
+  	</div>
+  	<div class="form-group">
+    	<label>支付宝公钥 alipayrsaPublicKey(去头去尾去回车，一行字符串)：</label>
+    	<textarea class="form-control" rows="8" placeholder="alipayrsaPublicKey" name="alipayrsa_public_key"><!--{response.get.config_value.alipayrsa_public_key}--></textarea>
+  	</div>
+  	<div class="form-group">
+    	<label>是否开启：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="state" <!--if{parseInt(response.get.config_value.state)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+	
+	<br/>
+  	<button type="button" class="btn btn-primary" name="submit-alipay_access">确定编辑</button>
+	<hr/>
+	<span style="color: #999999;">更新时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.update_time) * 1000)}--></span>
+	<div style="height: 100px;"></div>
+	
+	
+<!--else-->
+<div class="alert alert-danger">未知配置</div>
+<!--/if-->
+</script>
+
+
+
+
+<script id="content-alipay_withdraw_access" type="text/template">
+<!--helper{'action-button'}-->
+<hr/>
+<!--if{response.get}-->
+	<div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<strong>程序开发提示：</strong> <!--{response.get.config_info}-->
+	</div>
+	
+	<h4><!--{response.get.config_name}--></h4>
+  	<div class="form-group">
+    	<label>appId：</label>
+    	<input type="text" class="form-control" placeholder="appId" name="id" value="<!--{response.get.config_value.id}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>开发者私钥 rsaPrivateKey(去头去尾去回车，一行字符串)：</label>
+    	<textarea class="form-control" rows="8" placeholder="rsaPrivateKey" name="rsa_private_key"><!--{response.get.config_value.rsa_private_key}--></textarea>
+  	</div>
+  	<div class="form-group">
+    	<label>支付宝公钥 alipayrsaPublicKey(去头去尾去回车，一行字符串)：</label>
+    	<textarea class="form-control" rows="8" placeholder="alipayrsaPublicKey" name="alipayrsa_public_key"><!--{response.get.config_value.alipayrsa_public_key}--></textarea>
+  	</div>
+  	<div class="form-group">
+    	<label>是否开启：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="state" <!--if{parseInt(response.get.config_value.state)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+	
+	<br/>
+  	<button type="button" class="btn btn-primary" name="submit-alipay_withdraw_access">确定编辑</button>
+	<hr/>
+	<span style="color: #999999;">更新时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.update_time) * 1000)}--></span>
+	<div style="height: 100px;"></div>
+	
+	
+<!--else-->
+<div class="alert alert-danger">未知配置</div>
+<!--/if-->
+</script>
+
+
+
+
+
+<script id="content-weixin_pay_access" type="text/template">
+<!--helper{'action-button'}-->
+<hr/>
+<!--if{response.get}-->
+	<div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<strong>程序开发提示：</strong> <!--{response.get.config_info}-->
+	</div>
+	
+	<h4><!--{response.get.config_name}--></h4>
+  	<div class="form-group">
+    	<label>微信支付商户号 mch_id：</label>
+    	<input type="text" class="form-control" placeholder="微信支付商户号 mch_id" name="mch_id" value="<!--{response.get.config_value.mch_id}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>支付密匙 pay_key：</label>
+    	<input type="text" class="form-control" placeholder="支付密匙 pay_key" name="pay_key" value="<!--{response.get.config_value.pay_key}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>终端IP spbill_create_ip：</label>
+    	<input type="text" class="form-control" placeholder="终端IP spbill_create_ip" name="spbill_create_ip" value="<!--{response.get.config_value.spbill_create_ip}-->">
+  	</div>
+  	
+  	<hr/>
+  	<div class="form-group">
+    	<label>微信支付服务商的APPID：</label>
+    	<input type="text" class="form-control" placeholder="微信支付服务商的APPID" name="service_appid" value="<!--{response.get.config_value.service_appid}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>微信支付服务商的商户号：</label>
+    	<input type="text" class="form-control" placeholder="微信支付服务商的商户号" name="service_mch_id" value="<!--{response.get.config_value.service_mch_id}-->">
+  	</div>
+  	<hr/>
+  	<div class="form-group">
+    	<label>证书cert：</label>
+    	<textarea class="form-control" rows="8" placeholder="证书cert" name="ssl_cert"><!--{response.get.config_value.ssl_cert}--></textarea>
+  	</div>
+  	<div class="form-group">
+    	<label>证书key：</label>
+    	<textarea class="form-control" rows="8" placeholder="证书key" name="ssl_key"><!--{response.get.config_value.ssl_key}--></textarea>
+  	</div>
+  	<div class="form-group">
+    	<label>是否开启：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="state" <!--if{parseInt(response.get.config_value.state)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+	
+	<br/>
+  	<button type="button" class="btn btn-primary" name="submit-weixin_pay_access">确定编辑</button>
+	<hr/>
+	<span style="color: #999999;">更新时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.update_time) * 1000)}--></span>
+	<div style="height: 100px;"></div>
+	
+	
+<!--else-->
+<div class="alert alert-danger">未知配置</div>
+<!--/if-->
+</script>

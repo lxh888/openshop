@@ -1,0 +1,113 @@
+<script id="content" type="text/template">
+	<a href="#/admin/admin_add" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> 添加</a>
+	<button class="btn btn-default" type="button" action-button="sort"><span class="glyphicon glyphicon-sort"></span> 排序</button>
+	<button class="btn btn-danger" type="button" action-button="remove"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+	<hr/>
+	<table class="table table-striped">
+      <thead>
+        <tr>
+          <th><input type="checkbox" action-table="checkbox-all"></th>	
+          <th>#</th>
+          <th>
+          	<!--if{http().anchor.query.sort == "name_desc"}-->
+          	<a href="javascript:;" action-sort="name_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>角色名称</a>
+          	<!--elseif{http().anchor.query.sort == "name_asc"}-->
+          	<a href="javascript:;" action-sort="name_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>角色名称</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="name_desc">角色名称</a>
+          	<!--/if-->
+          </th>
+          
+          <th>
+          	<!--if{http().anchor.query.sort == "user_count_desc"}-->
+          	<a href="javascript:;" action-sort="user_count_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>管理员</a>
+          	<!--elseif{http().anchor.query.sort == "user_count_asc"}-->
+          	<a href="javascript:;" action-sort="user_count_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>管理员</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="user_count_desc">管理员</a>
+          	<!--/if-->
+          </th>
+          
+          <th>角色简介</th>
+          <th>
+          	<!--if{http().anchor.query.sort == "state_desc"}-->
+          	<a href="javascript:;" action-sort="state_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>状态</a>
+          	<!--elseif{http().anchor.query.sort == "state_asc"}-->
+          	<a href="javascript:;" action-sort="state_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>状态</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="state_desc">状态</a>
+          	<!--/if-->
+          </th>
+          <th>
+          	<!--if{http().anchor.query.sort == "sort_desc"}-->
+          	<a href="javascript:;" action-sort="sort_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>排序</a>
+          	<!--elseif{http().anchor.query.sort == "sort_asc"}-->
+          	<a href="javascript:;" action-sort="sort_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>排序</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="sort_desc">排序</a>
+          	<!--/if-->
+          </th>
+          <th>
+          	<!--if{http().anchor.query.sort == "update_time_desc"}-->
+          	<a href="javascript:;" action-sort="update_time_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>更新时间</a>
+          	<!--elseif{http().anchor.query.sort == "update_time_asc"}-->
+          	<a href="javascript:;" action-sort="update_time_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>更新时间</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="update_time_desc">更新时间</a>
+          	<!--/if-->
+          </th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+      	<!--if{response.list.data.length}-->
+      	<!--for{var i in response.list.data}-->
+      	<tr>
+          <th><input type="checkbox" action-table="checkbox" data-id="<!--{response.list.data[i].admin_id}-->"></th>
+          <td><!--{parseInt(i)+1+((parseInt(response.list.page_now) - 1) * response.list.page_size)}--></td>
+          <th><!--{response.list.data[i].admin_name}--></th>
+          <th><a href="#/admin/admin_user_list/?search=%257B%2522admin_id%2522%253A%2522<!--{response.list.data[i].admin_id}-->%2522%257D" ><!--{response.list.data[i].admin_user_count}--> 人</a></th>
+          <td>
+          	<div id="tips-<!--{response.list.data[i].admin_info}-->" class="tips" data-title="查看角色简介" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 200px;cursor: pointer;" data="<!--{response.list.data[i].admin_info}-->"><!--{response.list.data[i].admin_info}--></div>
+          <td>
+          <!--if{parseInt(response.list.data[i].admin_state)}-->
+          <span class="label label-success">正常</span>
+          <!--else-->
+          <span class="label label-danger">停用</span>
+          <!--/if-->
+          </td>
+          <td><input type="text" class="form-control" placeholder="排序" action-table="sort" data-id="<!--{response.list.data[i].admin_id}-->" value="<!--{response.list.data[i].admin_sort}-->"></td>
+          <td><!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.list.data[i].admin_update_time) * 1000)}--></td>
+          
+          <td>
+          	<a href="#/admin/admin_edit?id=<!--{response.list.data[i].admin_id}-->" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit"></span>编辑</a>
+          </td>
+        </tr>
+        <!--/for-->
+      	<!--else-->
+        <tr>
+          <td colspan="10" align="center">无数据</td>
+        </tr>
+        <!--/if-->
+      </tbody>
+    </table>
+    
+    
+    
+    <!--if{response.list.data.length}-->
+	<div class="paging" style="text-align: center;">
+		<button class="first btn btn-default <!--if helper{"is_first_page" (response.list.page_now)}-->disabled<!--/if-->" data-page="1" type="button">首页</button>
+		<button class="previous btn btn-default <!--if helper{"is_first_page" (response.list.page_now)}-->disabled<!--/if-->" data-page="<!--{parseInt(response.list.page_now) - 1}-->" type="button">上一页</button>
+		<button class="btn btn-default" type="button">
+			第<!--{response.list.page_now}-->页
+			/ 共<!--{response.list.page_count}-->页
+			/ 有<!--{response.list.row_count}-->条数据</button>
+		<button class="next btn btn-default <!--if helper{"is_end_page" (response.list.page_now, response.list.page_count)}-->disabled<!--/if-->" type="button" data-page="<!--{parseInt(response.list.page_now) + 1}-->">下一页</button>
+		<button class="end btn btn-default <!--if helper{"is_end_page" (response.list.page_now, response.list.page_count)}-->disabled<!--/if-->" type="button" data-page="<!--{response.list.page_count}-->">尾页</button>
+	</div>
+	<!--/if-->
+	
+	
+	
+	
+</script>

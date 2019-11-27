@@ -1,0 +1,55 @@
+<div index="header">
+	<nav class="navbar navbar-default navbar-fixed-top">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a class="navbar-brand" href="#/" style="font-size: 24px;" av-text="application.application_name"></a>
+	    </div>
+	
+	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	      <ul class="nav navbar-nav">
+	        <li><a style="cursor: pointer;"><span av-event="[click] header.eventNavigationVisibility(:node,:event)" av-class="header.classNavigationVisibility"></span></a></li>
+	        <li><a style="cursor: pointer;" av-event="[click] header.eventNavigationNeaten(:node,:event)"><span class="glyphicon glyphicon-list"></span></a></li>
+	        <li><a style="cursor: pointer;" av-event="[click] header.eventFullscreen(:node,:event)"><span class="glyphicon glyphicon-fullscreen"></span></a></li>
+	        <li><a style="cursor: pointer;" av-event="[click] header.eventRefresh(:node,:event)"><span class="glyphicon glyphicon-refresh"></span></a></li>
+	        <li><a style="cursor: pointer;" av-event="[click] header.eventUp(:node,:event)"><span class="glyphicon glyphicon-chevron-up"></span></a></li>
+	        <li><a style="cursor: pointer;" av-event="[click] header.eventDown(:node,:event)"><span class="glyphicon glyphicon-chevron-down"></span></a></li>
+	        <li av-if="av.framework().history.routerBackExist()"><a style="cursor: pointer;" av-event="[click] header.eventRouterBack(:node,:event)"><span class="glyphicon glyphicon-arrow-left"></span></a></li>
+	        <li av-else ><a style="width: 44px;"></a></li>
+	        <li av-if="av.framework().history.routerForwardExist()"><a style="cursor: pointer;" av-event="[click] header.eventRouterForward(:node,:event)"><span class="glyphicon glyphicon-arrow-right"></span></a></li>
+	        <li av-else ><a style="width: 44px;"></a></li>
+	        
+	       
+	        <li av-if="av.framework().history.pageBackExist()"><a style="cursor: pointer;" av-event="[click] header.eventPageBack(:node,:event)"><span class="glyphicon glyphicon-triangle-left"></span></a></li>
+	        <li av-else ><a style="width: 44px;"></a></li>
+	        <li av-if="av.framework().history.pageForwardExist()"><a style="cursor: pointer;" av-event="[click] header.eventPageForward(:node,:event)"><span class="glyphicon glyphicon-triangle-right"></span></a></li>
+	        <li av-else ><a style="width: 44px;"></a></li>
+	        
+	      </ul>
+	      
+	      <ul class="nav navbar-nav navbar-right">
+	      	<li class="dropdown">
+	          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+	          	<span class="glyphicon glyphicon-user"></span>{{user.user_nickname}}
+	          	<span class="label label-primary">{{admin.admin_name}}</span>
+	          	<span class="caret"></span>
+	          </a>
+	          <ul class="dropdown-menu">
+	          	<li><a href="javascript:;" av-event="[click] header.eventSetting(:node,:event)"><span class="glyphicon glyphicon-wrench"></span> 个人设置</a></li>
+	            <li role="separator" class="divider"></li>
+	            <li av-if="applicationCheckEmshop() && admin.admin_id=='area_agent'"><a href="#/agent-regionSubUserList"><span class="glyphicon glyphicon-globe"></span> 区域代理</a></li>
+							<li av-if="applicationCheckEmshop() && admin.admin_id=='area_agent'" role="separator" class="divider"></li>
+							<li><a href="javascript:;" av-event="[click] header.eventUserLogout(:node,:event)"><span class="glyphicon glyphicon-log-out"></span> 安全退出</a></li>
+	          </ul>
+	        </li>
+	      </ul>
+	      
+	    </div>
+	  </div>
+	</nav>	
+</div>

@@ -1,0 +1,174 @@
+<div class="alert alert-danger" role="alert" av-if="parseInt(data.express_order_trash)">
+  <strong>注意!</strong> 该订单在 “{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(data.express_order_trash_time) * 1000)}}” 已被回收。
+</div>
+
+
+<table class="table table-bordered">
+  <tbody>
+  	<tr>
+    	<th style="width: 150px;">订单ID：</th>
+      <td style="min-width: 100px;">{{data.express_order_id}}</td>
+    	<th style="width: 120px;">订单状态：</th>
+      <td>
+      	<span av-if="data.express_order_state == 2" class="label label-warning">待接单</span>
+      	<span av-else-if="data.express_order_state == 1" class="label label-success">已完成</span>
+      	<span av-else-if="data.express_order_state == 3" class="label label-default">已接单</span>
+      	<span av-else-if="data.express_order_state == 4" class="label label-default">已取件</span>
+      	<span av-else-if="data.express_order_state == 0" class="label label-danger">已撤销</span>
+      	<span av-else class="label label-default">未知</span>
+      </td>
+    	<th style="width: 120px;">下单时间：</th>
+    	<td>{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(data.express_order_insert_time) * 1000)}}</td>
+    </tr>
+    
+    <tr>
+    	<th >订单发布人：</th>
+   		<td>
+	          <img av-if="data.user_logo_image_id" av-attr="[src] applicationConfig.qiniu_domain+data.user_logo_image_id+'?imageView2/1/w/30'" class="img-circle">
+	          <span av-if="data.user_nickname" av-text="data.user_nickname"></span>
+	          <span av-else style="color: #999999;">未设置昵称</span>	
+	          <span av-if="data.user_phone_verify_list" style="word-wrap:break-word;">
+	          	({{data.user_phone_verify_list}})
+	          </span>
+	          <span av-else style="color: #999999;">无认证手机</span>
+   		</td>
+    	<th>寄件人姓名：</th>
+    	<td>{{data.user_address_name}}</td>
+    	<th>寄件人手机：</th>
+    	<td>{{data.user_address_phone}}</td>
+    </tr>
+    
+    <tr>
+    	<th>寄件人(取件)地址：</th>
+			<td colspan="3">
+				<span style="color: #999;">省(直辖市):</span>{{data.user_address_province}}
+				<span style="color: #999;">市:</span>{{data.user_address_city}}
+				<span style="color: #999;">区(县):</span>{{data.user_address_district}}
+				<span style="color: #999;">详细:</span>{{data.user_address_details}}
+			</td>
+			<th>取件时间：</th>
+			<td><span av-if="data.express_order_state == 4">{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(data.express_order_pick_time) * 1000)}}</span></td>
+    </tr>
+    
+    <tr>
+    	<th colspan="6" style="height: 30px;"></th>
+    </tr>
+    
+    <tr>
+    	<th>骑手信息：</th>
+			<td>
+				<div av-if="data.express_rider_user_id">
+          <img av-if="data.rider_user_logo_image_id" av-attr="[src] applicationConfig.qiniu_domain+data.rider_user_logo_image_id+'?imageView2/1/w/30'" class="img-circle">
+          <span av-if="data.user_nickname" av-text="data.rider_user_nickname"></span>
+          <span av-else style="color: #999999;">未设置昵称</span>	
+          <span av-if="data.rider_user_phone_verify_list" style="word-wrap:break-word;">
+          	({{data.rider_user_phone_verify_list}})
+          </span>
+          <span av-else style="color: #999999;">无认证手机</span>
+        </div>
+      	<div av-else>
+      		<span style="color: #999999;">无骑手接单</span>
+      	</div>
+			</td>
+			<th>骑手联系手机：</th>
+			<td>{{data.express_rider_phone}}</td>
+    	<th>接单时间：</th>
+   		<td><span av-if="data.express_order_state == 3">{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(data.express_order_access_time) * 1000)}}</span></td>
+    </tr>
+    
+    
+    
+		<tr>
+			<th>总费用：</th>
+			<td style="color: red;">¥ {{((data.express_order_money - data.express_order_rebate_money)/100).toFixed(2)}}</td>
+    	<th>订单金额：</th>
+   		<td>¥ {{(data.express_order_money/100).toFixed(2)}}</td>
+			<th>折扣金额：</th>
+			<td>¥ {{(data.express_order_rebate_money/100).toFixed(2)}}</td>
+    </tr>
+		
+		<tr>
+    	<th colspan="6" style="height: 30px;"></th>
+    </tr>
+    
+    <tr>
+    	<th>支付方式：</th>
+   		<td colspan="5">{{data.express_order_pay_method_name}}</td>
+    </tr>
+    <tr>
+		<th>支付金额：</th>
+		<th style="color: red;">
+			<span av-if="data.express_order_pay_state == 1">¥ {{(data.express_order_pay_money/100).toFixed(2)}}</span>
+		</th>
+		<th>支付状态：</th>
+		<td>
+			<span av-if="data.express_order_pay_state == 0" class="label label-danger">未支付</span>
+      <span av-else-if="data.express_order_pay_state == 1" class="label label-success">已支付</span>
+      <span av-else class="label label-default">未知</span>
+		</td>
+		<th>支付时间：</th>
+   		<td>
+   			<span av-if="data.express_order_pay_state == 1">{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(data.express_order_pay_time) * 1000)}}</span>
+   		</td>
+    </tr>
+    
+    <tr>
+    	<th colspan="6" style="height: 30px;"></th>
+    </tr>
+    
+    <tr>
+    	<th>配送方式：</th>
+   		<td><span av-if="data.express_order_shipping_state != 0">{{data.shipping_name}}</span></td>
+   		<th>运单号：</th>
+			<td colspan="3"><span av-if="data.express_order_shipping_state != 0">{{data.express_order_shipping_no}}</span></td>
+    </tr>
+    
+    <tr>
+		<th>收货人姓名：</th>
+   		<td>{{data.express_order_get_name}}</td>
+		<th>收货地址：</th>
+		<td>
+			<span style="color: #999;">省(直辖市):</span>{{data.express_order_get_province}}
+			<span style="color: #999;">市:</span>{{data.express_order_get_city}}
+			<span style="color: #999;">区(县):</span>{{data.express_order_get_district}}
+			<span style="color: #999;">详细:</span>{{data.express_order_get_address}}
+		</td>
+		<th>收货电话：</th>
+   		<td>{{data.express_order_get_phone}}</td>
+    </tr>
+    
+    
+    <tr>
+			<th style="width: 120px;">发货时间：</th>
+   		<td>
+   			<span av-if="data.express_order_shipping_state != 0">{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(data.express_order_shipping_send_time) * 1000)}}</span>
+   		</td>
+			<th>配送状态：</th>
+   		<td>
+   			<span av-if="data.express_order_shipping_state == 0" class="label label-danger">待发货</span>
+      	<span av-else-if="data.express_order_shipping_state == 2" class="label label-warning">运送中</span>
+      	<span av-else-if="data.express_order_shipping_state == 1" class="label label-success">已收货</span>
+      	<span av-else class="label label-default">未知</span>
+   		</td>
+			<th style="width: 100px;">收货时间：</th>
+	   	<td>
+	   		<span av-if="data.express_order_shipping_state == 1">{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(data.express_order_shipping_take_time) * 1000)}}</span>
+	   	</td>
+	  </tr>
+    
+    
+  </tbody>
+</table>
+
+
+<div class="btn-group">
+	<button av-event="[click]eventShippingSend(:node,:event)" av-if="data.express_order_shipping_state == 0" type="button" class="btn btn-default">确定发货</button>
+	<!--<button av-else-if="data.express_order_shipping_state == 2" type="button" class="btn btn-default">确定收货</button>
+	<button av-if="data.express_order_trash == 1" type="button" class="btn btn-default">还原订单</button>
+	<button av-else-if="data.express_order_trash != 1" type="button" class="btn btn-warning">回收订单</button>-->
+</div>
+
+
+<hr/>
+<span style="color: #999999;">更新时间：{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(data.express_order_update_time) * 1000)}}</span>
+<div style="height: 100px;"></div>

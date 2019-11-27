@@ -1,0 +1,161 @@
+<div class="btn-group" style="margin-left: 5px;">
+	<button av-event="[click] eventQuery(:node,:event,'state', false)" class="btn btn-default"
+		av-class="{'active':( typeof state == 'undefined' )}">全部状态</button>
+	<button av-event="[click] eventQuery(:node,:event,'state', 1)" class="btn btn-default"
+		av-class="{'active':( state == 1 )}">正常</button>
+	<button av-event="[click] eventQuery(:node,:event,'state', 0)" class="btn btn-default"
+		av-class="{'active':( state == 0 )}">封禁</button>
+	<button av-event="[click] eventQuery(:node,:event,'state', 2)" class="btn btn-default"
+		av-class="{'active':( state == 2 )}">待审核</button>
+</div>
+
+<button av-if="!applicationCheckYouli()" class="btn btn-default" av-event="[click] eventStateSucceed(:node,:event)" type="button"
+	style="margin-left: 5px;"><span class="glyphicon glyphicon-ok-circle"></span> 认证成功</button>
+<button av-if="!applicationCheckYouli()" class="btn btn-default" av-event="[click] eventStateDefeated(:node,:event)" type="button"
+	style="margin-left: 5px;"><span class="glyphicon glyphicon-ban-circle"></span> 认证失败</button>
+<button class="btn btn-danger" av-event="[click] eventRemove(:node,:event)" type="button"
+	style="margin-left: 5px;"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+<button class="btn btn-default" av-event="[click] eventSearch(:node,:event)" type="button"
+	style="margin-left: 5px;"><span class="glyphicon glyphicon-filter"></span> 筛选</button>
+<span av-if="checkRouterAnchorQuerySearch()" class="label label-default" style="margin-left: 5px;">存在筛选</span>
+
+<div class="alert alert-warning" style="margin-bottom: 10px;padding: 8px;margin-top: 10px;">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+			aria-hidden="true"></span>&times;</button>
+	<strong>注意!</strong> 未通过审核的点击其状态可查看未通过审核的原因。
+</div>
+
+<hr />
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th><input type="checkbox" checkbox="checkbox-all"></th>
+			<th>#</th>
+			<th><a href="javascript:;"
+					av-event="[click] eventSort(:node,:event,'user_nickname_asc', 'user_nickname_desc')"><span
+						av-if="existSort('user_nickname_asc', 'user_nickname_desc')" class="glyphicon"
+						av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('user_nickname_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('user_nickname_desc')}"></span>用户信息</a>
+			</th>
+
+			<th>代理地区信息</th>
+			<th av-if="!applicationCheckYouli()">库存</th>
+			<th><a href="javascript:;" av-event="[click] eventSort(:node,:event,'state_asc', 'state_desc')"><span
+						av-if="existSort('state_asc', 'state_desc')" class="glyphicon"
+						av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('state_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('state_desc')}"></span>状态</a>
+			</th>
+
+			<th><a href="javascript:;" av-event="[click] eventSort(:node,:event,'update_time_asc', 'update_time_desc')"><span
+						av-if="existSort('update_time_asc', 'update_time_desc')" class="glyphicon"
+						av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('update_time_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('update_time_desc')}"></span>更新时间</a>
+			</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr av-if="list && list.data && list.data.length" av-for="(value, key) list.data"
+			av-event="[dblclick] eventTrDblclick(:node,:event)" av-attr="[data-id] value.agent_user_id"
+			data-checkbox="checkbox">
+			<th><input type="checkbox" checkbox="checkbox" av-attr="[data-id] value.agent_user_id"></th>
+			<td>{{parseInt(key)+1+((parseInt(list.page_now) - 1) * list.page_size)}}</td>
+			<td style="max-width: 250px;">
+				<div style="max-width: 250px;display: inline-block;">
+					<img av-if="value.user_logo_image_id"
+						av-attr="[src] applicationConfig.qiniu_domain+value.user_logo_image_id+'?imageView2/1/w/40'"
+						class="img-circle">
+					<span av-if="value.user_nickname" av-print="value.user_nickname"></span>
+					<span av-else style="color: #999999;">未设置昵称</span>
+					<span av-if="value.user_phone_verify_list" style="word-wrap:break-word;">
+						({{value.user_phone_verify_list}})
+					</span>
+					<span av-else style="color: #999999;">无认证手机</span>
+				</div>
+			</td>
+			<td>
+				<span av-if="value.agent_region_scope == 1">[省级代理] {{value.agent_region_province}}</span>
+				<span av-else-if="value.agent_region_scope == 2">[市级代理]
+					{{value.agent_region_province}}/{{value.agent_region_city}}</span>
+				<span av-else-if="value.agent_region_scope == 3">[区级代理]
+					{{value.agent_region_province}}/{{value.agent_region_city}}/{{value.agent_region_district}}</span>
+				<span av-if="applicationCheckYouli()">{{value.agent_region_details}}</span>
+				<span av-else> - </span>
+				
+			</td>
+			<td av-if="!applicationCheckYouli()">
+				{{value.agent_user_scoket}}
+			</td>
+			<td av-if="applicationCheckYouli()">
+				<span av-if="value.agent_user_state == 1" class="label label-success">已编辑</span>
+				<span av-else-if="value.agent_user_state == 0" class="label label-danger" style="cursor: pointer;"
+					av-event="[click] eventShowMessage(:node,:event,'查看未通过审核的原因', value.agent_user_fail)">
+					已拒绝
+				</span>
+				<span av-else-if="value.agent_user_state == 2" class="label label-warning">等待编辑</span>
+				<span av-else class="label label-default">未知</span>
+			</td>
+			<td av-if="!applicationCheckYouli()">
+				<span av-if="value.agent_user_state == 1" class="label label-success">已通过审核</span>
+				<span av-else-if="value.agent_user_state == 0" class="label label-danger" style="cursor: pointer;"
+					av-event="[click] eventShowMessage(:node,:event,'查看未通过审核的原因', value.agent_user_fail)">
+					未通过审核
+				</span>
+				<div av-else-if="applicationCheckYitaoshop() && value.agent_user_state == 2">
+					<button class="btn btn-default btn-s" type="button" style="margin-left:5px;"
+						av-event="[click] eventYitaoStateSucceed(:node,:event,value.agent_user_id,value.agent_region_id)">
+						<span class="glyphicon glyphicon-ok-circle"></span> 通过
+					</button>
+					<button class="btn btn-default btn-sm" type="button" style="margin-left:5px;"
+						av-event="[click] eventYitaoStateFailed(:node,:event,value.agent_user_id)">
+						<span class="glyphicon glyphicon-ban-circle"></span> 驳回
+					</button>
+				</div>
+				<span av-else-if="value.agent_user_state == 2" class="label label-warning">等待审核</span>
+				<span av-else class="label label-default">未知</span>
+			</td>
+			<td>
+				<span
+					av-if="parseInt(value.agent_user_update_time)">{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(value.agent_user_update_time) * 1000)}}</span>
+				<span av-else>-</span>
+			</td>
+			<td>
+				<a  av-if="!applicationCheckYitaoshop()" av-is="!applicationCheckYouli()" av-attr="[href] '#/agent-userEdit/?id='+value.agent_user_id"
+					class="btn btn-default btn-sm">
+					<span class="glyphicon glyphicon-edit"></span> 编辑
+				</a>
+				<!--优利-->
+				<span av-if="applicationCheckYouli()" class="btn btn-default btn-sm" style="margin-right: 15px;" av-event="[click] eventArea (value.agent_user_id)">编辑</span>
+				<span av-if="applicationCheckYouli()" class="btn btn-default btn-sm" av-event="[click] eventrefuse(value.agent_user_id)">拒绝</span>
+				
+				<button av-is="applicationCheckYitaoshop() && value.agent_user_state == 1"
+					class="btn btn-default btn-sm user_json" type="button" style="margin-left:5px;"
+					av-event="[click] eventUpdateStock(:node,:event,value.agent_user_id,value.agent_user_scoket)">
+					<span class="glyphicon glyphicon-refresh"></span> 更新库存
+				</button>
+				
+				<a av-is="applicationCheckYitaoshop() && value.agent_user_state == 1"
+				av-attr="[href] '#/yitao-stockRecordList?sort=update_time_desc&user_id='+value.user_id" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-list-alt"></span>库存扣除明细</a>			</td>
+		</tr>
+		<tr av-else>
+			<td colspan="10" align="center">无数据</td>
+		</tr>
+	</tbody>
+</table>
+
+<div av-if="list.data.length" style="text-align: center;">
+	<button class="btn btn-default" data-page="1" av-class="{'disabled':isFirstPage(list.page_now)}" type="button"
+		style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">首页</button>
+	<button class="btn btn-default" av-attr="[data-page] parseInt(list.page_now) - 1"
+		av-class="{'disabled':isFirstPage(list.page_now)}" type="button" style="margin-right: 5px;"
+		av-event="[click] eventPageRequest(:node,:event)">上一页</button>
+	<button class="btn btn-default" type="button" style="margin-right: 5px;">
+		第{{list.page_now}}页
+		/ 共{{list.page_count}}页
+		/ 有{{list.row_count}}条数据</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] parseInt(list.page_now) + 1"
+		av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;"
+		av-event="[click] eventPageRequest(:node,:event)">下一页</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] list.page_count"
+		av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;"
+		av-event="[click] eventPageRequest(:node,:event)">尾页</button>
+</div>
+
+

@@ -1,0 +1,59 @@
+<script id="content" type="text/template">
+	
+  	<div class="form-group">
+    	<label>商家名称：</label>
+    	<input type="text" class="form-control" placeholder="商家的名称" name="merchant_name">
+  	</div>
+  	<div class="form-group">
+    	<label>商家介绍：</label>
+    	<textarea class="form-control" rows="3" placeholder="商家的介绍" name="merchant_info"></textarea>
+  	</div>
+  	<div class="form-group">
+    	<label>商家手机号：</label>
+    	<input type="text" class="form-control" placeholder="手机号" name="merchant_phone" >
+  	</div>
+  	<div class="form-group">
+    	<label>状态：</label>
+    	<select class="form-control" name="merchant_state">
+			<option value="0">认证失败</option>
+			<option value="1">已认证</option>
+			<option value="2">等待审核</option>
+			<option value="3" selected="selected">编辑中</option>
+		</select>
+  	</div>
+  	<hr/>
+  	<div class="form-group">
+    	<label>省份：</label>
+    	<input type="text" class="form-control" placeholder="省份" name="merchant_province" >
+  	</div>
+  	<div class="form-group">
+    	<label>市：</label>
+    	<input type="text" class="form-control" placeholder="市" name="merchant_city" >
+  	</div>
+  	<div class="form-group">
+    	<label>区：</label>
+    	<input type="text" class="form-control" placeholder="区" name="merchant_district" >
+  	</div>
+  	<div class="form-group">
+    	<label>地址：</label>
+    	<input type="text" class="form-control" placeholder="地址" name="merchant_address">
+  	</div>
+  	
+  	<div class="form-group">
+    	<label>经度：</label>
+    	<input type="text" class="form-control" placeholder="经度" name="merchant_longitude">
+  	</div>
+  	<div class="form-group">
+    	<label>纬度：</label>
+    	<input type="text" class="form-control" placeholder="纬度" name="merchant_latitude">
+  	</div>
+  	<div class="form-group">
+    	<label>关于拾取经纬度的方法：</label>
+    	<div>
+    		<a href="https://lbs.qq.com/tool/getpoint/" target="_blank">腾讯位置服务-坐标拾取器[纬度,经度]</a>
+    	</div>
+  	</div>
+  	<br/>
+  	<button type="button" class="btn btn-primary" name="submit">确定添加</button>
+	
+</script>

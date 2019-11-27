@@ -1,0 +1,40 @@
+<div class="panel panel-default">
+	<div class="panel-body">
+		<div>团购ID：{{data.shop_goods_group_id}}</div>
+      	<div>商品ID：{{data.shop_goods_id}}</div>
+		<!--<div>商品名称：{{data.shop_goods_name}}</div>-->
+		<!--<div>商品类型：
+			<span av-if="data.shop_goods_property == 0">普通商品</span>
+			<span av-if="data.shop_goods_property == 1">积分商品</span>
+		</div>-->
+		<!--<div>商品规格：
+			<span av-if="data.shop_goods_spu" av-for="(spuV)data.shop_goods_spu">
+      			[{{spuV.parent.shop_goods_spu_name}}:{{spuV.shop_goods_spu_name}}]
+      		</span>
+      		<span av-else>[-所有规格-]</span>
+		</div>	-->
+		<div>参团价格：
+		<!--<span av-if="data.shop_goods_property == 1">
+      		{{(parseInt(data.shop_group_goods_price)/applicationConfig.credit.scale).toFixed(applicationConfig.credit.precision)}} 积分数量
+      	</span>
+      	<span av-else>
+      		{{(parseInt(data.shop_group_goods_price)/100).toFixed(2)}} 元 
+      	</span>-->
+      	{{(parseInt(data.shop_goods_group_price)/100).toFixed(2)}} 
+		</div>
+		<div>成团人数：{{data.shop_goods_group_people}}</div>
+	</div>
+</div>
+
+
+<div class="form-group">
+	<label>请选择拼团活动的时间范围：</label>
+	<input type="text" class="form-control" placeholder="售卖的时间范围" name="shop_group_goods_time" av-attr="[value] av.date('yyyy-MM-dd HH:mm:ss', parseInt(data.shop_goods_group_start_time) * 1000)+' ~ '+ av.date('yyyy-MM-dd HH:mm:ss', parseInt(data.shop_goods_group_end_time) * 1000)">
+</div>
+
+
+<br/>
+<button type="button" class="btn btn-primary" av-event="[click] eventSubmit(:node,:event)" av-class="{'disabled':submitLock}" >确定更新</button>
+<hr/>
+<span style="color: #999999;">更新时间：{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(data.shop_goods_group_update_time) * 1000)}}</span>
+<div style="height: 100px;"></div>

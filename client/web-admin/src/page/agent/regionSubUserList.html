@@ -1,0 +1,98 @@
+<!-- 后台：
+区域代理后台展示自己区域下面的所有用户并且按会员和非会员筛选并统计人数，
+总监，店长，会员后台展示自己团队用户，按照会员与非会员可以筛选并统计人数 -->
+<div page="content" av-if="list">
+  <div class="form-group">
+    <h1>区域代理下级用户列表</h1>
+  </div>
+  <div class="form-group"><label>代理地区：</label>
+    <input class="form-control" readonly
+      av-attr="[value] list[0].user_register_province+'/'+list[0].user_register_city+'/'+list[0].user_register_area">
+  </div>
+  <div class="form-group"><label>下线人数：</label>
+    <input class="form-control" readonly
+      av-attr="[value] list.length+'人([会员] '+countMembeNum(list)+'人 [非会员] '+(list.length-countMembeNum(list))+'人)'">
+  </div>
+</div>
+<hr />
+<button class="btn btn-default" type="button" av-event="[click] goTop(:node,:event)" style="margin-right: 5px;">顶部</button>
+<button class="btn btn-default" type="button" av-event="[click] goBottom(:node,:event)">底部</button>
+<hr />
+<table class="table table-striped"  style="margin-bottom: 0px">
+  <thead>
+    <tr>
+      <th style="width: 5%">#</th>
+      <th style="width: 20%">用户信息</th>
+      <th style="width: 10%">QQ</th>
+      <th style="width: 10%">邮箱</th>
+      <th style="width: 20%">地区信息</th>
+      <th style="width: 5%">性别</th>
+      <th style="width: 10%">状态</th>
+      <th style="width: 20%">注册时间</th>
+    </tr>
+  </thead></table>
+<div id="table" av-if="list" av-style="{overflow:'scroll',height:$(window).height()-150+'px'}">
+<table class="table table-striped" >
+  <!-- <thead>
+    <tr>
+      <th>#</th>
+      <th>用户信息</th>
+      <th>QQ</th>
+      <th>邮箱</th>
+      <th>地区信息</th>
+      <th>性别</th>
+      <th>状态</th>
+      <th>注册时间</th>
+    </tr>
+  </thead> -->
+  <tbody>
+    <tr av-if="list && list.length" av-for="(value, key) list" av-event="[dblclick] eventTrDblclick(:node,:event)"
+      av-attr="[data-id] value.agent_user_id" data-checkbox="checkbox">
+
+      <td style="width: 5%">{{parseInt(key)+1}}</td>
+      <td style="width: 20%">
+        <div style="max-width: 250px;display: inline-block;">
+          <span av-if="value.user_nickname" av-text="value.user_nickname"></span>
+          <span av-else style="color: #999999;">未设置昵称</span>
+          <span av-if="value.phone" style="word-wrap:break-word;">
+            ({{value.phone}})
+          </span>
+          <span av-else style="color: #999999;">无认证手机</span>
+        </div>
+      </td>
+      <td style="width: 10%">
+        {{value.user_qq}}
+      </td>
+      <td style="width: 10%">
+        {{value.user_email}}
+      </td>
+      <td style="width: 20%">
+        {{value.user_register_province}}/{{value.user_register_city}}/{{value.user_register_area}}
+      </td>
+      <td style="width: 5%">
+        <span av-if="parseInt(value.user_sex)==1" class="label label-info">男性</span>
+        <span av-elseif="parseInt(value.user_sex)==2" class="label label-warning">女性</span>
+        <span av-else class="label label-default">未知</span>
+      </td>
+      <td style="width: 10%">
+        <span av-if="value.user_state == 1" class="label label-success">正常</span>
+        <span av-else-if="value.user_state == 0" class="label label-danger" style="cursor: pointer;">
+          封禁
+        </span>
+      </td>
+      <td style="width: 20%">
+        <span
+          av-if="parseInt(value.user_register_time)">{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(value.user_register_time) * 1000)}}</span>
+        <span av-else>-</span>
+      </td>
+
+    </tr>
+    <tr av-else>
+      <td colspan="10" align="center">无数据</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div av-else>
+  您不是区域代理！
+</div>

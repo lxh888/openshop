@@ -1,0 +1,34 @@
+<div index="navigation">	
+	<div class="body" av-if="navigation.visibility">
+		<!--溢出隐藏滚动条-->
+		<div class="scroll">
+			<div class="wrap">
+				
+				<ul class="list-group">
+					<a href="#/" class="list-group-item"><span class="glyphicon glyphicon-home"></span> 后台首页</a>	
+					<div av-for="(value, key) management" class="list-group-item" av-event="[click] navigation.eventParent(:node,:event,value.management_id)" av-is="!parseInt(value.management_hide) || value.management_id == navigation.checkedParentId">
+						<div class="management-parent">
+							{html{value.management_label_before}}
+							{{value.management_name}}
+							<span av-if="value.son && value.son.length > 0" class="glyphicon state" av-class="{'glyphicon-menu-down':navigation.showParentIds[value.management_id],'glyphicon-menu-right':!navigation.showParentIds[value.management_id]}"></span>
+						</div>
+						
+						<ul class="list-group management-son" av-if="value.son && value.son.length > 0 && navigation.showParentIds[value.management_id]" >
+							
+							<a av-is="!parseInt(sonValue.management_hide) || sonValue.management_id == navigation.checkedSonId" av-for="(sonValue, sonKey) value.son" av-attr="[href] navigation.sonUrl(sonValue.management_href, value.management_page, sonValue.management_page, sonValue.management_hide)" class="list-group-item management-son" av-class="{'active':(navigation.checkedSonId == sonValue.management_id),'disabled':parseInt(sonValue.management_hide)}" av-attr="[target] sonValue.target" av-event="[click] navigation.eventSon(:node,:event)" av-attr="[management-id] sonValue.management_id" av-attr="[management-parent-id] value.management_id">
+								{html{sonValue.management_label_before}}
+								{{sonValue.management_name}}
+							</a>
+							
+						</ul>
+						
+					</div>
+					
+						
+				</ul>
+				<div style="height: 300px;"></div>
+				
+			</div>
+		</div>
+	</div>
+</div>

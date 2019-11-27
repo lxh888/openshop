@@ -1,0 +1,105 @@
+<div class="btn-group" style="margin-left: 5px;">
+	<button av-event="[click] eventQuery(:node,:event,'state', false)" class="btn btn-default" av-class="{'active':( typeof state == 'undefined' )}">全部状态</button>
+	<button av-event="[click] eventQuery(:node,:event,'state', 1)" class="btn btn-default" av-class="{'active':( state == 1 )}">正常</button>
+	<button av-event="[click] eventQuery(:node,:event,'state', 0)" class="btn btn-default" av-class="{'active':( state == 0 )}">封禁</button>
+</div>
+
+<button class="btn btn-danger" av-event="[click] eventRemove(:node,:event)" type="button" style="margin-left: 5px;"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+<button class="btn btn-default" av-event="[click] eventSearch(:node,:event)" type="button" style="margin-left: 5px;"><span class="glyphicon glyphicon-filter"></span> 筛选</button>
+<span av-if="checkRouterAnchorQuerySearch()" class="label label-default" style="margin-left: 5px;">存在筛选</span>
+
+
+<hr/>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th style="width: 2%;"><input type="checkbox" checkbox="checkbox-all"></th>
+      <th style="width: 3%;">#</th>
+      	<th style="width: 40%;" av-if='!applicationCheckYouli()'>
+	    	<a href="javascript:;" av-event="[click] eventSort(:node,:event,'scope_asc', 'scope_desc')" ><span av-if="existSort('scope_asc', 'scope_desc')"  class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('scope_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('scope_desc')}"></span>代理范围</a>
+	    	/
+	    	<a href="javascript:;" av-event="[click] eventSort(:node,:event,'province_asc', 'province_desc')" ><span av-if="existSort('province_asc', 'province_desc')"  class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('province_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('province_desc')}"></span>省份</a>
+	    	/
+	    	<a href="javascript:;" av-event="[click] eventSort(:node,:event,'city_asc', 'city_desc')" ><span av-if="existSort('city_asc', 'city_desc')"  class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('city_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('city_desc')}"></span>市级</a>
+	    	/
+	    	<a href="javascript:;" av-event="[click] eventSort(:node,:event,'district_asc', 'district_desc')" ><span av-if="existSort('district_asc', 'district_desc')"  class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('district_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('district_desc')}"></span>区级</a>
+	    </th>
+	    <th>详细地址</th>
+    	
+		<th style="width: 10%;">
+	      	<a href="javascript:;" av-event="[click] eventSort(:node,:event,'state_asc', 'state_desc')"><span av-if="existSort('state_asc', 'state_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('state_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('state_desc')}"></span>状态</a>
+	    </th>
+    	<th style="width: 10%;">
+	      	<a href="javascript:;" av-event="[click] eventSort(:node,:event,'agent_user_count_asc', 'agent_user_count_desc')"><span av-if="existSort('agent_user_count_asc', 'agent_user_count_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('agent_user_count_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('agent_user_count_desc')}"></span>代理人数</a>
+	    </th>
+	    
+	    <th style="width: 15%;"><a href="javascript:;" av-event="[click] eventSort(:node,:event,'update_time_asc', 'update_time_desc')"><span av-if="existSort('update_time_asc', 'update_time_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('update_time_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('update_time_desc')}"></span>更新时间</a></th>
+    <th style="width: 20%;">操作</th>
+  </tr>
+  
+</thead>
+  <tbody>
+  	<tr av-if="list && list.data && list.data.length" av-for="(value, key) list.data" av-event="[dblclick] eventTrDblclick(:node,:event)" av-attr="[data-id] value.agent_region_id" data-checkbox="checkbox">
+      <th><input type="checkbox" checkbox="checkbox" av-attr="[data-id] value.agent_region_id"></th>
+      <td>{{parseInt(key)+1+((parseInt(list.page_now) - 1) * list.page_size)}}</td>
+      <td av-if='!applicationCheckYouli()'>
+      	<span av-if="value.agent_region_scope == 0">
+      		未知
+      	</span>
+      	<span av-if="value.agent_region_scope == 1">
+      		[省份代理]
+      		{{value.agent_region_province}}
+      	</span>
+      	<span av-if="value.agent_region_scope == 2">
+      		[市级代理]
+      		{{value.agent_region_province}}/{{value.agent_region_city}}
+      	</span>
+      	<span av-if="value.agent_region_scope == 3">
+      		[区级代理]
+      		{{value.agent_region_province}}/{{value.agent_region_city}}/{{value.agent_region_district}}
+      	</span>
+      </td>
+      <td>{{value.agent_region_details}}</td>
+      <td>
+      	<span av-if="value.agent_region_state == 1" class="label label-success">开启</span>
+      	<span av-else-if="value.agent_region_state == 0" class="label label-danger">封禁</span>
+      	<span av-else class="label label-default">未知</span>
+      </td>
+      <td><a av-attr="[href]'#/agent-userList/?sort=update_time_desc&search=%257B%2522agent_region_id%2522%253A%2522'+value.agent_region_id+'%2522%257D'">{{value.agent_user_count}} 人</a></td>
+      <td>
+      	<span av-if="parseInt(value.agent_region_update_time)">{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(value.agent_region_update_time) * 1000)}}</span>
+      	<span av-else>-</span>
+      </td>
+      <td>
+      	<button av-event="[click] eventShowMessage(:node,:event,'查看代理地区的简介', value.agent_region_info)" class="btn btn-default btn-sm" style="margin-right: 5px;">
+			<span class="glyphicon glyphicon-exclamation-sign"></span> 查看简介
+		</button>
+      	<a av-attr="[href] '#/agent-regionEdit/?id='+value.agent_region_id" class="btn btn-default btn-sm">
+			<span class="glyphicon glyphicon-edit"></span> 编辑
+		</a>
+  	  </td>
+    </tr>
+    <tr av-else>
+    	<td colspan="10" align="center">无数据</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+<div av-if="list.data.length" style="text-align: center;">
+	<button class="btn btn-default" data-page="1" av-class="{'disabled':isFirstPage(list.page_now)}" type="button" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">首页</button>
+	<button class="btn btn-default" av-attr="[data-page] parseInt(list.page_now) - 1" av-class="{'disabled':isFirstPage(list.page_now)}" type="button" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">上一页</button>
+	<button class="btn btn-default" type="button" style="margin-right: 5px;">
+		第{{list.page_now}}页
+		/ 共{{list.page_count}}页
+		/ 有{{list.row_count}}条数据</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] parseInt(list.page_now) + 1" av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">下一页</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] list.page_count" av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">尾页</button>
+</div>
+
+
+
+
+
+

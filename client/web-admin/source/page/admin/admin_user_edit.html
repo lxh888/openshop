@@ -1,0 +1,39 @@
+<script id="content" type="text/template">
+	
+  	<div class="form-group">
+    	<label>用户ID：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{response.get.user_id}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>管理角色：</label>
+	  	<select class="form-control" name="admin_id">
+		  <option value="">-请选择-</option>
+		  <!--if{response.admin_option.length}-->
+		  <!--for{var i in response.admin_option}-->
+		  <option value="<!--{response.admin_option[i].admin_id}-->" <!--if{response.get.admin_id == response.admin_option[i].admin_id}-->selected="selected"<!--/if--> >
+		  <!--{response.admin_option[i].admin_name}--> [<!--{response.admin_option[i].admin_user_count}-->人]
+		  </option>
+		  <!--/for-->
+		  <!--/if-->
+		</select>
+  	</div>
+  	<div class="form-group">
+    	<label>简介：</label>
+    	<textarea class="form-control" rows="3" placeholder="简介" name="admin_user_info"><!--{response.get.admin_user_info}--></textarea>
+  	</div>
+  	<div class="form-group">
+    	<label>状态：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="0" name="admin_user_state" <!--if{parseInt(response.get.admin_user_state)}--><!--else-->checked="checked"<!--/if--> > 封禁
+		</label>
+  	</div>
+		<div class="form-group">
+    	<label>是否显示区域下订单：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox"  name="show_region_order" <!--if{parseInt(response.get.admin_user_json.show_region_order)==0}--><!--else-->checked="checked"<!--/if--> > 是
+		</label>
+  	</div>
+  	<br/>
+  	<button type="button" class="btn btn-primary" name="submit">确定更新</button>
+	
+</script>

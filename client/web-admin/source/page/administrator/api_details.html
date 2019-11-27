@@ -1,0 +1,66 @@
+<script id="content" type="text/template">
+	<div style="max-width: 1200px;width: 100%;margin: 0 auto;">
+		<div style="padding: 20px;">
+		<div name="json-viewer-javascript"></div>
+		<!--if{response.get}-->
+		
+		<h4>接口ID</h4>
+		<code><!--{response.get.api_id}--></code>
+		
+		<!--if{response.get.api_program}-->
+		<h4>程序入口</h4>
+		<code><!--{response.get.api_program}--></code>
+		<!--/if-->
+		
+		<h4>接口名称/描述</h4>
+		<code><!--{response.get.api_name}--></code>
+		<div style="color: #999;"><!--{response.get.api_info}--></div>
+		
+		<h4>接口状态/权限/类型</h4>
+		<!--if{parseInt(response.get.api_state)}-->
+        <span class="label label-success">开启中</span>
+        <!--else-->
+        <span class="label label-danger">已关闭</span>
+        <!--/if-->
+          
+		<!--if{parseInt(response.get.administrator)}-->
+		<span class="label label-primary">系统权限</span>
+		<!--else-->
+		<span class="label label-default">普通权限</span>
+		<!--/if-->
+		  
+		<!--if{parseInt(response.get.api_admin)}-->
+		<span class="label label-info">后台接口</span>
+		<!--else-->
+		<span class="label label-warning">前台接口</span>
+		<!--/if-->
+		
+		<!--if{response.get.api_request_args || response.get.api_response_args}-->
+		<div class="alert alert-warning" style="margin-top: 20px;padding: 8px;">
+    		<strong>请求参数、响应参数的格式要求：</strong> [{"(参数)[类型][是否必填][最小长度或最大长度][名称]":"描述。示例值:示例值1|示例值2|示例值3"}]<br/>
+    	</div>
+		<!--/if-->
+		
+        <!--if{response.get.api_request_args}-->
+        <h4>请求参数</h4>
+        <div id="json-api_request_args" style="padding: 10px;"><!--{response.get.api_request_args}--></div>
+        <!--/if-->
+        
+        <!--if{response.get.api_response_args}-->
+        <h4>响应参数</h4>
+        <pre id="json-api_response_args"><!--{response.get.api_response_args}--></pre>
+        <!--/if-->
+        
+        <!--if{response.get.api_explain}-->
+        <h4>详细说明</h4>
+        <div>
+        	<!--html{response.get.api_explain}-->
+        </div>
+        <!--/if-->
+        
+        <!--else-->
+        <div style="color: #999;">无数据，或者没有权限访问</div>
+        <!--/if-->  
+        </div>  
+	</div>
+</script>

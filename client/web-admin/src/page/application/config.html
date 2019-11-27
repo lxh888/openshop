@@ -1,0 +1,338 @@
+<!-- 导航 -->
+<div class="btn-group">
+		<a av-for="(item,index)data" class="btn btn-default" av-class="{'active':checkedIndex == item.config_id}" av-event="[click] eventSelectConfigType(:node,:event,item.config_id)">
+				{{item.config_name}}
+		</a>
+</div>
+<hr/>
+<!--未选择导航时-->
+<div av-if="Object.keys(checkedData).length === 0 && checkedData.constructor === Object" class="alert alert-warning alert-dismissible" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	<strong>友情提示!</strong> 请选择上面的按钮，编辑需要更新的配置。
+</div>
+<!--安卓app app_android_version-->
+<div av-if="checkedData && checkedData.config_id == 'app_android_version'" >
+		<div class="alert alert-warning alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<strong>程序开发提示：</strong> {{checkedData.config_info}}
+		</div>
+			
+		<h4>{{checkedData.config_name}}</h4>
+			
+		<div class="form-group">
+			<label>版本名称：</label>
+			<input type="text" class="form-control" placeholder="版本名称" name="name" 
+			av-attr="[value] checkedData.config_value.name"/>
+		</div>
+		
+		<div class="form-group">
+			<label>版本描述：</label>
+			<textarea class="form-control" rows="4" placeholder="版本描述" name="info">{{checkedData.config_value.info}}</textarea> 
+		</div>
+		
+		<div av-if="checkedData.config_id=='app_android_version'" class="form-group">
+			<label>版本号：</label>
+			<input type="text" class="form-control" placeholder="版本号" name="number" av-attr="[value] checkedData.config_value.number"/>
+		</div>
+		
+		<div class="form-group">
+			<label>下载地址：</label>
+			<textarea class="form-control" rows="2" placeholder="版本描述" name="download">{{checkedData.config_value.download}}</textarea>
+		</div>
+		
+		<div class="form-group">
+			<label>是否强制更新：</label>
+			<label class="checkbox-inline">
+			<input type="checkbox"  av-attr="[value] checkedData.config_value.required" av-attr="[checked] checkedData.config_value.required==1? 'checked':false" name="required" > 是
+		</label>
+		</div>
+		<br/>
+</div>
+<!-- e麦商城特殊配置  emshop_config -->
+<div av-else-if="checkedData && checkedData.config_id == 'emshop_config'" >
+	<div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<strong>程序开发提示：</strong> {{checkedData.config_info}}
+	</div>
+	<h4>{{checkedData.config_name}}</h4>
+	<div class="form-group">
+		<label>普通用户积分签到奖励：</label>
+		<input type="text" class="form-control" placeholder="普通用户签到积分奖励：" name="daily_attendance_user" av-attr="[value] parseFloat(checkedData.config_value.daily_attendance.user/applicationCreditConfig().scale).toFixed(applicationCreditConfig().precision)"/>
+	</div>
+	<div class="form-group">
+		<label>会员签到积分奖励：</label>
+		<input type="text" class="form-control" placeholder="会员用户签到积分奖励：" name="daily_attendance_member" av-attr="[value] parseFloat(checkedData.config_value.daily_attendance.member/applicationCreditConfig().scale).toFixed(applicationCreditConfig().precision)"/>
+	</div>
+	<div class="form-group">
+		<label>普通用户推荐积分奖励：</label>
+		<input type="text" class="form-control" placeholder="普通用户签到积分奖励：" name="register_credit_user" av-attr="[value] parseFloat(checkedData.config_value.register_credit.user/applicationCreditConfig().scale).toFixed(applicationCreditConfig().precision)"/>
+	</div>
+	<div class="form-group">
+		<label>会员推荐积分奖励：</label>
+		<input type="text" class="form-control" placeholder="会员用户签到积分奖励：" name="register_credit_member" av-attr="[value] parseFloat(checkedData.config_value.register_credit.member/applicationCreditConfig().scale).toFixed(applicationCreditConfig().precision)"/>
+	</div>	
+	<div class="form-group">
+		<label>注册送优惠券：
+		<input type="checkbox" name="register_coupon_state" av-attr="[value] checkedData.config_value.register_coupon.state" av-attr="[checked] checkedData.config_value.register_coupon.state==1?'checked':false"/>开启
+		</label>
+	</div>
+	<div class="form-group">
+			<label>优惠券标签关键字：</label>
+			<input type="text" class="form-control" readonly placeholder="优惠券标签关键字" name="register_coupon_keyword" av-attr="[value] checkedData.config_value.register_coupon.keyword"/>
+		</div>
+	<br/>
+</div>
+<!-- 微信小程序 weixin_applet_access-->
+<div av-else-if="checkedData && checkedData.config_id == 'weixin_applet_access'" >
+	<div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<strong>程序开发提示：</strong> {{checkedData.config_info}}
+	</div>
+	<h4>{{checkedData.config_name}}</h4>
+	<div class="form-group">
+		<label>appid：</label>
+		<input type="text" class="form-control" placeholder="appid" name="id" av-attr="[value] checkedData.config_value.id"/>
+	</div>
+	<div class="form-group">
+		<label>appsecret：</label>
+		<input type="text" class="form-control" placeholder="appsecret" name="secret" av-attr="[value] checkedData.config_value.secret"/>
+	</div>	
+	<br/>
+</div>
+<!-- 微信app weixin_app_access -->
+<div av-else-if="checkedData && checkedData.config_id == 'weixin_app_access'">
+		<div class="alert alert-warning alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<strong>程序开发提示：</strong>  {{checkedData.config_info}}
+			</div>
+			
+			<h4>{{checkedData.config_name}}</h4>
+			
+				<div class="form-group">
+					<label>appid：</label>
+					<input type="text" class="form-control" placeholder="appid" name="id" av-attr="[value] checkedData.config_value.id"/>
+				</div>
+				<div class="form-group">
+					<label>appsecret：</label>
+					<input type="text" class="form-control" placeholder="appsecret" name="secret" av-attr="[value] checkedData.config_value.secret"/>
+				</div>
+			<br/>
+</div>
+<!--微信公众号-->
+<div av-else-if="checkedData && checkedData.config_id == 'weixin_mp_access'">
+		<div class="alert alert-warning alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<strong>程序开发提示：</strong>  {{checkedData.config_info}}
+			</div>
+			
+			<h4>{{checkedData.config_name}}</h4>
+			
+				<div class="form-group">
+					<label>公众号appid：</label>
+					<input type="text" class="form-control" placeholder="appid" name="id" av-attr="[value] checkedData.config_value.id"/>
+				</div>
+				<div class="form-group">
+					<label>appsecret：</label>
+					<input type="text" class="form-control" placeholder="appsecret" name="secret" av-attr="[value] checkedData.config_value.secret"/>
+				</div>
+			<br/>
+</div>
+<!-- 分销配置  shop_distribution_reward -->
+<div av-else-if="checkedData && checkedData.config_id == 'shop_distribution_reward'">
+	<div class="alert alert-warning alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<strong>程序开发提示：</strong>  {{checkedData.config_info}}
+		</div>
+		
+		<h4>{{checkedData.config_name}}</h4>
+		<hr/>
+		<h4>角色名称：{{checkedData.config_value.member.name}}</h4>
+		<div av-for="(rule,index)checkedData.config_value.member.rmb_award" class="form-group">
+			<label>第{{index+1}}级赏金：</label>
+			<input type="text"  class="form-control" placeholder="请输入奖金规则" name="member_rmb_award" av-attr="[value] checkedData.config_value.member.rmb_award[index]/100"/>
+		</div>
+
+		<hr/>
+		<h4>角色名称：{{checkedData.config_value.shop_manager.name}}</h4>
+		<div av-for="(rule,index)checkedData.config_value.shop_manager.rmb_award"  class="form-group">
+			<label>第{{index+1}}级赏金：</label>
+			<input type="text" class="form-control" placeholder="请输入奖金规则" name="shop_manager_rmb_award" av-attr="[value] checkedData.config_value.shop_manager.rmb_award[index]/100"/>
+		</div>
+
+		<hr/>
+		<h4>角色名称：{{checkedData.config_value.chief_inspector.name}}</h4>
+		<div av-for="(rule,index)checkedData.config_value.chief_inspector.rmb_award"  class="form-group">
+			<label>第{{index+1}}级赏金：</label>
+			<input type="text" class="form-control" placeholder="请输入奖金规则" name="chief_inspector_rmb_award" av-attr="[value] checkedData.config_value.chief_inspector.rmb_award[index]/100"/>
+		</div>
+
+		<hr/>
+		<h4>角色名称：{{checkedData.config_value.area_agent.name}}</h4>
+		<div av-for="(rule,index)checkedData.config_value.area_agent.rmb_award" class="form-group">
+			<label>第{{index+1}}级赏金:</label>
+			<input type="text"  class="form-control" placeholder="请输入奖金规则" name="area_agent_rmb_award" av-attr="[value] checkedData.config_value.area_agent.rmb_award[index]/100"/>
+		</div>
+		
+		<div class="form-group">
+			<label>额外奖金：</label>
+			<input type="text" class="form-control" av-attr="[value] checkedData.config_value.area_agent.additional_rewards/100" name="additional_rewards"> 
+			
+		</div>
+		<div class="form-group">
+			<label>是否开启分销奖励：</label>
+			<label class="checkbox-inline">
+				<input type="checkbox" av-attr="[value] checkedData.config_value.is_open" name="is_open" av-attr="[checked] checkedData.config_value.is_open==1?'checked':false"> 开启
+			</label>
+		</div>
+
+		<br/>
+</div>
+<!-- 推荐商品奖励发放 非易淘  shop_recommend_reward -->
+<div av-else-if="!applicationCheckYitaoshop() && checkedData && checkedData.config_id == 'shop_recommend_reward'">
+	<div class="alert alert-warning alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<strong>程序开发提示：</strong>  {{checkedData.config_info}}
+		</div>
+		
+		<h4>{{checkedData.config_name}}</h4>
+		<hr/>
+		<h4>角色名称：{{checkedData.config_value.shop_manager.name}}</h4>
+		<div class="form-group">
+			<label>奖励比例(百分比)：</label>
+			<input type="text"  class="form-control" placeholder="请输入奖励比例" name="shop_manager_royalty" av-attr="[value] checkedData.config_value.shop_manager.royalty"/>
+		</div>	
+
+		<hr/>
+		<h4>角色名称：{{checkedData.config_value.chief_inspector.name}}</h4>
+		<div class="form-group">
+			<label>奖励比例(百分比)：</label>
+			<input type="text" class="form-control" placeholder="请输入奖励比例" name="chief_inspector_royalty" av-attr="[value] checkedData.config_value.chief_inspector.royalty"/>
+		</div>
+		
+
+		<hr/>
+		<h4>角色名称：{{checkedData.config_value.area_agent.name}}</h4>
+		<div class="form-group">
+			<label>奖励比例(百分比):</label>
+			<input type="text"  class="form-control" placeholder="请输入奖励比例" name="area_agent_royalty" av-attr="[value] checkedData.config_value.area_agent.royalty"/>
+		</div>
+		
+
+
+		<div class="form-group">
+			<label>奖励方法：</label>
+			<select class="form-control"  name="method" >
+				<option value="0" av-attr="[selected] checkedData.config_value.method==0? 'selected':false">按身份发放</option>
+				<option value="1" av-attr="[selected] checkedData.config_value.method==1? 'selected':false">随机发放</option>
+				<option value="2" av-attr="[selected] checkedData.config_value.method==2? 'selected':false">定额发放</option>
+				<option value="3" av-attr="[selected] checkedData.config_value.method==3? 'selected':false">单独商品配置推荐奖金</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label>最大随机奖金比例：</label>
+			<input type="text" class="form-control" av-attr="[value] checkedData.config_value.max_royalty_random" name="max_royalty_random" > 
+		</div>
+		<div class="form-group">
+			<label>最小随机奖金比例：</label>
+			<input type="text" class="form-control" av-attr="[value] checkedData.config_value.min_royalty_random" name="min_royalty_random" > 
+		</div>
+		<div class="form-group">
+			<label>定额奖励：</label>
+			<input type="text" class="form-control" av-attr="[value] checkedData.config_value.quota_recommend_money/100" name="quota_recommend_money" > 
+		</div>
+		<div class="form-group">
+			<label>是否开启商品推荐奖励：</label>
+			<label class="checkbox-inline">
+				<input type="checkbox" av-attr="[value] checkedData.config_value.is_open" name="is_open" av-attr="[checked] checkedData.config_value.is_open==1?'checked':false"> 开启
+			</label>
+		</div>
+		<br/>
+</div>
+<!-- 易淘商品提成配置  shop_distribution_yitao -->
+<div av-else-if="applicationCheckYitaoshop() && checkedData && checkedData.config_id == 'shop_distribution_yitao'">
+		<div class="alert alert-warning alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<strong>程序开发提示：</strong>  {{checkedData.config_info}}
+			</div>
+			
+			<h4>{{checkedData.config_name}}</h4>
+			<hr/>
+			<div class="form-group">
+					<label>门槛商品一级提成：</label>
+					<input type="text"  class="form-control" placeholder="请输入提成" name="one_level_royal" av-attr="[value] (checkedData.config_value.shop_manager_reward.one_level_royal/100).toFixed(2)"/>
+				</div>	
+				<div class="form-group">
+						<label>门槛商品二级提成：</label>
+						<input type="text"  class="form-control" placeholder="请输入提成" name="two_level_royal" av-attr="[value] (checkedData.config_value.shop_manager_reward.two_level_royal/100).toFixed(2)"/>
+					</div>
+					<div class="form-group">
+							<label>门槛商品区域管理费：</label>
+							<input type="text"  class="form-control" placeholder="请输入提成" name="region_money" av-attr="[value] (checkedData.config_value.shop_manager_reward.region_money/100).toFixed(2)"/>
+						</div>
+			
+			<div class="form-group">
+				<label>是否开启分销规则：</label>
+				<label class="checkbox-inline">
+					<input type="checkbox" av-attr="[value] checkedData.config_value.is_open" name="is_open" av-attr="[checked] checkedData.config_value.is_open==1?'checked':false"> 开启
+				</label>
+			</div>
+			<br/>
+	</div>
+	<!-- 易淘商品提成配置  shop_distribution_yitao -->
+<div av-else-if="applicationCheckYitaoshop() && checkedData && checkedData.config_id == 'shop_distributions_yitao'">
+	<div class="alert alert-warning alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<strong>程序开发提示：</strong>  {{checkedData.config_info}}
+		</div>
+		
+		<h4>{{checkedData.config_name}}</h4>
+		<hr/>
+		<div class="form-group">
+				<label>门槛商品一级提成：</label>
+				<input type="text"  class="form-control" placeholder="请输入提成" name="one_level_royal" av-attr="[value] (checkedData.config_value.shop_manager_reward.one_level_royal/100).toFixed(2)"/>
+			</div>	
+			<div class="form-group">
+					<label>门槛商品二级提成：</label>
+					<input type="text"  class="form-control" placeholder="请输入提成" name="two_level_royal" av-attr="[value] (checkedData.config_value.shop_manager_reward.two_level_royal/100).toFixed(2)"/>
+				</div>
+				<div class="form-group">
+						<label>门槛商品区域管理费：</label>
+						<input type="text"  class="form-control" placeholder="请输入提成" name="region_money" av-attr="[value] (checkedData.config_value.shop_manager_reward.region_money/100).toFixed(2)"/>
+					</div>
+		
+		<div class="form-group">
+			<label>是否开启分销规则：</label>
+			<label class="checkbox-inline">
+				<input type="checkbox" av-attr="[value] checkedData.config_value.is_open" name="is_open" av-attr="[checked] checkedData.config_value.is_open==1?'checked':false"> 开启
+			</label>
+		</div>
+		<br/>
+</div>
+<!-- 易淘商品提成配置  shop_distribution_yitao -->
+<div av-else-if="checkedData && checkedData.config_id == 'display'">
+	<div class="alert alert-warning alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<strong>程序开发提示：</strong>  {{checkedData.config_info}}
+		</div>
+		
+		<h4>{{checkedData.config_name}}</h4>
+		<hr/>
+		<div class="form-group">
+			<label>状态：</label>
+			<label class="checkbox-inline">
+				<input type="checkbox" av-attr="[value] checkedData.config_value" name="display" av-attr="[checked] checkedData.config_value==0?'checked':false"> 隐藏
+			</label>
+		</div>
+		<br/>
+</div>
+<button av-if="checkedData && checkedData.config_id" type="button" class="btn btn-primary" av-class="{'disabled':submitLock}" av-event="[click] eventSubmit(:node,:event,checkedData.config_id)">确定编辑</button>
+
+<hr/>
+<span style="color: #999999;">更新时间：{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(data.agent_region_update_time) * 1000)}}</span>
+<div style="height: 100px;"></div>
+
+
+
+
+
+

@@ -1,0 +1,131 @@
+<div av-if="parseInt(data.shop_order_trash)" class="alert alert-danger" role="alert">
+	<strong>注意!</strong> 该订单在 “{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(data.shop_order_trash_time) * 1000)}}” 已被回收。
+</div>
+
+<table class="table table-bordered">
+	<tbody>
+		<tr>
+			<th style="width: 120px;">订单ID：</th>
+			<td style="min-width: 100px;">{{data.shop_order_id}}</td>
+			<th style="width: 100px;">下单用户：</th>
+			<td style="min-width: 100px;">
+				<img av-is="data.user_logo_image_id" av-attr="[src] applicationConfig.qiniu_domain+data.user_logo_image_id+'?imageView2/1/w/30'" class="img-circle">
+				<span av-if="data.user_nickname" style="color: #999999;">{{data.user_nickname}}</span>
+				<span av-else style="color: #999999;">未设置昵称</span>
+
+				<span av-if="data.user_phone_verify_list" style="word-wrap:break-word;">({{data.user_phone_verify_list}})</span>
+				<span av-else style="color: #999999;"> 无认证手机</span>
+			</td>
+			<th style="width: 100px;">下单时间：</th>
+			<td>{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(data.shop_order_insert_time) * 1000)}}</td>
+		</tr>
+		<tr>
+			<th style="width: 120px;">商品合计：</th>
+			<td>{{(parseInt(data.shop_order_goods_money)/100).toFixed(2)}} 元</td>
+			<th style="width: 100px;">折扣合计：</th>
+			<td>{{(parseInt(data.shop_order_discount_money)/100).toFixed(2)}} 元</td>
+			<th style="width: 100px;">核销状态：</th>
+			<td>
+				<span av-if="data.shop_order_write_off.shop_order_write_off_state==1" class="label label-success">已核销</span>
+				<span av-else class="label label-danger">未核销</span>
+			</td>
+		</tr>
+		
+		<tr>
+			<th style="width: 120px;">订单总费用：</th>
+			<td style="color: red;">
+				{{(parseInt(data.shop_order_money)/100).toFixed(2)}} 元</td>
+			<th style="width: 100px;">订单状态：</th>
+			<th>
+				<span av-if="parseInt(data.shop_order_state)==0" class="label label-danger">已取消</span> {{av.date("yyyy/MM/dd HH:mm EEE", parseInt(data.shop_order_close_time) * 1000)}}
+				<span av-elseif="parseInt(data.shop_order_state)==1" class="label label-success">已确认</span>
+				<span av-else class="label label-default">未知</span>
+			</th>
+			<th style="width: 100px;">支付状态：</th>
+			<td>
+				<span av-if="parseInt(data.shop_order_pay_state)==0" class="label label-danger">未支付</span>
+				<span av-elseif="parseInt(data.shop_order_pay_state)==1" class="label label-success">已支付</span>
+				<span av-elseif="parseInt(data.shop_order_pay_state)==2" class="label label-warning">支付中</span>
+				<span av-else class="label label-default">未知</span>
+			</td>
+		</tr>
+		<!--已支付才显示支付方式  人民币支付-->
+		<tr av-is=" parseInt(data.shop_order_pay_money_state) == 1 ">
+			<th colspan="6" style="height: 30px;"></th>
+		</tr>
+		<tr av-is=" parseInt(data.shop_order_pay_money_state) == 1 ">
+			<th style="width: 120px;">支付方式：</th>
+			<td colspan="5">{{data.shop_order_pay_money_method_name}}</td>
+		</tr>
+		<tr av-is=" parseInt(data.shop_order_pay_money_state) == 1 ">
+			<th style="width: 120px;">支付金额：</th>
+			<td av-if="data.shop_order_pay_money_state==1" style="color: red;">
+				{{(parseInt(data.shop_order_pay_money)/100).toFixed(2)}}元
+			</td>
+			<td av-else></td>
+			<th style="width: 100px;">支付状态：</th>
+			<td>
+				<span av-if="parseInt(data.shop_order_pay_money_state)==0" class="label label-danger">未支付</span>
+				<span av-elseif="parseInt(data.shop_order_pay_money_state)==1" class="label label-success">已支付</span>
+				<span av-else class="label label-default">未知</span>
+			</td>
+			<th style="width: 100px;">支付时间：</th>
+			<td av-is="parseInt(data.shop_order_pay_money_state)==1">
+				{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(data.shop_order_pay_money_time) * 1000)}}
+			</td>
+		</tr>
+
+
+		
+	</tbody>
+</table>
+
+<table class="table table-striped table-hover">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>商品名称</th>
+			<th>商品货号</th>
+			<th>商品规格</th>
+			<th>商品单价</th>
+			<th>商品数量</th>
+			<th>价格合计</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr av-if="data && data.shop_order_goods && data.shop_order_goods.length" av-for="(value,key)data.shop_order_goods">
+			<th style="width: 5%;">{{key+1}}</th>
+			<td>
+				<a av-attr="[href] '#/shop-goodsList/?search=%257B%2522shop_goods_id%2522%253A%2522'+value.shop_goods_id+'%2522%257D'">{{value.shop_order_goods_name}}</a>
+			</td>
+			<td>{{JSON.parse(value.shop_order_goods_json).sn}}</td>
+			<td>
+				{{JSON.parse(value.shop_order_goods_json).spu_string}}
+			</td>
+			<td av-if="value.shop_goods_property==0">
+				{{(parseInt(value.shop_order_goods_price)/100).toFixed(2)}} 元
+			</td>
+			<td>{{value.shop_order_goods_number}}</td>
+			<td av-if="value.shop_goods_property==0">
+				{{(parseInt(value.shop_order_goods_price*value.shop_order_goods_number)/100).toFixed(2)}} 元
+			</td>
+		</tr>
+		<tr av-else>
+			<td colspan="10" align="center">无数据</td>
+		</tr>
+	</tbody>
+</table>
+
+<hr/>
+<div class="btn-group">
+	<button av-if="parseInt(data.shop_order_state)" type="button" class="btn btn-default" av-class="{'disabled':submitLock}" av-event="[click] eventSubmitCloseState(:node,:event)">取消订单</button>
+	<button av-else type="button" class="btn btn-default" av-class="{'disabled':submitLock}" av-event="[click] eventSubmitConfirmState(:node,:event)">确定订单</button>
+
+	<button av-if="parseInt(data.shop_order_trash)" type="button" class="btn btn-default" av-class="{'disabled':submitLock}" av-event="[click] eventSubmitRestore(:node,:event)">还原订单</button>
+	<button av-else type="button" class="btn btn-warning" av-class="{'disabled':submitLock}" av-event="[click] eventSubmitTrash(:node,:event)">回收订单</button>
+
+</div>
+
+<hr/>
+<span style="color: #999999;">更新时间：{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(data.shop_order_update_time) * 1000)}}</span>
+<div style="height: 100px;"></div>

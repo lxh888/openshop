@@ -1,0 +1,74 @@
+<input name="image-files" type="file" style="left:-99999px;position:absolute;"/>
+<input type="text" input-focus="merchant-setting-type::add" style="position: fixed;left: 99999999px;" />
+<div style="padding: 10px;width: 500px;">
+	<div class="form-group">
+    	<label>LOGO图片：
+					<input name="type_logo_image_id" type="file" style="left:-99999px;position:absolute;" av-event="[change] eventFileChange(:node,:event)" />
+    		<button type="button" class="btn btn-default btn-xs" av-event="[click] eventUpLoad(:node,:event)" >选择图片</button>
+    		<button type="button" class="btn btn-default btn-xs" av-event="[click] eventCancel" >取消图片</button>
+    	</label>
+    	<div>
+			<img name="image_show" class="image-look" 
+			av-if="typeLogoUploadFile.file"
+			av-attr="[src] typeLogoUploadFile.url" style="max-height: 50px; cursor: pointer;">
+    	</div>
+  	</div>
+	
+	<div class="form-group">
+    	<label>分类名称：</label>
+    	<input type="text" class="form-control" placeholder="输入分类的名称" name="type_name" av-attr="[value] typeData.type_name">
+  	</div>
+  	<div class="form-group">
+    	<label>分类简介：</label>
+    	<textarea class="form-control" rows="2" placeholder="输入分类的简介" name="type_info" av-attr="[value] typeData.type_info"></textarea>
+  	</div>
+  	<div class="form-group">
+    	<label>父级：</label>
+	  	<select class="form-control" name="type_parent_id">
+		  <option value="">-顶级-</option>
+			<option av-if="type_option" av-for="(toValue)type_option" av-attr="[value] toValue.type_id"
+			av-attr="[selected] toValue.type_id==typeData.type_parent_id?'selected':''"
+			>{{toValue.type_name}}</option>
+		</select>
+		</div>
+		<div class="form-group">
+    	<label>分类模块：</label>
+	  	<select class="form-control" name="type_module">
+		  <option value="">-请选择分类模块-</option>
+			<option av-if="type_module_option" av-for="(tmoTitle,tmoV)type_module_option" 
+			av-attr="[value]  tmoV"
+			av-attr="[selected] tmoV==typeData.type_module?'selected':''"
+			>{{tmoTitle}}</option>
+		</select>
+  	</div>
+  	<div class="form-group">
+    	<label>标签：</label>
+    	<input type="text" class="form-control" placeholder="输入分类的标签" name="type_label" av-attr="[value] typeData.type_label">
+  	</div>
+  	<div class="form-group">
+    	<label>注释：</label>
+    	<input type="text" class="form-control" placeholder="输入分类的注释" name="type_comment" av-attr="[value] typeData.type_comment">
+  	</div>
+  	<div class="form-group">
+    	<label>JSON配置：</label>
+    	<textarea class="form-control" rows="2" placeholder="输入分类的JSON配置" name="type_json" av-attr="[value] typeData.type_json"></textarea>
+  	</div>
+  	<div class="form-group">
+    	<label>排序：</label>
+    	<input type="text" class="form-control" placeholder="输入分类的排序" name="type_sort" av-attr="[value] typeData.type_sort">
+  	</div>
+  	<div class="form-group">
+    	<label>是否隐藏：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="0" name="type_state" av-attr="[checked] typeData.type_state==0?'checked':''"> 是
+		</label>
+		</div>
+		<div class="form-group" av-if="applicationCheckMuYing()">
+    	<label>是否允许商家为商品添加此分类：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="0" name="type_merchant_usable" av-attr="[checked] typeData.type_merchant_usable==1?'checked':''"> 是
+		</label>
+  	</div>
+  	<br/>
+  	<button type="button" class="btn btn-primary btn-block" name="add-submit" av-event='[click]eventSubmit()'>确定编辑</button>
+</div>

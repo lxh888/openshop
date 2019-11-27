@@ -1,0 +1,255 @@
+<div style="padding: 20px;" module="search">
+	<input type="text" input-focus="module-search" style="position: fixed;left: 99999999px;" />
+	<div style="z-index: 99999999;" av-if="showList && showList.length" av-for="(v,i)showList">
+		<div class="form-group" av-if="v == 'express_order_id'">
+			<label>快递订单ID：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索快递订单ID" name="express_order_id" av-attr="[value] data.express_order_id">
+		</div>
+		<div class="form-group" av-else-if="v == 'express_order_shipping_no'">
+			<label>快递运单号：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索快递运单号" name="express_order_shipping_no" av-attr="[value] data.express_order_shipping_no">
+		</div>
+		<div class="form-group" av-else-if="v == 'rider_user_id'">
+			<label>骑手的用户ID：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索骑手的用户ID" name="rider_user_id" av-attr="[value] data.rider_user_id">
+		</div>
+		<div class="form-group" av-else-if="v == 'rider_user_nickname'">
+			<label>骑手的用户昵称：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索骑手的用户昵称" name="rider_user_nickname" av-attr="[value] data.rider_user_nickname">
+		</div>
+		<div class="form-group" av-else-if="v == 'rider_user_phone'">
+			<label>骑手的登录手机号：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索骑手的登录手机号" name="rider_user_phone" av-attr="[value] data.rider_user_phone">
+		</div>
+		<div class="form-group" av-else-if="v == 'express_rider_phone'">
+			<label>骑手手机号：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的骑手手机号" name="express_rider_phone" av-attr="[value] data.express_rider_phone">
+		</div>
+		<div class="form-group" av-else-if="v == 'express_rider_province'">
+			<label>骑手分配的省份：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的骑手分配的省份" name="express_rider_province" av-attr="[value] data.express_rider_province">
+		</div>
+		<div class="form-group" av-else-if="v == 'express_rider_city'">
+			<label>骑手分配的城市：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的骑手分配的城市" name="express_rider_city" av-attr="[value] data.express_rider_city">
+		</div>
+		<div class="form-group" av-else-if="v == 'express_rider_district'">
+			<label>骑手分配的区(县)：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的骑手分配的城市" name="express_rider_district" av-attr="[value] data.express_rider_district">
+		</div>
+		<div class="form-group" av-else-if="v == 'express_rider_name'">
+			<label>骑手名称：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的骑手名称" name="express_rider_name" av-attr="[value] data.express_rider_name">
+		</div>
+		<div class="form-group" av-else-if="v == 'express_rider_on_off'">
+			<label>是否开启接单：</label>
+			<select class="form-control" name="express_rider_on_off">
+				<option value="" av-attr="[selected] typeof data.express_rider_on_off == 'undefined' || (data.express_rider_on_off != 0 && data.express_rider_on_off != 1)? 'selected':false">全部</option>
+				<option value="0" av-attr="[selected] typeof data.express_rider_on_off != 'undefined' && data.express_rider_on_off == 0? 'selected':false">关闭</option>
+				<option value="1" av-attr="[selected] data.express_rider_on_off == 1? 'selected':false">开启</option>
+			</select>
+		</div>
+
+		<div class="form-group" av-else-if="v == 'user_id'">
+			<label>用户ID：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的用户ID" name="user_id" av-attr="[value] data.user_id">
+		</div>
+		<div class="form-group" av-else-if="v == 'user_nickname'">
+			<label>用户昵称：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的用户昵称" name="user_nickname" av-attr="[value] data.user_nickname">
+		</div>
+		<div class="form-group" av-else-if="v == 'user_phone'">
+			<label>用户手机号：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的用户手机号" name="user_phone" av-attr="[value] data.user_phone">
+		</div>
+
+		<div class="form-group" av-else-if="v == 'agent_region_id'">
+			<label>代理地区的ID：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的代理地区的ID" name="agent_region_id" av-attr="[value] data.agent_region_id">
+		</div>
+		<div class="form-group" av-else-if="v == 'agent_region_province'">
+			<label>代理地区的省份：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的代理地区的省份" name="agent_region_province" av-attr="[value] data.agent_region_province">
+		</div>
+		<div class="form-group" av-else-if="v == 'agent_region_city'">
+			<label>代理地区的市级：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的代理地区的市级" name="agent_region_city" av-attr="[value] data.agent_region_city">
+		</div>
+		<div class="form-group" av-else-if="v == 'agent_region_district'">
+			<label>代理地区的区(县)：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的代理地区的区(县)" name="agent_region_district" av-attr="[value] data.agent_region_district">
+		</div>
+
+		<av-void  av-else-if="v == 'agentRangeSelect'" >
+			<div class="form-group" style="margin-top: 10px" av-helper="isAgentRangeState()">
+				<label>是否筛选分配地区：</label>
+				<div class="checkbox">
+					<label>
+					<input type="checkbox" av-attr="[checked] agentRangeSelectState?'checked':false" av-event="[click] eventClickAgentRangeSelect(:node)"> 是
+				</label>
+				</div>
+			</div>
+
+			<div class="form-group" av-if="agentRangeSelectState">
+				<label>选择分配地区：</label>
+				<div module="citypicker"></div>
+			</div>
+		</av-void>
+
+		<div class="form-group" av-else-if="v == 'shop_goods_id'">
+			<label>商品ID：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的商品ID" name="shop_goods_id" av-attr="[value] data.shop_goods_id">
+		</div>
+		<div class="form-group" av-else-if="v == 'shop_goods_name'">
+			<label>商品名称：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的商品名称" name="shop_goods_name" av-attr="[value] data.shop_goods_name">
+		</div>
+		<div class="form-group" av-else-if="v == 'shop_goods_sn'">
+			<label>商品货号：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的商品货号" name="shop_goods_sn" av-attr="[value] data.shop_goods_sn">
+		</div>
+
+		<div class="form-group" av-else-if="v == 'coupon_name'">
+			<label>优惠券名称：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的优惠券名称" name="coupon_name" av-attr="[value] data.coupon_name">
+		</div>
+		<div class="form-group" av-else-if="v == 'coupon_id'">
+			<label>优惠券id：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的优惠券id" name="coupon_id" av-attr="[value] data.coupon_id">
+		</div>
+		<div class="form-group" av-else-if="v == 'coupon_type'">
+			<label>优惠券类型：</label>
+			<select class="form-control" name="coupon_type">
+				<option value="" av-attr="[selected] typeof data.coupon_type == 'undefined' || data.coupon_type == ''? 'selected':false">全部</option>
+				<option av-if="typeof showData.couponTypeOption == 'object'" av-for="(ctoV, ctoK)showData.couponTypeOption" av-attr="[value] ctoK" av-attr="[selected] typeof data.coupon_type != 'undefined' && data.coupon_type == ctoK? 'selected':false">{{ctoV}}</option>
+			</select>
+		</div>
+		<div class="form-group" av-else-if="v == 'coupon_property'">
+			<label>优惠券资金类型：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的优惠券资金类型" name="coupon_property" av-attr="[value] data.coupon_property">
+		</div>
+
+		<div class="form-group" av-if="v == 'scope'">
+			<label>范围：</label>
+			<select class="form-control" name="scope">
+				<option value="" av-attr="[selected] typeof data.express_rider_on_off == 'undefined' || (data.express_rider_on_off != 1 && data.express_rider_on_off != 2 && data.express_rider_on_off != 3)? 'selected':false">全部</option>
+				<option value="1">省</option>
+				<option value="2">市</option>
+				<option value="3">区</option>
+			</select>
+		</div>
+		<div class="form-group" av-if="v == 'shop_goods_region_province'">
+			<label>省：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的省" name="shop_goods_region_province" av-attr="[value] data.shop_goods_region_province">
+		</div>
+		<div class="form-group" av-if="v == 'shop_goods_region_city'">
+			<label>市：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的市" name="shop_goods_region_city" av-attr="[value] data.shop_goods_region_city">
+		</div>
+		<div class="form-group" av-if="v == 'shop_goods_region_district'">
+			<label>区：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的区" name="shop_goods_region_district" av-attr="[value] data.shop_goods_region_district">
+		</div>
+
+		<div class="form-group" av-else-if="v == 'api_id'">
+			<label>[精确查询]接口ID：</label>
+			<input type="text" class="form-control" search placeholder="输入要搜索的接口ID" name="api_id" av-attr="[value] data.api_id">
+		</div>
+		<div class="form-group" av-else-if="v == 'like_api_id'">
+			<label>[模糊查询]接口ID：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的接口ID" name="like_api_id" av-attr="[value] data.like_api_id">
+		</div>
+		<div class="form-group" av-else-if="v == 'api_name'">
+			<label>[模糊查询/单字匹配]接口名称：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的接口名称" name="api_name" av-attr="[value] data.api_name">
+		</div>
+
+		<div class="form-group" av-else-if="v == 'shop_order_id'">
+			<label>订单ID：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的订单ID" name="shop_order_id" av-attr="[value] data.shop_order_id">
+		</div>
+		<div class="form-group" av-else-if="v == 'user_address_consignee'">
+			<label>收货人名称：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的收货人名称" name="user_address_consignee" av-attr="[value] data.user_address_consignee">
+		</div>
+		<div style="margin-top:10px;" av-else-if="v == 'date_start'">
+			<label>订单开始日期：</label>
+			<input type="text" class="form-control" name="date_start" placeholder="开始时间" av-attr="[value] data.date_start" />
+		</div>
+		<div style="margin-top:10px;" av-else-if="v == 'date_end'">
+			<label>订单结束日期：</label>
+			<input type="text" class="form-control" name="date_end" placeholder="结束时间" av-attr="[value] data.date_end" />
+		</div>
+
+		<div class="form-group" av-else-if="v == 'module_id'">
+			<label>模块：</label>
+			<select class="form-control" name="module_id">
+				<option value="" av-attr="[selected] typeof data.module_id == 'undefined' || data.module_id == ''? 'selected':false">全部</option>
+				<option av-if="typeof showData.moduleOption == 'object'" av-for="(moV, moK)showData.moduleOption" av-attr="[value] moV.module_id" av-attr="[selected] typeof data.module_id != 'undefined' && data.module_id == moV.module_id? 'selected':false">{{moV.module_name}}</option>
+			</select>
+		</div>
+
+		<div class="form-group" av-else-if="v == 'user_parent_id'">
+			<label>推荐人ID：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的推荐人ID" name="user_parent_id" av-attr="[value] data.user_parent_id">
+		</div>
+		<div class="form-group" av-else-if="v == 'user_parent_phone'">
+			<label>推荐人手机号：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的推荐人手机号" name="user_parent_phone" av-attr="[value] data.user_parent_phone">
+		</div>
+		<div class="form-group" av-else-if="v == 'user_parent_nickname'">
+			<label>推荐人昵称：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的推荐人昵称" name="user_parent_nickname" av-attr="[value] data.user_parent_nickname">
+		</div>
+
+		<!-- <div class="form-group" av-else-if="v == 'merchant_cashier_id'">
+		    <label>员工ID：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的员工名称" name="merchant_cashier_id" av-attr="[value] data.merchant_cashier_id">
+		</div> -->
+		<div class="form-group" av-else-if="v == 'merchant_cashier_name'">
+			<label>员工名称：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的员工名称" name="merchant_cashier_name" av-attr="[value] data.merchant_cashier_name">
+		</div>
+		<div class="form-group" av-else-if="v == 'user_officer_name'">
+			<label>团长名称：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的团长名称" name="user_officer_name" av-attr="[value] data.user_officer_name">
+		</div>
+		<div class="form-group" av-else-if="v == 'user_officer_id'">
+				<label>团长ID：</label>
+				<input type="text" class="form-control" placeholder="输入要搜索的团长id" name="user_officer_id" av-attr="[value] data.user_officer_id">
+			</div>
+		<div class="form-group" av-else-if="v == 'write_off_user_phone'">
+			<label>取货代理人手机号：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的取货代理人手机号" name="write_off_user_phone" av-attr="[value] data.write_off_user_phone">
+		</div>
+		<div class="form-group" av-else-if="v == 'cms_article_id'">
+			<label>文章id：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的文章id" name="cms_article_id" av-attr="[value] data.cms_article_id">
+		</div>
+		<div class="form-group" av-else-if="v == 'cms_article_name'">
+			<label>文章名称：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的文章标题" name="cms_article_name" av-attr="[value] data.cms_article_name">
+		</div>
+
+		<div class="form-group" av-else-if="v == 'admin_id'">
+			<label>管理角色ID：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的管理角色ID" name="admin_id" av-attr="[value] data.admin_id">
+		</div>
+		<div class="form-group" av-else-if="v == 'admin_name'">
+			<label>管理角色名称：</label>
+			<input type="text" class="form-control" placeholder="输入要搜索的管理角色名称" name="admin_name" av-attr="[value] data.admin_name">
+		</div>
+
+
+		<div class="form-group" av-else-if="v == 'shop_goods_group_id'">
+				<label>团购商品id：</label>
+				<input type="text" class="form-control" placeholder="输入要搜索的团购商品id" name="shop_goods_group_id" av-attr="[value] data.shop_goods_group_id">
+			</div>
+	</div>
+
+	<hr/>
+	<div class="btn-group">
+		<button type="button" class="btn btn-primary" av-event="[click] submit(:node,:event)">确定筛选</button>
+		<button type="button" class="btn btn-default" av-event="[click] clear(:node,:event)">清理筛选</button>
+	</div>
+</div>

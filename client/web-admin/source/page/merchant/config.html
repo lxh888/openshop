@@ -1,0 +1,100 @@
+<script id="action-button" type="text/template">
+	<div class="btn-group">
+		<!--if{response.data}-->
+		<!--for{var i in response.data}-->
+		<a href="<!--helper {'action-query-href'(response.data[i].config_id)}-->" class="btn btn-default <!--if{action==response.data[i].config_id}-->active<!--/if-->"><!--{response.data[i].config_name}--></a>
+		
+		<!--/for-->
+		<!--/if-->
+	</div>
+</script>
+
+<script id="content" type="text/template">
+<!--helper{'action-button'}-->
+<hr/>
+<div class="alert alert-warning alert-dismissible" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	<strong>友情提示!</strong> 请选择上面的按钮，编辑需要更新的配置。
+</div>	
+</script>
+
+
+
+
+
+<script id="content-rmb_buy_merchant_credit" type="text/template">
+<!--helper{'action-button'}-->
+<hr/>
+<!--if{response.get}-->
+	<div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<strong>程序开发提示：</strong> <!--{response.get.config_info}-->
+	</div>
+	
+	<h4><!--{response.get.config_name}--></h4>
+	
+  	<div class="form-group">
+    	<label>积分比值：</label>
+    	<input type="text" class="form-control" placeholder="积分比值" name="ratio_credit" value="<!--if{response.get.config_value.ratio_credit}--><!--{(response.get.config_value.ratio_credit/response.application_config.credit.scale).toFixed(response.application_config.credit.precision)}--><!--/if-->">
+  	</div>
+  	<div class="form-group">
+    	<label>人民币比值（元）：</label>
+    	<input type="text" class="form-control" placeholder="人民币比值" name="ratio_rmb" value="<!--if{response.get.config_value.ratio_rmb}--><!--{(response.get.config_value.ratio_rmb/100).toFixed(2)}--><!--/if-->">
+  	</div>
+  	<div class="form-group">
+    	<label>运算法则：<span style="color: #999;">"round"对浮点数进行四舍五入 、"ceil"进一法取整、"floor"舍去法取整</span></label>
+    	<input type="text" class="form-control" placeholder="round|ceil|floor" name="algorithm" value="<!--{response.get.config_value.algorithm}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>是否开启：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="state" <!--if{parseInt(response.get.config_value.state)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+	
+	<br/>
+  	<button type="button" class="btn btn-primary" name="submit-rmb_buy_merchant_credit">确定编辑</button>
+	<hr/>
+	<span style="color: #999999;">更新时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.update_time) * 1000)}--></span>
+	<div style="height: 100px;"></div>
+	
+	
+<!--else-->
+<div class="alert alert-danger">未知配置</div>
+<!--/if-->
+</script>
+
+
+
+<script id="content-rmb_withdraw_merchant_money" type="text/template">
+<!--helper{'action-button'}-->
+<hr/>
+<!--if{response.get}-->
+	<div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<strong>程序开发提示：</strong> <!--{response.get.config_info}-->
+	</div>
+	
+	<h4><!--{response.get.config_name}--></h4>
+  	<div class="form-group">
+    	<label>最小提现金额（元）：</label>
+    	<input type="text" class="form-control" placeholder="最小提现金额" name="min_merchant_money" value="<!--if{response.get.config_value.min_merchant_money}--><!--{(response.get.config_value.min_merchant_money/100).toFixed(2)}--><!--/if-->">
+  	</div>
+  	<div class="form-group">
+    	<label>是否开启：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="state" <!--if{parseInt(response.get.config_value.state)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+	
+	<br/>
+  	<button type="button" class="btn btn-primary" name="submit-rmb_withdraw_merchant_money">确定编辑</button>
+	<hr/>
+	<span style="color: #999999;">更新时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.update_time) * 1000)}--></span>
+	<div style="height: 100px;"></div>
+	
+	
+<!--else-->
+<div class="alert alert-danger">未知配置</div>
+<!--/if-->
+</script>

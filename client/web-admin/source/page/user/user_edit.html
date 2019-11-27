@@ -1,0 +1,262 @@
+<script id="user" type="text/template">
+	<div class="btn-group">
+		<a href="<!--helper {'action-query-href'}-->" class="btn btn-default <!--if{action=='user'}-->active<!--/if-->">基础信息</a>
+		<a href="<!--helper {'action-query-href'('user_password')}-->" class="btn btn-default <!--if{action=='user_password'}-->active<!--/if-->">修改密码</a>
+		<a href="<!--helper {'action-query-href'('user_phone')}-->" class="btn btn-default <!--if{action=='user_phone'}-->active<!--/if-->">认证手机</a>
+		<a href="<!--helper {'action-query-href'('user_parent')}-->" class="btn btn-default <!--if{action=='user_parent'}-->active<!--/if-->">推荐人</a>
+	</div>
+	<br/><br/>
+	
+	<div class="form-group">
+    	<label>用户ID：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{response.get.user_id}-->">
+  	</div>
+	<div class="form-group">
+    	<label>注册时间：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.user_register_time) * 1000)}-->">
+  	</div>
+	
+	<hr/>
+	<div class="form-group">
+		<label style="display: block;">用户头像：</label>
+	  	<input name="image-files" type="file" style="left:-99999px;position:absolute;"/>
+	  	<div class="btn-group">
+			<button type="button" class="btn btn-default" name="image-select">选择图片</button>
+			<button type="button" class="btn btn-info" name="image-submit">确定上传</button>
+		</div>
+	  	<br/><br/>
+	  	<div>
+	  		<img class="image-look" src="" name="image-show" style="max-height: 100px; cursor: pointer;display: none;">
+	  		<!--if{response.get.user_logo_image_id}-->
+	  		<img class="image-look" src="<!--{response.application_config.qiniu_domain+response.get.user_logo_image_id}-->" data-width="<!--{response.get.user_logo_image_width}-->" data-height="<!--{response.get.user_logo_image_height}-->" style="max-height: 100px; cursor: pointer;">
+	  		<!--else-->
+	  		<span style="color: #999999;">无头像图片</span>
+	  		<!--/if-->
+	  	</div>
+  	</div>
+  	<hr/>
+	
+	
+	<div class="form-group">
+    	<label>昵称：</label>
+    	<input type="text" class="form-control" placeholder="用户昵称" name="user_nickname" value="<!--{response.get.user_nickname}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>姓名：</label>
+    	<input type="text" class="form-control" placeholder="用户姓名" name="user_compellation" value="<!--{response.get.user_compellation}-->">
+  	</div>
+  	
+  	<div class="form-group">
+    	<label>是否封禁：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="0" name="user_state" <!--if{parseInt(response.get.user_state)}--><!--else-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+  	
+  	
+  	<div class="form-group">
+    	<label>性别：</label>
+    	<div class="radio" style="display: inline-block;margin-right: 10px;" >
+        <label>
+        	<input type="radio" name="user_sex" value="0" <!--if{parseInt(response.get.user_sex)}--><!--else-->checked="checked"<!--/if--> > 未知
+        </label>
+        </div>
+        <div class="radio" style="display: inline-block;margin-right: 10px;" >
+		<label>
+        	<input type="radio" name="user_sex" value="1" <!--if{parseInt(response.get.user_sex) == 1}-->checked="checked"<!--/if--> > 男
+        </label>
+        </div>
+        <div class="radio" style="display: inline-block;margin-right: 10px;" >
+		<label>
+        	<input type="radio" name="user_sex" value="2" <!--if{parseInt(response.get.user_sex) == 2}-->checked="checked"<!--/if--> > 女
+        </label>
+        </div>
+  	</div>
+  	
+  	
+  	
+	<br/>
+  	<button type="button" class="btn btn-primary" name="submit">确定更新</button>
+  	
+  	<hr/>
+	<span style="color: #999999;">更新时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.user_update_time) * 1000)}--></span>
+	<div style="height: 100px;"></div>
+	
+</script>
+
+<script id="user_phone" type="text/template">
+	<div class="btn-group">
+		<a href="<!--helper {'action-query-href'}-->" class="btn btn-default <!--if{action=='user'}-->active<!--/if-->">基础信息</a>
+		<a href="<!--helper {'action-query-href'('user_password')}-->" class="btn btn-default <!--if{action=='user_password'}-->active<!--/if-->">修改密码</a>
+		<a href="<!--helper {'action-query-href'('user_phone')}-->" class="btn btn-default <!--if{action=='user_phone'}-->active<!--/if-->">认证手机</a>
+		<a href="<!--helper {'action-query-href'('user_parent')}-->" class="btn btn-default <!--if{action=='user_parent'}-->active<!--/if-->">推荐人</a>
+	</div>
+	<br/><br/>
+	<div class="form-group">
+    	<label>用户ID：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{response.get.user_id}-->">
+  	</div>
+	<div class="form-group">
+    	<label>注册时间：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.user_register_time) * 1000)}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>昵称：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{response.get.user_nickname}-->">
+  	</div>
+  	
+  	<hr/>
+  	<div class="alert alert-warning" role="alert">
+      <strong>注意!</strong> 手机号如果不是[登录账号]，那么该手机号是无法登录的。用户可以通过用手机号重置密码的方式，让手机号初始化为[登录账号]。或者只能通过当前管理员操作方式设置。
+    </div>
+	<table class="table table-hover table-bordered">
+		<tbody>
+		<!--if{response.user_phone_list.length}-->
+		<!--for{var i in response.user_phone_list}-->
+		 <tr class="user_phone_form-<!--{response.user_phone_list[i].user_phone_id}-->">
+		  <th scope="row">#<!--{parseInt(i)+1}--></th>
+		  <td style="max-width: 200px;"><!--{response.user_phone_list[i].user_phone_id}--></td>
+		  <td style="max-width: 150px;">
+			<div class="input-group">
+			  <span class="input-group-addon">排序</span>
+			  <input type="text" name="user_phone_sort" class="form-control" placeholder="排序" value="<!--{response.user_phone_list[i].user_phone_sort}-->">
+			</div>
+		</td>
+		  <td>
+		  	<div class="checkbox">
+			    <label>
+			      <input name="user_phone_type" type="checkbox" <!--if{parseInt(response.user_phone_list[i].user_phone_type)}-->checked="checked"<!--/if--> > 登录账号
+			    </label>
+			</div>
+		  </td>
+		  <td>
+		  	<button type="button" class="btn btn-default btn-sm user_phone_edit" data-phone="<!--{response.user_phone_list[i].user_phone_id}-->" ><span class="glyphicon glyphicon-edit"></span> 编辑</button>
+		  	<button type="button" class="btn btn-danger btn-sm user_phone_remove" data-phone="<!--{response.user_phone_list[i].user_phone_id}-->" ><span class="glyphicon glyphicon-remove"></span> 删除</button>
+		  </td>
+		</tr>
+		<!--/for-->
+		<!--/if-->
+		<tr class="user_phone_add_form">
+		<td></td>
+		<td style="max-width: 200px;">
+			<div class="input-group">
+			  <span class="input-group-addon">手机号</span>
+			  <input name="user_phone_id" type="text" class="form-control" placeholder="手机号">
+			</div>
+		</td>
+		<td style="max-width: 150px;">
+			<div class="input-group">
+			  <span class="input-group-addon">排序</span>
+			  <input name="user_phone_sort" type="text" class="form-control" placeholder="排序">
+			</div>
+		</td>
+		<td>
+		<div class="checkbox">
+		    <label>
+		      <input name="user_phone_type" type="checkbox"> 登录账号
+		    </label>
+		</div>
+		</td>
+		<td><button type="button" class="btn btn-primary btn-sm user_phone_add"><span class="glyphicon glyphicon-ok"></span> 添加认证手机号码</button></td>
+		</tr>
+		</tbody>
+    </table>
+	
+	
+	
+	
+	<hr/>
+	<span style="color: #999999;">更新时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.user_update_time) * 1000)}--></span>
+	<div style="height: 100px;"></div>
+</script>
+
+
+<script id="user_password" type="text/template">
+	<div class="btn-group">
+		<a href="<!--helper {'action-query-href'}-->" class="btn btn-default <!--if{action=='user'}-->active<!--/if-->">基础信息</a>
+		<a href="<!--helper {'action-query-href'('user_password')}-->" class="btn btn-default <!--if{action=='user_password'}-->active<!--/if-->">修改密码</a>
+		<a href="<!--helper {'action-query-href'('user_phone')}-->" class="btn btn-default <!--if{action=='user_phone'}-->active<!--/if-->">认证手机</a>
+		<a href="<!--helper {'action-query-href'('user_parent')}-->" class="btn btn-default <!--if{action=='user_parent'}-->active<!--/if-->">推荐人</a>
+	</div>
+	<br/><br/>
+	
+	<div class="form-group">
+    	<label>用户ID：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{response.get.user_id}-->">
+  	</div>
+	<div class="form-group">
+    	<label>注册时间：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.user_register_time) * 1000)}-->">
+  	</div>
+	<div class="form-group">
+    	<label>昵称：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{response.get.user_nickname}-->">
+  	</div>
+  	
+	<hr/>
+	<div class="form-group">
+    	<label>登录密码：</label>
+    	<input type="password" class="form-control" placeholder="输入新的登录密码" name="user_password" >
+  	</div>
+  	<div class="form-group">
+    	<label>确认密码：</label>
+    	<input type="password" class="form-control" placeholder="再输入一次新的登录密码" name="user_confirm_password">
+  	</div>
+  	
+  	<br/>
+  	<button type="button" class="btn btn-primary" name="submit">确定更新</button>
+  	
+  	<hr/>
+	<span style="color: #999999;">更新时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.user_update_time) * 1000)}--></span>
+	<div style="height: 100px;"></div>
+</script>
+
+
+<script id="user_parent" type="text/template">
+	<div class="btn-group">
+		<a href="<!--helper {'action-query-href'}-->" class="btn btn-default <!--if{action=='user'}-->active<!--/if-->">基础信息</a>
+		<a href="<!--helper {'action-query-href'('user_password')}-->" class="btn btn-default <!--if{action=='user_password'}-->active<!--/if-->">修改密码</a>
+		<a href="<!--helper {'action-query-href'('user_phone')}-->" class="btn btn-default <!--if{action=='user_phone'}-->active<!--/if-->">认证手机</a>
+		<a href="<!--helper {'action-query-href'('user_parent')}-->" class="btn btn-default <!--if{action=='user_parent'}-->active<!--/if-->">推荐人</a>
+	</div>
+	<br/><br/>
+	
+	<div class="form-group">
+    	<label>用户ID：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{response.get.user_id}-->">
+  	</div>
+	<div class="form-group">
+    	<label>注册时间：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.user_register_time) * 1000)}-->">
+  	</div>
+	<div class="form-group">
+    	<label>昵称：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{response.get.user_nickname}-->">
+  	</div>
+	<hr/>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<!--if{response.user_parent_get.user_id}-->
+			<div>ID：<!--{response.user_parent_get.user_id}--></div>
+			<div>昵称：<!--{response.user_parent_get.user_nickname}--></div>
+			<div>姓名：<!--{response.user_parent_get.user_compellation}--></div>
+			<div>注册时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.user_parent_get.user_register_time) * 1000)}--></div>
+			<div>操作：<button type="button" class="btn btn-danger btn-xs user_parent_remove" ><span class="glyphicon glyphicon-trash"></span> 删除推荐人</button></div>
+			<!--else-->
+			<span style="color: #999999;">无推荐人</span>
+			<!--/if-->
+		</div>
+	</div>
+	
+	
+	<div class="form-group">
+    	<label>输入推荐人ID或者推荐人登录手机号：</label>
+    	<input type="text" class="form-control" placeholder="输入推荐人ID或者推荐人登录手机号" name="user_parent">
+  	</div>
+  	<br/>
+  	<button type="button" class="btn btn-primary user_parent_submit">更新推荐人</button>
+	
+	<hr/>
+	<span style="color: #999999;">更新时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.user_update_time) * 1000)}--></span>
+	<div style="height: 100px;"></div>
+</script>

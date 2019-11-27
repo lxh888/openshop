@@ -1,0 +1,36 @@
+<script id="content" type="text/template">
+	
+	<div class="form-group">
+    	<label>应用软件KEY：</label>
+    	<input type="text" class="form-control" placeholder="应用软件KEY" name="app_key">
+  	</div>
+  	<div class="form-group">
+    	<label>应用软件名称：</label>
+    	<input type="text" class="form-control" placeholder="应用软件名称" name="app_name">
+  	</div>
+  	<div class="form-group">
+    	<label>应用软件介绍：</label>
+    	<textarea class="form-control" rows="3" placeholder="应用软件介绍" name="app_info"></textarea>
+  	</div>
+  	<div class="form-group">
+    	<label>应用软件所属用户：</label>
+    	<textarea class="form-control" rows="3" placeholder="应用软件所属用户，输入用户ID或者用户手机号" name="user"></textarea>
+  	</div>
+  	<div class="form-group">
+    	<label>排序：</label>
+    	<input type="text" class="form-control" placeholder="排序" name="app_sort">
+  	</div>
+  	<div class="form-group">
+    	<label>状态：</label>
+    	<select class="form-control" name="app_state">
+			<option value="0">认证失败</option>
+			<option value="1">已认证</option>
+			<option value="2">等待审核</option>
+			<option value="3" selected="selected">编辑中</option>
+		</select>
+  	</div>
+  	<br/>
+  	<button type="button" class="btn btn-primary" name="submit">确定添加</button>
+	
+	
+</script>

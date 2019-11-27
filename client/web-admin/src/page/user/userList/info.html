@@ -1,0 +1,16 @@
+	<div style="padding: 10px;width: 500px;">
+		<div class="panel panel-default">
+			<div class="panel-body">
+	      <img av-if="user.user_logo_image_id" av-attr="[src]  qiniu_domain+user.user_logo_image_id+'?imageView2/1/w/40'" class="img-circle" >
+	      	
+	          	<div>用户ID：{{user.user_id}}</div>
+				<div>用户昵称：{{user.user_nickname}}</div>
+				<div>注册时间：{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(user.user_register_time) * 1000)}}</div>
+				<div av-if="user.user_json.address">
+					<span style="color: #999;">省:</span>{{user.user_json.address.province}}
+					<span style="color: #999;">市:</span>{{user.user_json.address.city}}
+					<span style="color: #999;">区:</span>{{user.user_json.address.area}}
+				</div>
+			</div>
+		</div>
+	</div>

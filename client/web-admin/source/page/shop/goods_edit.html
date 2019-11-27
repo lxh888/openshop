@@ -1,0 +1,27 @@
+<script id="content" type="text/template">
+
+	<div class="btn-group">
+		<a href="<!--{av.router(av.router().url,'default.html#/shop-goodsEdit?id='+response.get.shop_goods_id).href}-->" class="btn btn-default">基础信息</a>
+		<a href="<!--{av.router(av.router().url,'default.html#/shop-goodsDetailsEdit?id='+response.get.shop_goods_id).href}-->" class="btn btn-default">商品详细</a>
+		<a href="<!--helper {'action-query-href'('type')}-->" class="btn btn-default <!--if{action=='type'}-->active<!--/if-->">商品分类</a>
+		<a href="<!--helper {'action-query-href'('image')}-->" class="btn btn-default <!--if{action=='image'}-->active<!--/if-->">商品图片</a>
+		<a href="<!--helper {'action-query-href'('file')}-->" class="btn btn-default <!--if{action=='file'}-->active<!--/if-->">商品文件</a>
+		<a href="<!--{av.router(av.router().url,'default.html#/shop-goodsAttr?sort=update_time_desc&id='+response.get.shop_goods_id).href}-->" class="btn btn-default">商品规格</a>
+		<!--<a href="<!--helper {'action-query-href'('join')}-->" class="btn btn-default <!--if{action=='join'}-->active<!--/if-->">父子关联</a>-->
+	</div>
+	<br/><br/>
+	
+	<!--helper{"import-action-template"}-->
+	
+	<div style="height: 100px;"></div>
+
+</script>
+
+<script id="warning" type="text/template">
+	<div class="alert alert-warning">
+		<strong>警告!</strong> 没有可操作选项，页面参数不合法！
+    </div>
+</script>
+
+
+

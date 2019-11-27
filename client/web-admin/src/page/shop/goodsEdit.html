@@ -1,0 +1,125 @@
+<div class="btn-group" style="margin-right: 10px;">
+	<a av-attr="[href] '#/shop-goodsEdit/?id='+formInput.shop_goods_id" class="btn btn-default active">基础信息</a>
+	<a av-attr="[href] '#/shop-goodsDetailsEdit/?id='+formInput.shop_goods_id" class="btn btn-default">商品详细</a>
+	<a av-attr="[href] '#/shop-goodsType/?id='+formInput.shop_goods_id" class="btn btn-default">商品分类</a>
+
+	<!-- <a av-attr="[href] av.router(av.router().url,'index.html#/shop/goods_edit/?action=type&id='+formInput.shop_goods_id).href" class="btn btn-default">商品分类</a> -->
+
+	<a av-attr="[href] av.router(av.router().url,'index.html#/shop/goods_edit/?action=image&sort=update_time_desc&id='+formInput.shop_goods_id).href" class="btn btn-default">商品图片</a>
+	<a av-attr="[href] av.router(av.router().url,'index.html#/shop/goods_edit/?action=file&sort=update_time_desc&id='+formInput.shop_goods_id).href" class="btn btn-default">商品文件</a>
+	<a av-attr="[href] av.router(av.router().url,'#/shop-goodsAttr/?id='+formInput.shop_goods_id).href" class="btn btn-default">商品规格</a>
+</div>
+<button type="button" class="btn btn-primary" av-event="[click] eventSubmit(:node,:event)" av-class="{'disabled':submitLock}">确定更新</button>
+<br/><br/>
+
+<div class="form-group">
+	<label>商品ID：</label>
+	<input type="text" class="form-control" readonly="readonly" av-attr="[value] formInput.shop_goods_id">
+</div>
+<div class="form-group">
+	<label>商品名称：</label>
+	<input type="text" class="form-control" placeholder="商品名称" name="shop_goods_name" av-attr="[value] formInput.shop_goods_name">
+</div>
+<div class="form-group" av-if="applicationCheckMuYing()||applicationCheckJiangYouKuaiDi()">
+		<label>商家</label>
+		<select class="form-control" name="merchant_id" >
+			<option value="">-请选择商家-</option>
+			<option av-attr="[value] item.merchant_id" av-attr="[selected] item.merchant_id == formInput.merchant_id? 'selected':false" av-for="(item,index)allMerchant">{{item.merchant_name}}</option>
+		</select>
+	</div>
+<div class="form-group">
+	<label>商品货号：</label>
+	<input type="text" class="form-control" placeholder="商品货号" name="shop_goods_sn" av-attr="[value] formInput.shop_goods_sn">
+</div>
+
+<div class="form-group">
+	<label>商品资金类型：</label>
+	<select class="form-control" name="shop_goods_property">
+		<option av-attr="[value] sgpValue.id" av-attr="[selected] sgpKey == formInput.shop_goods_property?'selected':false" av-for="(sgpValue, sgpKey)applicationShopGoodsPropertyOption()" >{{sgpValue.name}}</option>
+	</select>
+</div>
+<div class="form-group" av-if="!applicationCheckZhongrunhuizhan()">
+	<label>商品索引标记：</label>
+	<select class="form-control" name="shop_goods_index">
+			<option av-attr="[value] sgiValue.id" av-attr="[selected] sgiKey == formInput.shop_goods_index?'selected':false" av-for="(sgiValue, sgiKey)applicationShopGoodsIndexOption()" >{{sgiValue.name}}</option>
+	</select>
+</div>
+
+<div class="form-group" av-if="applicationCheckEmshop()">
+	<label>商品推荐购买奖金(元)：</label>
+	<input type="text" class="form-control" placeholder="商品推荐购买奖金" name="shop_goods_recommend_money" av-attr="[value] parseFloat(formInput.shop_goods_recommend_money/100).toFixed(2)">
+</div>
+<div class="form-group" av-if="applicationCheckZhongrunhuizhan()">
+	<label>兑票地点：</label>
+	<input type="text" class="form-control" placeholder="兑票地点" name="shop_goods_ticket_address" av-attr="[value] formInput.shop_goods_ticket_address">
+</div>
+<div class="form-group">
+	<label>商品描述：</label>
+	<textarea class="form-control" rows="3" placeholder="商品描述" name="shop_goods_info">{{formInput.shop_goods_info}}</textarea>
+</div>
+<div class="form-group">
+	<label>管理员备注：</label>
+	<textarea class="form-control" rows="3" placeholder="管理员备注" name="shop_goods_admin_note">{{formInput.shop_goods_admin_note}}</textarea>
+</div>
+
+<div class="form-group">
+	<label>排序：</label>
+	<input type="text" class="form-control" placeholder="分类的排序" name="shop_goods_sort" av-attr="[value] formInput.shop_goods_sort">
+</div>
+
+<div class="form-group">
+	<label>状态：</label>
+	<select class="form-control" name="shop_goods_state">
+		<option value="0" av-attr="[selected] formInput.shop_goods_state == '0'? 'selected':false">审核失败</option>
+		<option value="1" av-attr="[selected] formInput.shop_goods_state == '1'? 'selected':false">售卖中</option>
+		<option value="2" av-attr="[selected] formInput.shop_goods_state == '2'? 'selected':false">等待审核</option>
+		<option value="3" av-attr="[selected] formInput.shop_goods_state == '3'? 'selected':false">停售编辑</option>
+	</select>
+</div>
+
+<div class="form-group" av-if="!applicationCheckZhongrunhuizhan()">
+	<label>减库存方式：</label>
+	<div class="alert alert-warning" style="margin-bottom: 5px;padding: 5px;">
+		1)<strong>始终不减库存。</strong>即购买商品后不减库存； 2)
+		<strong>下单预扣库存。</strong>如果买家在保留时间内未付款，那预扣库存会被释放出来重新供大家购买。有效时间以全局配置默认。 3)
+		<strong>付款减库存。</strong>退款则恢复库存。 4)
+		<strong>发货减库存。</strong>退货则恢复库存。
+	</div>
+	<select class="form-control" name="shop_goods_stock_mode">
+		<option value="0" av-attr="[selected] formInput.shop_goods_stock_mode == '0'? 'selected':false">始终不减库存</option>
+		<option value="1" av-attr="[selected] formInput.shop_goods_stock_mode == '1'? 'selected':false">下单预扣库存</option>
+		<option value="2" av-attr="[selected] formInput.shop_goods_stock_mode == '2'? 'selected':false">付款减库存</option>
+		<option value="3" av-attr="[selected] formInput.shop_goods_stock_mode == '3'? 'selected':false">发货减库存</option>
+	</select>
+</div>
+<div class="form-group" av-if="applicationCheckZhongrunhuizhan()">
+	<label>减库存方式：</label>
+	<div class="alert alert-warning" style="margin-bottom: 5px;padding: 5px;">
+		1)<strong>始终不减库存。</strong>即购买商品后不减库存； 2)<strong>付款减库存。</strong>
+	</div>
+	<select class="form-control" name="shop_goods_stock_mode">
+		<option value="0" av-attr="[selected] formInput.shop_goods_stock_mode == '0'? 'selected':false">始终不减库存</option>
+		<option value="2" av-attr="[selected] formInput.shop_goods_stock_mode == '2'? 'selected':false">付款减库存</option>
+	</select>
+</div>
+<div class="form-group">
+	<label>meta关键字：</label>
+	<div class="alert alert-warning" style="margin-bottom: 5px;padding: 5px;">
+		<strong>该参数用于前端代码中。</strong> 放在商品页的关键字中，有利于搜索引擎收录用。
+	</div>
+	<input type="text" class="form-control" placeholder="meta关键字，多个关键字以英文逗号隔开" name="shop_goods_keywords" av-attr="[value] formInput.shop_goods_keywords">
+</div>
+<div class="form-group">
+	<label>meta描述：</label>
+	<div class="alert alert-warning" style="margin-bottom: 5px;padding: 5px;">
+		<strong>该参数用于前端代码中。</strong> 放在商品页的描述中，有利于搜索引擎收录用。
+	</div>
+	<textarea class="form-control" rows="3" placeholder="meta描述" name="shop_goods_description">{{formInput.shop_goods_description}}</textarea>
+</div>
+<div av-if="applicationCheckYitaoshop()" class="form-group">
+	<label>邮费：</label>
+	<input type="text" class="form-control" placeholder="商品邮费" name="shop_goods_shipping_price" av-attr="[value] parseFloat(formInput.shop_goods_shipping_price/100).toFixed(2)">
+</div>
+<hr/>
+<span style="color: #999999;">更新时间：{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(data.shop_goods_update_time) * 1000)}}</span>
+<div style="height: 100px;"></div>

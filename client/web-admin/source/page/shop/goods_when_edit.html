@@ -1,0 +1,28 @@
+<script id="content" type="text/template">
+	
+  	<div class="form-group">
+    	<label>商品ID：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{response.get.shop_goods_id}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>请选择售卖的时间范围：</label>
+    	<input type="text" class="form-control" placeholder="售卖的时间范围" id="shop_goods_when_time" value="<!--{WangAho().date('yyyy-MM-dd HH:mm:ss', parseInt(response.get.shop_goods_when_start_time) * 1000)}--> ~ <!--{WangAho().date('yyyy-MM-dd HH:mm:ss', parseInt(response.get.shop_goods_when_end_time) * 1000)}-->">
+  	</div>
+  	
+  	<div class="form-group">
+    	<label>名称：</label>
+    	<input type="text" class="form-control" placeholder="名称，选填" name="shop_goods_when_name" value="<!--{response.get.shop_goods_when_name}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>简介：</label>
+    	<textarea class="form-control" rows="3" placeholder="简介，选填" name="shop_goods_when_info"><!--{response.get.shop_goods_when_info}--></textarea>
+  	</div>
+  	<div class="form-group">
+    	<label>排序：</label>
+    	<input type="text" class="form-control" placeholder="排序" name="shop_goods_when_sort" value="<!--{response.get.shop_goods_when_sort}-->">
+  	</div>
+  	
+  	<br/>
+  	<button type="button" class="btn btn-primary" name="submit">确定编辑</button>
+	
+</script>

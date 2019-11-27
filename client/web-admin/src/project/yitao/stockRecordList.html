@@ -1,0 +1,122 @@
+<div class="panel panel-default" av-if="data">
+	<div class="panel-body">
+		<img av-is="data.shop_goods_image_main[0].image_id" av-attr="[src] applicationConfig.qiniu_domain+data.shop_goods_image_main[0].image_id+'?imageView2/1/w/40'"
+			class="img-circle">
+		<div>商品id： {{data.shop_goods_id}}
+		</div>
+		<div>商品名称： {{data.shop_goods_name}}
+		</div>
+	</div>
+</div>
+
+<!-- <button class="btn btn-default" av-event="[click] eventSearch(:node,:event)" type="button" style="margin-left: 5px;"><span class="glyphicon glyphicon-filter"></span> 筛选</button> -->
+
+<!-- <span av-if="checkRouterAnchorQuerySearch()" class="label label-default" style="margin-left: 5px;">存在筛选</span> -->
+
+<hr />
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th style="width: 2%;"><input type="checkbox" checkbox="checkbox-all"></th>
+			<th style="width: 3%;">#</th>
+			<th style="width: 5%;">
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'state_asc', 'state_desc')">
+					<span av-if="existSort('state_asc', 'state_desc')" class="glyphicon"
+						av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('state_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('state_desc')}">
+					</span>日期
+				</a>
+			</th>
+			<th style="width: 5%;">
+				时间
+				</th>
+
+				
+			<th style="width: 10%;" av-if="data">
+				用户
+			</th>
+			<td style="width: 8%;">支付金额</td>
+			<td style="width: 8%;">类型</td>
+			<th style="width: 8%;">
+				数量
+			</th>
+			<th style="width: 8%;">
+					剩余数量
+				</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr av-if="list && list.data && list.data.length" av-for="(value, key) list.data"
+			av-event="[dblclick] eventTrDblclick(:node,:event)" av-attr="[data-id] value.shop_goods_id"
+			data-checkbox="checkbox">
+			<th><input type="checkbox" checkbox="checkbox" av-attr="[data-id] value.shop_goods_id"></th>
+			<td>
+				{{parseInt(key)+1+((parseInt(list.page_now) - 1) * list.page_size)}}
+			</td>
+
+
+			<td>
+				{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(value.insert_time) * 1000)}}
+			</td>
+			<td  av-if="data && value.buy_time!=''">
+					{{value.buy_time}}
+				</td>
+				<td av-elseif="value.create_time!=''">
+					{{value.create_time}}	
+				</td>
+				
+			<td av-else>
+				未知
+			</td>
+			<td av-if="data && value.user_nickname">
+				
+				{{value.user_nickname}}{{value.user_compellation}}
+			</td>
+			<td av-elseif="data">
+				未知
+			</td>
+		
+			<td av-if="value.shop_order_goods_price">
+					{{(value.shop_order_goods_price/100).toFixed(2)}}
+			</td>
+			<td av-else>
+					无
+			</td>
+			<td>
+					<span av-if="parseInt(value.type)==1" class="label label-success">新增</span>
+					<span av-elseif="parseInt(value.type)==2" class="label label-danger">减少</span>
+					<span av-elseif="parseInt(value.type)==3" class="label label-info">更新</span>
+			</td>
+			<td>
+				{{value.shop_goods_stock_num}}
+			</td>
+			<td>
+					{{value.remain_num}}
+				
+			</td>
+
+		</tr>
+		<tr av-else>
+			<td colspan="15" align="center">无数据</td>
+		</tr>
+	</tbody>
+</table>
+
+<!--if{response.list.data.length}-->
+<div av-if="list.data.length" style="text-align: center;">
+	<button class="btn btn-default" data-page="1" av-class="{'disabled':isFirstPage(list.page_now)}" type="button"
+		style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">首页</button>
+	<button class="btn btn-default" av-attr="[data-page] parseInt(list.page_now) - 1"
+		av-class="{'disabled':isFirstPage(list.page_now)}" type="button" style="margin-right: 5px;"
+		av-event="[click] eventPageRequest(:node,:event)">上一页</button>
+	<button class="btn btn-default" type="button" style="margin-right: 5px;">
+		第{{list.page_now}}页
+		/ 共{{list.page_count}}页
+		/ 有{{list.row_count}}条数据</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] parseInt(list.page_now) + 1"
+		av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;"
+		av-event="[click] eventPageRequest(:node,:event)">下一页</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] list.page_count"
+		av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;"
+		av-event="[click] eventPageRequest(:node,:event)">尾页</button>
+</div>
+<!--/if-->

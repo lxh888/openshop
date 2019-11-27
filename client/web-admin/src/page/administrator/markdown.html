@@ -1,0 +1,13 @@
+<div class="row">
+	<div class="col-sm-6 col-md-4" av-for="(blValue, blIndex)bookList">
+		<div class="thumbnail">
+			<div class="caption">
+				<h3>{{blValue.title}}</h3>
+				<p>{{blValue.description}}</p>
+				<p>
+					<a av-attr="[href] av.router(av.router(), 'markdown.html#/'+blIndex).href" class="btn btn-default" target="_blank"><span class="glyphicon glyphicon-share"></span>查看文档</a>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,20 @@
+<div class="form-group">
+	<label>筛选类型：</label>
+	<select class="form-control" name="type" av-event="[change] eventChangeType(:node,:event)">
+		<option value="credit">积分</option>
+		<option value="money">预付款</option>
+	</select>
+</div>
+<div class="form-group">
+	<label>{{unit}}最小值：</label>
+	<input type="text" class="form-control" placeholder="最小值" name="min_value">
+</div>
+<div class="form-group">
+	<label>{{unit}}最大值：</label>
+	<input type="text" class="form-control" placeholder="最大值" name="max_value">
+</div>
+<br/>
+<button type="button" class="btn btn-primary" av-event="[click] eventSubmit(:node,:event)" av-class="{'disabled':submitLock}" >确定导出</button>
+<div style="height: 100px;"></div>
+
+

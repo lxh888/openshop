@@ -1,0 +1,21 @@
+<script id="content" type="text/template">
+	<div class="form-group">
+    	<label>模块ID：</label>
+    	<input type="text" class="form-control" readonly="readonly" name="module_id" value="<!--{response.get.module_id}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>模块名称：</label>
+    	<input type="text" class="form-control" placeholder="模块名称" name="module_name" value="<!--{response.get.module_name}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>模块简介：</label>
+    	<textarea class="form-control" rows="3" placeholder="模块简介" name="module_info"><!--{response.get.module_info}--></textarea>
+  	</div>
+  	<div class="form-group">
+    	<label>排序：</label>
+    	<input type="text" class="form-control" placeholder="排序" name="module_sort" value="<!--{response.get.module_sort}-->">
+  	</div>
+  	<br/>
+  	<button type="button" class="btn btn-primary" name="submit">确定编辑</button>
+	
+</script>

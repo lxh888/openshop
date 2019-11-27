@@ -1,0 +1,39 @@
+<div class="form-group">
+	<label>商品ID：</label>
+	<input type="text" class="form-control" placeholder="输入商品ID" name="shop_goods_id" av-event="[propertychange input]eventGetShopGoods(:node,:event)" av-attr="[value] getShopGoodsId">
+</div>
+
+<div av-if="getShopGoodsError" class="alert alert-danger" style="margin-bottom: 10px;padding: 8px;">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"></span>&times;</button>
+	{{getShopGoodsError}}
+</div>
+<div av-else-if="getShopGoodsData" class="alert alert-success" style="margin-bottom: 10px;padding: 8px;">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"></span>&times;</button>
+	<strong av-if="getShopGoodsData.shop_goods_property == 0">[普通商品]</strong>
+	<strong av-else-if="getShopGoodsData.shop_goods_property == 1">[积分商品]</strong>
+	{{getShopGoodsData.shop_goods_name}}
+</div>
+
+<div class="form-group" av-if="getShopGoodsData && getShopGoodsData.shop_goods_sku">
+	<label>指定商品规格：<span style="color: #999;font-weight: normal;">注意，没有库存的规格是查询不出来的</span></label>
+	<select class="form-control" name="shop_goods_sku_id">
+		<option value="" >全部规格</option>
+		<option av-for="(skuV,skuK)getShopGoodsData.shop_goods_sku" av-attr="[value]skuV.shop_goods_sku_id">{{optionShopGoodsShow(skuV)}}</option>
+	</select>
+</div>
+
+<div class="form-group">
+	<label>请选择拼团活动的时间范围：</label>
+	<input type="text" class="form-control" placeholder="售卖的时间范围" name="shop_group_goods_time" av-attr="[value] ''">
+</div>
+<div class="form-group">
+	<label>参团价格（{{priceUnit}}）：</label>
+	<input type="text" class="form-control" placeholder="参团价格" name="shop_goods_group_price" av-attr="[value] ''">
+</div>
+<div class="form-group">
+	<label>成团人数：</label>
+	<input type="text" class="form-control" placeholder="成团人数" name="shop_goods_group_people" av-attr="[value] ''">
+</div>
+<br/>
+<button type="button" class="btn btn-primary" av-event="[click] eventSubmit(:node,:event)" av-class="{'disabled':submitLock}" >确定添加</button>
+<div style="height: 100px;"></div>

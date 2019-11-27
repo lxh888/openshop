@@ -1,0 +1,31 @@
+<div class="btn-group" style="margin-right: 10px;">
+	<a av-attr="[href] '#/shop-goodsEdit/?id='+formInput.shop_goods_id" class="btn btn-default">基础信息</a>
+	<a av-attr="[href] '#/shop-goodsDetailsEdit/?id='+formInput.shop_goods_id"class="btn btn-default active">商品详细</a>
+	<a av-attr="[href] '#/shop-goodsType/?id='+data.shop_goods_id" class="btn btn-default">商品分类</a>
+	<a av-attr="[href] av.router(av.router().url,'index.html#/shop/goods_edit/?action=image&sort=update_time_desc&id='+formInput.shop_goods_id).href" class="btn btn-default">商品图片</a>
+	<a av-attr="[href] av.router(av.router().url,'index.html#/shop/goods_edit/?action=file&sort=update_time_desc&id='+formInput.shop_goods_id).href" class="btn btn-default">商品文件</a>
+	<a av-attr="[href] av.router(av.router().url,'#/shop-goodsAttr/?id='+formInput.shop_goods_id).href" class="btn btn-default">商品规格</a>
+</div>
+<button type="button" class="btn btn-primary" av-event="[click] eventSubmit(:node,:event)" av-class="{'disabled':submitLock}" >确定更新</button>
+<br/><br/>
+<div class="form-group">
+	<label>商品ID：</label>
+	<input type="text" class="form-control" readonly av-attr="[value] formInput.shop_goods_id"/>
+</div>
+<div class="form-group">
+	<label>商品名称：</label>
+	<input type="text" class="form-control" readonly av-attr="[value] data.shop_goods_name" />
+</div>	
+<div class="form-group">
+	<label>商品类型：</label>
+	<input av-if="data.shop_goods_property == 0" av-attr="[value] '普通商品'" type="text" class="form-control" readonly/>
+	<input av-else-if="data.shop_goods_property == 1" av-attr="[value] '积分商品'" type="text" class="form-control" readonly/>
+</div>
+<div class="form-group">
+	<label>详细介绍：</label>
+	<script id="shop_goods_details" type="text/plain" style="width:100%;min-height: 500px;"></script>
+	<div name="UEditor-javascript"></div>
+</div>
+<hr/>
+<span style="color: #999999;">更新时间：{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(data.shop_goods_update_time) * 1000)}}</span>
+<div style="height: 100px;"></div>

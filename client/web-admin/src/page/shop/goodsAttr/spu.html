@@ -1,0 +1,31 @@
+<div class="alert alert-warning" style="margin-bottom: 10px;padding: 8px;margin-top: 10px;">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	<strong>注意!</strong> 商品属性以排序字段、创建时间正序的方式排序。
+</div>
+<ul style="list-style: none;    padding-inline-start: 0px;">
+	<li av-for="(sv,sk)shop_goods_spu_option">
+		<ul style="list-style: none;    padding-inline-start: 0px;">
+			<li style="height:50px;line-height:50px;border-top:solid 1px #ddd;"><input type="checkbox" checkbox="checkbox-spu" av-attr="[data-id] sv.shop_goods_spu_id">
+				<label type="text" >
+				{{sv.shop_goods_spu_name}}
+				<span av-is="sv.shop_goods_spu_required==1" style="color: red;">*必选</span>
+			</label> 排序
+				<input name="shop_goods_spu_sort" av-attr="[value] sv.shop_goods_spu_sort" av-attr="[id] sv.shop_goods_spu_id" class="form-control" style="display:inline;width:50px;height:30px;" />
+				<button class="btn btn-default btn-xs" av-event="[click] eventSpuEdit(:node,:event,sv.shop_goods_spu_id)" style="margin-left:5px"><span class="glyphicon glyphicon-edit" ></span> 编辑</button>
+				<button class="btn btn-default btn-xs" av-event="[click] eventSpuAdd(:node,:event,sv.shop_goods_spu_id)" style="margin-left:5px"><span class="glyphicon glyphicon-plus"></span> 添加子选项</button>
+			</li>
+			<ul style="list-style: none; padding-inline-start: 0px;">
+				<li style="height:50px;line-height:50px;border-top:solid 1px #ddd;padding-left:50px;" av-for="(sonv,sonk)sv.son">
+					<input type="checkbox" checkbox="checkbox-spu" av-attr="[data-id] sonv.shop_goods_spu_id">
+					<label>
+					{{sonv.shop_goods_spu_name}}
+					<span av-is="sonv.shop_goods_spu_required==1" style="color: red;">*必选</span>
+				</label> 排序
+					<input name="shop_goods_spu_sort" av-attr="[value] sonv.shop_goods_spu_sort" av-attr="[id] sonv.shop_goods_spu_id" class="form-control"  style="display:inline;width:50px;height:30px;" />
+					<button class="btn btn-default btn-xs" av-event="[click] eventSpuEdit(:node,:event,sonv.shop_goods_spu_id)">
+					<span class="glyphicon glyphicon-edit"></span> 编辑</button>
+				</li>
+			</ul>
+		</ul>
+	</li>
+</ul>

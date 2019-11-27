@@ -1,0 +1,165 @@
+<script id="index" type="text/template">
+	<!-- helper {"import header"}  #引入头部模板-->
+	<!-- helper {"import navigation"}  #引入导航模板-->
+	
+	<div index="content">
+		<div class="body">
+			<!--溢出隐藏滚动条-->
+			<div class="scroll">
+				<div class="wrap">
+					<ol page="path" class="breadcrumb">
+						<li class="active project"></li>
+						<li class="active page"></li>
+					</ol>
+					<div page="content">
+						<!-- helper {"import content"}  #引入导航模板-->
+					</div>
+				</div>
+			</div>
+		</div>	
+	</div>
+</script>
+
+<script id="header" type="text/template">
+<div index="header">
+	<nav class="navbar navbar-default navbar-fixed-top">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a class="navbar-brand" href="#/" style="font-size: 24px;"><!--{response.application.application_name}--></a>
+	    </div>
+	
+	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	      <ul class="nav navbar-nav">
+	        <li><a href="javascript:;" class="header-button-navigation" data-hide-icon="glyphicon-indent-left" data-show-icon="glyphicon-indent-right"><span class="glyphicon glyphicon-indent-right"></span></a></li>
+	        <li><a href="javascript:;" class="header-button-list"><span class="glyphicon glyphicon-list"></span></a></li>
+	        <li><a href="javascript:;" class="header-button-fullscreen"><span class="glyphicon glyphicon-fullscreen"></span></a></li>
+	        <li><a href="javascript:;" class="header-button-refresh"><span class="glyphicon glyphicon-refresh"></span></a></li>
+	        <li><a href="javascript:;" class="header-button-up"><span class="glyphicon glyphicon-chevron-up"></span></a></li>
+	        <li><a href="javascript:;" class="header-button-down"><span class="glyphicon glyphicon-chevron-down"></span></a></li>
+	        <!--if{WangAho().history_previous_exist()}-->
+	        <li><a href="javascript:;" class="header-button-last"><span class="glyphicon glyphicon-arrow-left"></span></a></li>
+	        <!--else-->
+	        <li><a style="width: 44px;"></a></li>
+	        <!--/if-->
+	        <!--if{WangAho().history_next_exist()}-->
+	        <li><a href="javascript:;" class="header-button-next"><span class="glyphicon glyphicon-arrow-right"></span></a></li>
+	        <!--else-->
+	        <li><a style="width: 44px;"></a></li>
+	        <!--/if-->
+	        
+	        <!--if{WangAho().history_path_previous_exist()}-->
+	        <li><a href="javascript:;" class="header-button-path-last"><span class="glyphicon glyphicon-triangle-left"></span></a></li>
+	        <!--else-->
+	        <li><a style="width: 44px;"></a></li>
+	        <!--/if-->
+	        <!--if{WangAho().history_path_next_exist()}-->
+	        <li><a href="javascript:;" class="header-button-path-next"><span class="glyphicon glyphicon-triangle-right"></span></a></li>
+	        <!--else-->
+	        <li><a style="width: 44px;"></a></li>
+	        <!--/if-->
+	      </ul>
+	      
+	      <ul class="nav navbar-nav navbar-right">
+	      	<li class="dropdown">
+	          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+	          	<span class="glyphicon glyphicon-user"></span> <!--{response.user.user_nickname}--> 
+	          	<span class="label label-primary"><!--{response.admin.admin_name}--></span>
+	          	<span class="caret"></span>
+	          </a>
+	          <ul class="dropdown-menu">
+	          	<li><a href="javascript:;" class="admin_user_config"><span class="glyphicon glyphicon-wrench"></span> 个人设置</a></li>
+	            <li role="separator" class="divider"></li>
+	            <li><a href="javascript:;" class="user_log_out"><span class="glyphicon glyphicon-log-out"></span> 安全退出</a></li>
+	          </ul>
+	        </li>
+	      </ul>
+	      
+	    </div>
+	  </div>
+	</nav>	
+</div>
+</script>
+
+<script id="navigation" type="text/template">
+<div index="navigation">	
+	<div class="body">
+		<!--溢出隐藏滚动条-->
+		<div class="scroll">
+			<div class="wrap">
+				
+				
+				<ul class="list-group">
+					<a href="#/" class="list-group-item"><span class="glyphicon glyphicon-home"></span> 后台首页</a>	
+					
+					<!--if {response.management}-->
+					<!--for{var i in response.management}-->
+					<a class="list-group-item catalog catalog-<!--{response.management[i].management_page}-->" subcatalog=".subcatalog-<!--{response.management[i].management_page}-->">
+						<!--html {response.management[i].management_label_before}--> <!--{response.management[i].management_name}-->
+						<!--if {response.management[i].son && response.management[i].son.length > 0} #判断子目录 -->
+						<span class="glyphicon glyphicon-menu-right state" data-show-icon="glyphicon-menu-down" data-hide-icon="glyphicon-menu-right"></span>
+						<!--/if-->
+					</a>
+					
+					<!--if {response.management[i].son && response.management[i].son.length > 0} #判断子目录 -->
+					<ul class="list-group subcatalog subcatalog-<!--{response.management[i].management_page}-->" aria-expanded="false">
+						<!--for  {var s in response.management[i].son}-->
+						<!--if{response.management[i].son[s].management_href}-->
+						
+						<!--js{var h = http()}-->
+						<!--js{var aHref = h.scheme + h.host + h.link + h.search}-->
+						<!--js{var h2 = http(aHref)}-->
+						<!--js{if(!h2.file && !h2.path) h2.path=[]}-->
+						<!--js{if(!h2.file) h2.path.push('index.html')}-->
+						<!--js{if(!h2.file) h2.file = true}-->
+						<!--js{var aHref = http(h2, response.management[i].son[s].management_href).href}-->	
+						<a href="<!--{aHref}-->" class="list-group-item <!--if{parseInt(response.management[i].son[s].management_hide)}-->subcatalog-hide disabled<!--/if-->" target="<!--{response.management[i].son[s].target}-->">
+							<!--html {response.management[i].son[s].management_label_before}--> <!--{response.management[i].son[s].management_name}-->
+						</a>
+						
+						<!--else-->
+						<a href="#/<!--{response.management[i].management_page}-->/<!--{response.management[i].son[s].management_page}-->" class="list-group-item <!--if{parseInt(response.management[i].son[s].management_hide)}-->subcatalog-hide disabled<!--/if--> subcatalog-<!--{response.management[i].management_page}-->-<!--{response.management[i].son[s].management_page}-->">
+							<!--html{response.management[i].son[s].management_label_before}--> <!--{response.management[i].son[s].management_name}-->
+						</a>
+						<!--/if-->
+						<!--/for-->
+					</ul>
+					<!--else #否则没有子目录-->
+					<!--/if-->
+					
+					
+					<!--/for-->
+					<!--/if-->
+					
+				</ul>
+	
+				<div style="height: 300px;"></div>
+	
+			</div>
+		</div>
+	</div>
+</div>
+</script>	
+
+
+
+
+
+<script id="admin_user_config" type="text/template">
+	<div style="padding: 10px;width: 500px;">
+		<div class="form-group">
+		    <label>分页条数：</label>
+		    <input type="text" class="form-control" placeholder="输入分页条数" name="page_size" value="<!--{response.admin.admin_user_json.page_size}-->">
+		</div>
+		<br/>
+		<div class="btn-group" style="width: 100%;">
+			<button type="button" class="btn btn-default" style="width: 100%;" name="submit-admin_user_config">确定提交</button>
+		</div>
+	</div>
+</script>
+

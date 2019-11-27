@@ -1,0 +1,141 @@
+<div class="btn-group" style="margin-right:10px ;">
+	<a av-event="[click] eventQuery(:node,:event,'state', false)" class="btn btn-default" av-class="{'active':( typeof state == 'undefined' )}">全部状态</a>
+	<a av-event="[click] eventQuery(:node,:event,'state', 1)" class="btn btn-default" av-class="{'active':( state == 1)}">提现成功</a>
+	<a av-event="[click] eventQuery(:node,:event,'state', 0)" class="btn btn-default" av-class="{'active':( state == 0)}">提现失败</a>
+	<a av-event="[click] eventQuery(:node,:event,'state', 2)" class="btn btn-default" av-class="{'active':( state == 2)}">等待审核</a>
+</div>
+<button av-event="[click]eventPass(:node,:event)" class="btn btn-default" type="button" style="margin-left: 5px;"><span class="glyphicon glyphicon-ok"></span> 成功</button>
+<button av-event="[click]eventFail(:node,:event)" class="btn btn-default" type="button" style="margin-left: 5px;"><span class="glyphicon glyphicon-remove"></span> 失败</button>
+
+<button class="btn btn-default" av-event="[click] eventSearch(:node,:event)" type="button" style="margin-left: 5px;"><span class="glyphicon glyphicon-filter"></span> 筛选</button>
+<span av-if="checkRouterAnchorQuerySearch()" class="label label-default" style="margin-left: 5px;">存在筛选</span>
+
+
+<hr/>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th><input type="checkbox" checkbox="checkbox-all"></th>
+			<th>#</th>
+
+			<th>
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'type_asc', 'type_desc')"><span av-if="existSort('type_asc', 'type_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('type_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('type_desc')}"></span>提现类型</a>
+			</th>
+
+			<th>
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'method_asc', 'method_desc')"><span av-if="existSort('method_asc', 'method_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('method_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('method_desc')}"></span>提现方式</a>
+			</th>
+
+			<th>
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'value_asc', 'value_desc')"><span av-if="existSort('value_asc', 'value_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('value_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('value_desc')}"></span>提现余额</a>
+			</th>
+
+			<th>
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'rmb_asc', 'rmb_desc')"><span av-if="existSort('rmb_asc', 'rmb_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('rmb_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('rmb_desc')}"></span>到账人民币</a>
+			</th>
+			<th>
+				提现备注
+			</th>
+
+			<th>
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'user_nickname_asc', 'user_nickname_desc')"><span av-if="existSort('user_nickname_asc', 'user_nickname_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('user_nickname_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('user_nickname_desc')}"></span>提现用户</a>
+			</th>
+
+			<th>
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'state_asc', 'state_desc')"><span av-if="existSort('state_asc', 'state_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('state_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('state_desc')}"></span>状态</a>
+				/
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'pass_time_asc', 'pass_time_desc')"><span av-if="existSort('pass_time_asc', 'pass_time_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('pass_time_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('pass_time_desc')}"></span>通过时间</a>
+				/
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'fail_time_asc', 'fail_time_desc')"><span av-if="existSort('fail_time_asc', 'fail_time_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('fail_time_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('fail_time_desc')}"></span>失败时间</a>
+			</th>
+
+			<th>
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'insert_time_asc', 'insert_time_desc')"><span av-if="existSort('insert_time_asc', 'insert_time_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('insert_time_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('insert_time_desc')}"></span>提交时间</a>
+			</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr av-if="list && list.data && list.data.length" av-for="(value, key) list.data" av-event="[dblclick] eventTrDblclick(:node,:event)" av-attr="[data-id] value.user_withdraw_id" data-checkbox="checkbox">
+			<th><input type="checkbox" checkbox="checkbox" av-attr="[data-id] value.user_withdraw_id"></th>
+			<td>{{parseInt(key)+1+((parseInt(list.page_now) - 1) * list.page_size)}}</td>
+			<td>
+				<span av-if="value.user_withdraw_type_name">{{value.user_withdraw_type_name}}</span>
+				<span av-else style="color: #999;">未知提现类型</span>
+				<div style="color: #999;"><span class="glyphicon glyphicon-tag"></span>
+					{{value.user_withdraw_type}}
+				</div>
+			</td>
+			<td>
+				<span av-if="value.user_withdraw_method_name">{{value.user_withdraw_method_name}}</span>
+				<span av-else style="color: #999;">未知提现方式</span>
+				<div style="color: #999;"><span class="glyphicon glyphicon-tag"></span> {{value.user_withdraw_method}}
+				</div>
+			</td>
+			<td>
+				<span av-if="value.user_withdraw_type == 'user_money'">{{(value.user_withdraw_value/100).toFixed(2)}}元</span>
+				<span av-else style="color: #999;">未知</span>
+			</td>
+			<td>
+				{{(value.user_withdraw_rmb/100).toFixed(2)}}元
+			</td>
+			<td>
+				<div av-event="[click] eventShowMessage(:node,:event,'查看备注', value.user_withdraw_comment)" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 150px;cursor: pointer;">
+					{{value.user_withdraw_comment}}
+				</div>
+			</td>
+
+			<td style="max-width: 250px;">
+				<div style="max-width: 250px;display: inline-block;">
+					<img av-if="value.user_logo_image_id" av-attr="[src] applicationConfig.qiniu_domain+value.user_logo_image_id+'?imageView2/1/w/30'" class="img-circle">
+					<span av-if="value.user_nickname" av-text="value.user_nickname"></span>
+					<span av-else style="color: #999999;">未设置昵称</span>
+					<span av-if="value.user_phone_verify_list" style="word-wrap:break-word;">
+          	({{value.user_phone_verify_list}})
+          </span>
+					<span av-else style="color: #999999;">无认证手机</span>
+				</div>
+			</td>
+
+			<td>
+				<span av-if="value.user_withdraw_state == 1">
+		  		<span class="label label-success">提现成功</span>
+				<div>
+					{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(value.user_withdraw_pass_time) * 1000)}}
+				</div>
+				</span>
+				<span av-else-if="value.user_withdraw_state == 2">
+		  		<span class="label label-warning">等待审核</span>
+				</span>
+				<span av-else-if="value.user_withdraw_state == 0">
+		  		<span class="label label-danger">提现失败</span>
+				<a av-event="[click] eventShowMessage(:node,:event,'查看失败原因', value.user_withdraw_fail_info)" style="cursor: pointer;"><span class="glyphicon glyphicon-question-sign"></span>失败原因</a>
+				<div>
+					{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(value.user_withdraw_fail_time) * 1000)}}
+				</div>
+				</span>
+				<span av-else class="label label-default">未知</span>
+			</td>
+
+			<td>
+				{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(value.user_withdraw_insert_time) * 1000)}}
+			</td>
+			<td av-event='[click] eventMessage(:node,:event,key)'><span class="btn btn-default">查看提现信息</span></td>
+		</tr>
+		<tr av-else>
+			<td colspan="12" align="center">无数据</td>
+		</tr>
+
+	</tbody>
+</table>
+<div av-if="list.data.length" style="text-align: center;">
+	<button class="btn btn-default" data-page="1" av-class="{'disabled':isFirstPage(list.page_now)}" type="button" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">首页</button>
+	<button class="btn btn-default" av-attr="[data-page] parseInt(list.page_now) - 1" av-class="{'disabled':isFirstPage(list.page_now)}" type="button" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">上一页</button>
+	<button class="btn btn-default" type="button" style="margin-right: 5px;">
+		第{{list.page_now}}页
+		/ 共{{list.page_count}}页
+		/ 有{{list.row_count}}条数据</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] parseInt(list.page_now) + 1" av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">下一页</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] list.page_count" av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">尾页</button>
+</div>
+

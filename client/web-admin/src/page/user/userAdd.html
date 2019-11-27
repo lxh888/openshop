@@ -1,0 +1,69 @@
+<div class="form-group">
+	<label>用户登录手机号：</label>
+	<input type="text" class="form-control" placeholder="输入用户登录手机号" name="user_phone">
+</div>
+<div class="form-group">
+	<label>用户名称：</label>
+	<input type="text" class="form-control" placeholder="输入用户名称" name="user_nickname">
+</div>
+<div class="form-group">
+	<label>用户密码：</label>
+	<input type="text" class="form-control" placeholder="输入用户密码" name="user_password" >
+</div>
+<div class="form-group">
+	<label>性别：</label>
+	<select class="form-control" name="user_sex">
+		<option value="0">未知</option>
+		<option value="1">男</option>
+		<option value="2">女</option>
+	</select>
+</div>
+
+<div class="form-group">
+	<label>工作电话：</label>
+	<input type="text" class="form-control" placeholder="工作电话" name="work_phone" >
+</div>
+<div class="form-group" av-if='applicationCheckEmshop()'>
+	<label>省市区：</label>
+	<select class="form-control" av-event="[change] eventSelectedScope(:node,:event)" name="agent_region_scope">
+		<option value="1" av-attr="[selected] selectedScope == 1? 'selected':false">省(直辖市)</option>
+		<option value="2" av-attr="[selected] selectedScope == 2? 'selected':false">市</option>
+		<option value="3" av-attr="[selected] selectedScope == 3? 'selected':false">区(县)</option>
+	</select>
+</div>
+
+<div class="form-group" av-if='applicationCheckEmshop()'>
+	<label>选择地区：</label>
+	<div module="citypicker"></div>
+</div>
+<div class="form-group">
+	<label>工作地址：</label>
+	<textarea class="form-control" rows="3" placeholder="工作地址" name="work_address" ></textarea>
+</div>
+
+<div class="form-group">
+	<label>推荐人：</label>
+	<input type="text" class="form-control" placeholder="推荐人的用户ID或者登录手机号" name="user_parent" >
+</div>
+
+<div class="form-group">
+	<label>管理角色：</label>
+  	<select class="form-control" name="admin_id">
+	  <option value="">-请选择-</option>
+	  <option av-if="adminOption.length" av-for="(adminV)adminOption" av-attr="[value] adminV.admin_id">{{adminV.admin_name}}[{{adminV.admin_user_count}}人]</option>
+	</select>
+</div>
+<div class="form-group">
+	<label>用户钱包：</label>
+	<input type="text" class="form-control" placeholder="输入用户钱包" name="user_money" >
+</div>
+<div class="form-group">
+	<label>用户积分：</label>
+	<input type="text" class="form-control" placeholder="输入用户积分" name="user_credit" >
+</div>
+
+<br/>
+<button type="button" class="btn btn-primary" av-event="[click] eventSubmit(:node,:event)" av-class="{'disabled':submitLock}" >确定添加</button>
+<div style="height: 100px;"></div>
+
+

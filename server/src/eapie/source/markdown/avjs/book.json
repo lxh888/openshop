@@ -1,0 +1,5 @@
+{
+    "title": "av.js 面向H5开发的组件式框架",
+    "blacklist":["images", "SUMMARY.md"],
+    "description":"av.js 是 Action View for JavaScript 简写，是JavaScript用于组件化开发的方式构建用户界面的轻框架"
+}

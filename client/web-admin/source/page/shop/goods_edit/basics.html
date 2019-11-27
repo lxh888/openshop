@@ -1,0 +1,95 @@
+<script id="content" type="text/template">
+	<div class="form-group">
+    	<label>商品ID：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{response.get.shop_goods_id}-->">
+  	</div>
+	<div class="form-group">
+    	<label>商品名称：</label>
+    	<input type="text" class="form-control" placeholder="商品名称" name="shop_goods_name" value="<!--{response.get.shop_goods_name}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>商品货号：</label>
+    	<input type="text" class="form-control" placeholder="商品货号" name="shop_goods_sn" value="<!--{response.get.shop_goods_sn}-->">
+  	</div>
+  	
+  	<div class="form-group">
+    	<label>商品类型：</label>
+    	<select class="form-control" name="shop_goods_property">
+			<option value="0" <!--if{response.get.shop_goods_property == "0"}-->selected="selected"<!--/if-->>普通商品</option>
+			<option value="1" <!--if{response.get.shop_goods_property == "1"}-->selected="selected"<!--/if-->>积分商品</option>
+		</select>
+  	</div>
+  	<div class="form-group">
+    	<label>商品索引标记：</label>
+    	<select class="form-control" name="shop_goods_index">
+			<option value="0" <!--if{response.get.shop_goods_index == "0"}-->selected="selected"<!--/if-->>无标记</option>
+			<option value="1" <!--if{response.get.shop_goods_index == "1"}-->selected="selected"<!--/if-->>会员礼包</option>
+			<option value="2" <!--if{response.get.shop_goods_index == "2"}-->selected="selected"<!--/if-->>2</option>
+			<option value="3" <!--if{response.get.shop_goods_index == "3"}-->selected="selected"<!--/if-->>3</option>
+			<option value="4" <!--if{response.get.shop_goods_index == "4"}-->selected="selected"<!--/if-->>4</option>
+			<option value="5" <!--if{response.get.shop_goods_index == "5"}-->selected="selected"<!--/if-->>5</option>
+		</select>
+  	</div>
+  	
+  	<div class="form-group">
+    	<label>商品描述：</label>
+    	<textarea class="form-control" rows="3" placeholder="商品描述" name="shop_goods_info"><!--{response.get.shop_goods_info}--></textarea>
+  	</div>
+  	<div class="form-group">
+    	<label>管理员备注：</label>
+    	<textarea class="form-control" rows="3" placeholder="管理员备注" name="shop_goods_admin_note"><!--{response.get.shop_goods_admin_note}--></textarea>
+  	</div>
+  	
+  	<div class="form-group">
+    	<label>排序：</label>
+    	<input type="text" class="form-control" placeholder="分类的排序" name="shop_goods_sort" value="<!--{response.get.shop_goods_sort}-->">
+  	</div>
+  	
+  	<div class="form-group">
+    	<label>状态：</label>
+	  	<select class="form-control" name="shop_goods_state">
+		  <option value="0" <!--if{response.get.shop_goods_state == "0"}-->selected="selected"<!--/if--> >审核失败</option>
+		  <option value="1" <!--if{response.get.shop_goods_state == "1"}-->selected="selected"<!--/if--> >售卖中</option>
+		  <option value="2" <!--if{response.get.shop_goods_state == "2"}-->selected="selected"<!--/if--> >等待审核</option>
+		  <option value="3" <!--if{response.get.shop_goods_state == "3"}-->selected="selected"<!--/if--> >停售编辑</option>
+		</select>
+  	</div>
+  	
+  	<div class="form-group">
+    	<label>减库存方式：</label>
+    	<div class="alert alert-warning" style="margin-bottom: 5px;padding: 5px;">
+    		1)<strong>始终不减库存。</strong>即购买商品后不减库存；
+    		2)<strong>下单预扣库存。</strong>如果买家在保留时间内未付款，那预扣库存会被释放出来重新供大家购买。有效时间以全局配置默认。
+    		3)<strong>付款减库存。</strong>退款则恢复库存。
+    		4)<strong>发货减库存。</strong>退货则恢复库存。
+    	</div>
+    	<select class="form-control" name="shop_goods_stock_mode">
+			<option value="0" <!--if{parseInt(response.get.shop_goods_stock_mode) == 0}-->selected="selected"<!--/if--> >始终不减库存</option>
+			<option value="1" <!--if{parseInt(response.get.shop_goods_stock_mode) == 1}-->selected="selected"<!--/if--> >下单预扣库存</option>
+			<option value="2" <!--if{parseInt(response.get.shop_goods_stock_mode) == 2}-->selected="selected"<!--/if--> >付款减库存</option>
+			<option value="3" <!--if{parseInt(response.get.shop_goods_stock_mode) == 3}-->selected="selected"<!--/if--> >发货减库存</option>
+		</select>
+  	</div>
+  	
+  	<div class="form-group">
+    	<label>meta关键字：</label>
+    	<div class="alert alert-warning" style="margin-bottom: 5px;padding: 5px;">
+    		<strong>该参数用于前端代码中。</strong> 放在商品页的关键字中，有利于搜索引擎收录用。
+    	</div>
+    	<input type="text" class="form-control" placeholder="meta关键字，多个关键字以英文逗号隔开" name="shop_goods_keywords" value="<!--{response.get.shop_goods_keywords}-->" >
+  	</div>
+  	<div class="form-group">
+    	<label>meta描述：</label>
+    	<div class="alert alert-warning" style="margin-bottom: 5px;padding: 5px;">
+    		<strong>该参数用于前端代码中。</strong> 放在商品页的描述中，有利于搜索引擎收录用。
+    	</div>
+    	<textarea class="form-control" rows="3" placeholder="meta描述" name="shop_goods_description"><!--{response.get.shop_goods_description}--></textarea>
+  	</div>
+  	
+  	
+  	<br/>
+  	<button type="button" class="btn btn-primary" name="goods-basics-submit"><span class="glyphicon glyphicon-floppy-disk"></span> 提交编辑</button>
+	<hr/>
+	<span style="color: #999999;">更新时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.shop_goods_update_time) * 1000)}--></span>
+	<div style="height: 100px;"></div>
+</script>

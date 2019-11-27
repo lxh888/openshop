@@ -1,0 +1,141 @@
+<script id="action-button" type="text/template">
+	<div class="btn-group">
+		<!--if{response.data}-->
+		<!--for{var i in response.data}-->
+		<a href="<!--helper {'action-query-href'(response.data[i].config_id)}-->" class="btn btn-default <!--if{action==response.data[i].config_id}-->active<!--/if-->"><!--{response.data[i].config_name}--></a>
+		
+		<!--/for-->
+		<!--/if-->
+	</div>
+</script>
+
+<script id="content" type="text/template">
+<!--helper{'action-button'}-->
+<hr/>
+<div class="alert alert-warning alert-dismissible" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	<strong>友情提示!</strong> 请选择上面的按钮，编辑需要更新的配置。
+</div>	
+</script>
+
+
+
+
+
+<script id="content-app_android_version" type="text/template">
+<!--helper{'action-button'}-->
+<hr/>
+<!--if{response.get}-->
+	<div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<strong>程序开发提示：</strong> <!--{response.get.config_info}-->
+	</div>
+	
+	<h4><!--{response.get.config_name}--></h4>
+	
+  	<div class="form-group">
+    	<label>版本名称：</label>
+    	<input type="text" class="form-control" placeholder="版本名称" name="name" value="<!--{response.get.config_value.name}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>版本描述：</label>
+    	<textarea class="form-control" rows="4" placeholder="版本描述" name="info"><!--{response.get.config_value.info}--></textarea>
+  	</div>
+  	<div class="form-group">
+    	<label>版本号：</label>
+    	<input type="text" class="form-control" placeholder="版本号" name="number" value="<!--{response.get.config_value.number}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>下载地址：</label>
+    	<textarea class="form-control" rows="2" placeholder="版本描述" name="download"><!--{response.get.config_value.download}--></textarea>
+  	</div>
+  	<div class="form-group">
+    	<label>是否强制更新：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="required" <!--if{parseInt(response.get.config_value.required)}-->checked="checked"<!--/if-->> 是
+		</label>
+  	</div>
+	
+	<br/>
+  	<button type="button" class="btn btn-primary" name="submit-app_android_version">确定编辑</button>
+	<hr/>
+	<span style="color: #999999;">更新时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.update_time) * 1000)}--></span>
+	<div style="height: 100px;"></div>
+	
+	
+<!--else-->
+<div class="alert alert-danger">未知配置</div>
+<!--/if-->
+</script>
+
+
+
+<script id="content-weixin_applet_access" type="text/template">
+<!--helper{'action-button'}-->
+<hr/>
+<!--if{response.get}-->
+	<div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<strong>程序开发提示：</strong> <!--{response.get.config_info}-->
+	</div>
+	
+	<h4><!--{response.get.config_name}--></h4>
+	
+  	<div class="form-group">
+    	<label>appid：</label>
+    	<input type="text" class="form-control" placeholder="appid" name="id" value="<!--{response.get.config_value.id}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>appsecret：</label>
+    	<input type="text" class="form-control" placeholder="appsecret" name="secret" value="<!--{response.get.config_value.secret}-->">
+  	</div>
+	
+	<br/>
+  	<button type="button" class="btn btn-primary" name="submit-weixin_applet_access">确定编辑</button>
+	<hr/>
+	<span style="color: #999999;">更新时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.update_time) * 1000)}--></span>
+	<div style="height: 100px;"></div>
+	
+	
+<!--else-->
+<div class="alert alert-danger">未知配置</div>
+<!--/if-->
+</script>
+
+
+
+
+<script id="content-weixin_app_access" type="text/template">
+<!--helper{'action-button'}-->
+<hr/>
+<!--if{response.get}-->
+	<div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<strong>程序开发提示：</strong> <!--{response.get.config_info}-->
+	</div>
+	
+	<h4><!--{response.get.config_name}--></h4>
+	
+  	<div class="form-group">
+    	<label>appid：</label>
+    	<input type="text" class="form-control" placeholder="appid" name="id" value="<!--{response.get.config_value.id}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>appsecret：</label>
+    	<input type="text" class="form-control" placeholder="appsecret" name="secret" value="<!--{response.get.config_value.secret}-->">
+  	</div>
+	
+	<br/>
+  	<button type="button" class="btn btn-primary" name="submit-weixin_app_access">确定编辑</button>
+	<hr/>
+	<span style="color: #999999;">更新时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.update_time) * 1000)}--></span>
+	<div style="height: 100px;"></div>
+	
+	
+<!--else-->
+<div class="alert alert-danger">未知配置</div>
+<!--/if-->
+</script>
+
+
+

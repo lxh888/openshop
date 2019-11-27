@@ -1,0 +1,221 @@
+<script id="content" type="text/template">
+	<div class="form-group">
+    	<label>产品ID：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{response.get.ss_product_id}-->">
+  	</div>
+	<div class="form-group">
+    	<label>产品名称：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{response.get.ss_product_name}-->">
+  	</div>
+	
+	<div class="panel panel-default">
+	  	<div class="panel-body">
+			<input name="product-image-files" type="file" multiple="multiple" style="left:-99999px;position:absolute;"/>
+			<button type="button" class="btn btn-default" name="product-image-select"><span class="glyphicon glyphicon-plus"></span> 选择图片</button>
+			<button type="button" class="btn btn-default" name="product-image-clear"><span class="glyphicon glyphicon-repeat"></span> 清理</button>
+			
+			<button type="button" class="btn btn-primary" name="product-image-submit"><span class="glyphicon glyphicon-floppy-open"></span> 上传</button>
+		  	<hr/>
+		  	<div name="product-image-upload-list"> </div>
+	  	</div>
+	</div>
+	
+	
+	<button class="btn btn-default" type="button" action-button="name"><span class="glyphicon glyphicon-pencil"></span> 更新名称</button>
+	<button class="btn btn-default" type="button" action-button="sort"><span class="glyphicon glyphicon-sort"></span> 排序</button>
+	<button class="btn btn-danger" type="button" action-button="remove"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+	<hr/>
+	<table class="table table-striped">
+      <thead>
+        <tr>
+          <th><input type="checkbox" action-table="checkbox-all"></th>	
+          <th>#</th>
+          <th>缩略图</th>
+          <th>
+          	<!--if{http().anchor.query.sort == "name_desc"}-->
+          	<a href="javascript:;" action-sort="name_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>名称</a>
+          	<!--elseif{http().anchor.query.sort == "name_asc"}-->
+          	<a href="javascript:;" action-sort="name_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>名称</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="name_desc">名称</a>
+          	<!--/if-->
+          </th>
+          
+          <th>
+          	<!--if{http().anchor.query.sort == "type_desc"}-->
+          	<a href="javascript:;" action-sort="type_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>类型</a>
+          	<!--elseif{http().anchor.query.sort == "type_asc"}-->
+          	<a href="javascript:;" action-sort="type_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>类型</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="type_desc">类型</a>
+          	<!--/if-->
+          </th>
+          <th>
+          	<!--if{http().anchor.query.sort == "size_desc"}-->
+          	<a href="javascript:;" action-sort="size_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>大小</a>
+          	<!--elseif{http().anchor.query.sort == "size_asc"}-->
+          	<a href="javascript:;" action-sort="size_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>大小</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="size_desc">大小</a>
+          	<!--/if-->
+          </th>
+          <th>
+          	<!--if{http().anchor.query.sort == "sort_desc"}-->
+          	<a href="javascript:;" action-sort="sort_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>排序</a>
+          	<!--elseif{http().anchor.query.sort == "sort_asc"}-->
+          	<a href="javascript:;" action-sort="sort_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>排序</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="sort_desc">排序</a>
+          	<!--/if-->
+          </th>
+          <th>
+          	<!--if{http().anchor.query.sort == "main_desc"}-->
+          	<a href="javascript:;" action-sort="main_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>是否主图</a>
+          	<!--elseif{http().anchor.query.sort == "main_asc"}-->
+          	<a href="javascript:;" action-sort="main_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>是否主图</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="main_desc">是否主图</a>
+          	<!--/if-->
+          </th>
+          
+          <th>
+          	<!--if{http().anchor.query.sort == "state_desc"}-->
+          	<a href="javascript:;" action-sort="state_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>状态</a>
+          	<!--elseif{http().anchor.query.sort == "state_asc"}-->
+          	<a href="javascript:;" action-sort="state_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>状态</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="state_desc">状态</a>
+          	<!--/if-->
+          </th>
+          <th>
+          	<!--if{http().anchor.query.sort == "update_time_desc"}-->
+          	<a href="javascript:;" action-sort="update_time_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>时间</a>
+          	<!--elseif{http().anchor.query.sort == "update_time_asc"}-->
+          	<a href="javascript:;" action-sort="update_time_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>时间</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="update_time_desc">时间</a>
+          	<!--/if-->
+          </th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+      	<!--if{response.list.data.length}-->
+      	<!--for{var i in response.list.data}-->
+      	<tr>
+          <th><input type="checkbox" action-table="checkbox" data-id="<!--{response.list.data[i].ss_product_image_id}-->"></th>
+          <td><!--{parseInt(i)+1+((parseInt(response.list.page_now) - 1) * response.list.page_size)}--></td>
+          <td>
+          	<img class="image-look" src="<!--{eonfox().file_server_url+response.list.data[i].ss_product_image_id+'?imageView2/0/w/400'}-->" data-src="<!--{eonfox().file_server_url+response.list.data[i].ss_product_image_id+'?imageView2/0/w/1200'}-->" data-width="<!--{response.list.data[i].ss_product_image_width}-->" data-height="<!--{response.list.data[i].ss_product_image_height}-->" style="height: 50px;cursor: pointer;" />
+          </td>
+          <td>
+          	<div class="input-group">
+				<input type="text" class="form-control" placeholder="名称" action-table="name" data-id="<!--{response.list.data[i].ss_product_image_id}-->" value="<!--{response.list.data[i].ss_product_image_name}-->">
+				<span class="input-group-addon">.<!--{response.list.data[i].ss_product_image_format}--></span>
+			</div>
+          </td>
+          <td><!--{response.list.data[i].ss_product_image_type}--></td>
+          <td><!--{WangAho().byte_convert(response.list.data[i].ss_product_image_size)}--></td>
+          <td><input type="text" class="form-control" placeholder="排序" style="max-width: 100px;" action-table="sort" data-id="<!--{response.list.data[i].ss_product_image_id}-->" value="<!--{response.list.data[i].ss_product_image_sort}-->"></td>
+          <td>
+          	<!--if{parseInt(response.list.data[i].ss_product_image_main)}-->
+          	<span class="label label-primary">主图</span>
+          	<!--else-->
+          	<span class="label label-warning">否</span>
+         	<!--/if-->
+          </td>
+          <td>
+          <!--if{parseInt(response.list.data[i].ss_product_image_state)}-->
+          <span class="label label-success">信息正常</span>
+          <!--else-->
+          <span class="label label-danger">信息不全</span>
+          <!--/if-->
+          </td>
+          <td><!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.list.data[i].ss_product_image_update_time) * 1000)}--></td>
+          <td>
+          	<div class="btn-group btn-group-sm" role="group" aria-label="Extra-small button group">
+          		<button type="button" class="btn btn-default <!--if{parseInt(response.list.data[i].ss_product_image_main)}-->disabled<!--/if-->" name="product-image-edit-main" data-id="<!--{response.list.data[i].ss_product_image_id}-->"><span class="glyphicon glyphicon-pushpin"></span> 设为主图</button>
+		    </div>
+          </td>
+          
+        </tr>
+        <!--/for-->
+      	<!--else-->
+        <tr>
+          <td colspan="10" align="center">无数据</td>
+        </tr>
+        <!--/if-->
+      </tbody>
+    </table>
+	
+	 <!--if{response.list.data.length}-->
+	<div class="paging" style="text-align: center;">
+		<button class="first btn btn-default <!--if helper{"is_first_page" (response.list.page_now)}-->disabled<!--/if-->" data-page="1" type="button">首页</button>
+		<button class="previous btn btn-default <!--if helper{"is_first_page" (response.list.page_now)}-->disabled<!--/if-->" data-page="<!--{parseInt(response.list.page_now) - 1}-->" type="button">上一页</button>
+		<button class="btn btn-default" type="button">
+			第<!--{response.list.page_now}-->页
+			/ 共<!--{response.list.page_count}-->页
+			/ 有<!--{response.list.row_count}-->条数据</button>
+		<button class="next btn btn-default <!--if helper{"is_end_page" (response.list.page_now, response.list.page_count)}-->disabled<!--/if-->" type="button" data-page="<!--{parseInt(response.list.page_now) + 1}-->">下一页</button>
+		<button class="end btn btn-default <!--if helper{"is_end_page" (response.list.page_now, response.list.page_count)}-->disabled<!--/if-->" type="button" data-page="<!--{response.list.page_count}-->">尾页</button>
+	</div>
+	<!--/if-->
+
+
+</script>
+
+
+<script id="content-image" type="text/template">
+
+	<table class="table" style="margin-bottom: 0;">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>缩略图</th>
+          <th>文件名称</th>
+          <th>文件类型</th>
+          <th>上传进度</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+      	<!--if{list.length}-->
+      	<!--for{var i in list}-->
+        <tr>
+          <th><!--{parseInt(i)+1}--></th>
+          <td><img class="image-look" src="<!--{list[i].src}-->" data-src="<!--{list[i].src}-->" style="height: 50px;cursor: pointer;" /></td>
+          <td><input type="text" class="form-control product-image-name-input" data-id="<!--{i}-->" placeholder="文件名称" value="<!--{list[i].title}-->"></td>
+          <td><!--{list[i].type}--></td>
+          <td>
+          	<!--progress-bar-striped active-->
+          	<div class="progress" style="margin-bottom: 0;">
+          		<!--if{list[i].upload}-->
+				<div class="progress-bar progress-bar-success" aria-valuemin="0" style="width: 100%;" name="product-image-progress" data-id="<!--{i}-->">
+			    	<span class="glyphicon glyphicon-ok"></span> 完成
+				</div>
+				<!--else-->
+				<div class="progress-bar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;" name="product-image-progress" data-id="<!--{i}-->">
+				</div>
+				<!--/if-->
+			</div>
+          </td>
+          <td>
+          	<button type="button" name="product-image-delete" data-id="<!--{i}-->" class="btn btn-default">
+          		<!--if{list[i].upload}-->
+          		<span class="glyphicon glyphicon-repeat"></span> 清理
+          		<!--else-->
+          		<span class="glyphicon glyphicon-remove"></span> 删除
+          		<!--/if-->
+          	</button>
+          </td>
+        </tr>
+        <!--/for-->
+        <!--else-->
+        <tr>
+        	<td colspan="10" style="text-align: center;">无上传文件</td>
+        </tr>
+        <!--/if-->
+      </tbody>
+    </table>
+
+</script>

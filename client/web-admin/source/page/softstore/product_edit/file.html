@@ -1,0 +1,206 @@
+<script id="content" type="text/template">
+	<div class="form-group">
+    	<label>产品ID：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{response.get.ss_product_id}-->">
+  	</div>
+	<div class="form-group">
+    	<label>产品名称：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{response.get.ss_product_name}-->">
+  	</div>
+	
+  	<button type="button" class="btn btn-default"  name="product-file-add-input"><span class="glyphicon glyphicon-plus"></span> 添加文件</button>
+  	<button class="btn btn-default" type="button" action-button="name"><span class="glyphicon glyphicon-pencil"></span> 更新名称</button>
+	<button class="btn btn-default" type="button" action-button="sort"><span class="glyphicon glyphicon-sort"></span> 排序</button>
+	<button class="btn btn-danger" type="button" action-button="remove"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+  	<hr/>
+	
+	<table class="table table-striped">
+      <thead>
+        <tr>
+          <th><input type="checkbox" action-table="checkbox-all"></th>	
+          <th>#</th>
+          <th>文件ID</th>
+          <th>
+          	<!--if{http().anchor.query.sort == "name_desc"}-->
+          	<a href="javascript:;" action-sort="name_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>名称</a>
+          	<!--elseif{http().anchor.query.sort == "name_asc"}-->
+          	<a href="javascript:;" action-sort="name_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>名称</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="name_desc">名称</a>
+          	<!--/if-->
+          </th>
+          
+          <th>
+          	<!--if{http().anchor.query.sort == "type_desc"}-->
+          	<a href="javascript:;" action-sort="type_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>类型</a>
+          	<!--elseif{http().anchor.query.sort == "type_asc"}-->
+          	<a href="javascript:;" action-sort="type_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>类型</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="type_desc">类型</a>
+          	<!--/if-->
+          </th>
+          <th>
+          	<!--if{http().anchor.query.sort == "size_desc"}-->
+          	<a href="javascript:;" action-sort="size_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>大小</a>
+          	<!--elseif{http().anchor.query.sort == "size_asc"}-->
+          	<a href="javascript:;" action-sort="size_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>大小</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="size_desc">大小</a>
+          	<!--/if-->
+          </th>
+          <th>
+          	<!--if{http().anchor.query.sort == "sort_desc"}-->
+          	<a href="javascript:;" action-sort="sort_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>排序</a>
+          	<!--elseif{http().anchor.query.sort == "sort_asc"}-->
+          	<a href="javascript:;" action-sort="sort_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>排序</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="sort_desc">排序</a>
+          	<!--/if-->
+          </th>
+          <th>
+          	<!--if{http().anchor.query.sort == "state_desc"}-->
+          	<a href="javascript:;" action-sort="state_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>状态</a>
+          	<!--elseif{http().anchor.query.sort == "state_asc"}-->
+          	<a href="javascript:;" action-sort="state_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>状态</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="state_desc">状态</a>
+          	<!--/if-->
+          </th>
+          <th>
+          	<!--if{http().anchor.query.sort == "update_time_desc"}-->
+          	<a href="javascript:;" action-sort="update_time_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>时间</a>
+          	<!--elseif{http().anchor.query.sort == "update_time_asc"}-->
+          	<a href="javascript:;" action-sort="update_time_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>时间</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="update_time_desc">时间</a>
+          	<!--/if-->
+          </th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+      	<!--if{response.list.data.length}-->
+      	<!--for{var i in response.list.data}-->
+      	<tr>
+          <th><input type="checkbox" action-table="checkbox" data-id="<!--{response.list.data[i].ss_product_file_id}-->"></th>
+          <td><!--{parseInt(i)+1+((parseInt(response.list.page_now) - 1) * response.list.page_size)}--></td>
+          <td><!--{response.list.data[i].ss_product_file_id}--></td>
+          <td>
+          	<div class="input-group">
+				<input type="text" class="form-control" placeholder="名称" action-table="name" data-id="<!--{response.list.data[i].ss_product_file_id}-->" value="<!--{response.list.data[i].ss_product_file_name}-->">
+				<span class="input-group-addon">.<!--{response.list.data[i].ss_product_file_format}--></span>
+			</div>
+          </td>
+          <td><!--{response.list.data[i].ss_product_file_type}--></td>
+          <td><!--{WangAho().byte_convert(response.list.data[i].ss_product_file_size)}--></td>
+          <td><input type="text" class="form-control" placeholder="排序" style="max-width: 100px;" action-table="sort" data-id="<!--{response.list.data[i].ss_product_file_id}-->" value="<!--{response.list.data[i].ss_product_file_sort}-->"></td>
+          <td>
+          <!--if{parseInt(response.list.data[i].ss_product_file_state)}-->
+          <span class="label label-success">信息正常</span>
+          <!--else-->
+          <span class="label label-danger">信息不全</span>
+          <!--/if-->
+          </td>
+          <td><!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.list.data[i].ss_product_file_update_time) * 1000)}--></td>
+          <td>
+          		<a href="<!--{eonfox().file_server_url+response.list.data[i].ss_product_file_id+'?name='+response.list.data[i].ss_product_file_name+'.'+response.list.data[i].ss_product_file_format}-->" target="_blank" class="btn btn-default"><span class="glyphicon glyphicon-share-alt"></span> 访问资源</a>
+          		<a href="<!--{eonfox().file_server_url+response.list.data[i].ss_product_file_id+'?attname='+response.list.data[i].ss_product_file_name+'.'+response.list.data[i].ss_product_file_format}-->" target="_blank" class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span> 下载资源</a>
+          </td>
+          
+        </tr>
+        <!--/for-->
+      	<!--else-->
+        <tr>
+          <td colspan="10" align="center">无数据</td>
+        </tr>
+        <!--/if-->
+      </tbody>
+    </table>
+	
+	 <!--if{response.list.data.length}-->
+	<div class="paging" style="text-align: center;">
+		<button class="first btn btn-default <!--if helper{"is_first_page" (response.list.page_now)}-->disabled<!--/if-->" data-page="1" type="button">首页</button>
+		<button class="previous btn btn-default <!--if helper{"is_first_page" (response.list.page_now)}-->disabled<!--/if-->" data-page="<!--{parseInt(response.list.page_now) - 1}-->" type="button">上一页</button>
+		<button class="btn btn-default" type="button">
+			第<!--{response.list.page_now}-->页
+			/ 共<!--{response.list.page_count}-->页
+			/ 有<!--{response.list.row_count}-->条数据</button>
+		<button class="next btn btn-default <!--if helper{"is_end_page" (response.list.page_now, response.list.page_count)}-->disabled<!--/if-->" type="button" data-page="<!--{parseInt(response.list.page_now) + 1}-->">下一页</button>
+		<button class="end btn btn-default <!--if helper{"is_end_page" (response.list.page_now, response.list.page_count)}-->disabled<!--/if-->" type="button" data-page="<!--{response.list.page_count}-->">尾页</button>
+	</div>
+	<!--/if-->
+
+	
+</script>
+<script id="add" type="text/template">
+<div style="padding: 10px;height: 100%;">
+	<input name="product-file-files" type="file" multiple="multiple" style="left:-99999px;position:absolute;"/>
+	<button type="button" class="btn btn-default" name="product-file-select"><span class="glyphicon glyphicon-plus"></span> 选择文件</button>
+	<button type="button" class="btn btn-default" name="product-file-clear"><span class="glyphicon glyphicon-repeat"></span> 清理</button>
+	<button type="button" class="btn btn-primary" name="product-file-submit"><span class="glyphicon glyphicon-floppy-open"></span> 上传</button>
+  	<hr/>
+	<div name="product-file-upload-list">
+	</div>
+</div>	
+</script>	
+
+
+<script id="content-file" type="text/template">
+
+	<table class="table" style="margin-bottom: 0;">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>原始文件名称</th>
+          <th>更改文件名称</th>
+          <th>文件类型</th>
+          <th>文件大小</th>
+          <th>上传进度</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+      	<!--if{list.length}-->
+      	<!--for{var i in list}-->
+        <tr>
+          <th><!--{parseInt(i)+1}--></th>
+          <td><!--{list[i].name}--></td>
+          <td><input type="text" class="form-control product-file-name-input" data-id="<!--{i}-->" placeholder="文件名称" value="<!--{list[i].title}-->" data-product-id="<!--{product_id}-->"></td>
+          <td><!--{list[i].type}--></td>
+          <td><!--{WangAho().byte_convert(list[i].size)}--></td>
+          <td>
+      		<!--if{list[i].error}-->
+      			<span class="label label-danger">错误文件</span>
+      		<!--else-->
+      		<div class="progress" style="margin-bottom: 0;">	
+          		<!--if{list[i].upload}-->
+				<div class="progress-bar progress-bar-success" aria-valuemin="0" style="width: 100%;" name="product-file-progress" data-id="<!--{i}-->" data-product-id="<!--{product_id}-->">
+			    	<span class="glyphicon glyphicon-ok"></span> 完成
+				</div>
+				<!--else-->
+				<div class="progress-bar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;" name="product-file-progress" data-id="<!--{i}-->" data-product-id="<!--{product_id}-->">
+				</div>
+				<!--/if-->
+			</div>	
+      		<!--/if-->
+          </td>
+          <td>
+          	<button type="button" name="product-file-delete" data-id="<!--{i}-->" data-product-id="<!--{product_id}-->" class="btn btn-default">
+          		<!--if{list[i].upload}-->
+          		<span class="glyphicon glyphicon-repeat"></span> 清理
+          		<!--else-->
+          		<span class="glyphicon glyphicon-remove"></span> 删除
+          		<!--/if-->
+          	</button>
+          </td>
+        </tr>
+        <!--/for-->
+        <!--else-->
+        <tr>
+        	<td colspan="10" style="text-align: center;">无上传文件</td>
+        </tr>
+        <!--/if-->
+      </tbody>
+    </table>
+
+</script>

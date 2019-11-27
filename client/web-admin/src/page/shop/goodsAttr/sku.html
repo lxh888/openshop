@@ -1,0 +1,128 @@
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th style="width: 2%;"><input type="checkbox" checkbox="checkbox-all"></th>
+			<th style="width: 3%;">#</th>
+			<th style="width: 20%;">属性列表</th>
+			<th av-is="applicationCheckYitaoshop()" style="width: 10%;">售卖角色</th>
+			<th style="width: 10%;">
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'stock_asc', 'stock_desc')"><span av-if="existSort('stock_asc', 'stock_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('stock_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('stock_desc')}"></span>库存</a>
+			</th>
+			<th style="width: 10%;">
+				<a av-if="getShopGoodsData.shop_goods_property==1" href="javascript:;" av-event="[click] eventSort(:node,:event,'cost_price_asc', 'cost_price_desc')"><span av-if="existSort('cost_price_asc', 'cost_price_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('cost_price_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('cost_price_desc')}"></span>成本价(积分)</a>
+				<a av-elseif="getShopGoodsData.shop_goods_property==0" href="javascript:;" av-event="[click] eventSort(:node,:event,'cost_price_asc', 'cost_price_desc')"><span av-if="existSort('cost_price_asc', 'cost_price_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('cost_price_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('cost_price_desc')}"></span>成本价(人民币)</a>
+			</th>
+			<th style="width: 10%;">
+				<a av-if="getShopGoodsData.shop_goods_property==1" href="javascript:;" av-event="[click] eventSort(:node,:event,'market_price_asc', 'market_price_desc')"><span av-if="existSort('market_price_asc', 'market_price_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('market_price_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('market_price_desc')}"></span>市场价(积分)</a>
+				<a av-elseif="getShopGoodsData.shop_goods_property==0" href="javascript:;" av-event="[click] eventSort(:node,:event,'market_price_asc', 'market_price_desc')"><span av-if="existSort('market_price_asc', 'market_price_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('market_price_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('market_price_desc')}"></span>市场价(人民币)</a>
+			</th>
+			<th style="width: 10%;">
+				<a av-if="getShopGoodsData.shop_goods_property==1" href="javascript:;" av-event="[click] eventSort(:node,:event,'price_asc', 'price_desc')"><span av-if="existSort('price_asc', 'price_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('price_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('price_desc')}"></span>售卖单价(积分)</a>
+				<a av-elseif="getShopGoodsData.shop_goods_property==0" href="javascript:;" av-event="[click] eventSort(:node,:event,'price_asc', 'price_desc')"><span av-if="existSort('price_asc', 'price_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('price_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('price_desc')}"></span>售卖单价(人民币)</a>
+			</th>
+			<th av-if="applicationCheckEmshop()" style="width: 10%;">
+				<a av-if="getShopGoodsData.shop_goods_property==1" href="javascript:;" >附加人民币</a>
+				<a av-elseif="getShopGoodsData.shop_goods_property==0" href="javascript:;" >附加积分</a>
+			</th>
+			<th av-if="getShopGoodsData.shop_goods_property==1"  style="width: 7%;">
+					毛利(积分)
+			</th>
+			<th av-elseif="getShopGoodsData.shop_goods_property==0"  style="width: 7%;">
+					毛利(人民币)
+			</th>
+
+			<th style="width: 17%;">
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'update_time_asc', 'update_time_desc')"><span av-if="existSort('update_time_asc', 'update_time_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('update_time_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('update_time_desc')}"></span>更新时间</a>
+			</th>
+			<th style="width: 7%;">操作</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<tr av-if="list && list.data && list.data.length" av-for="(value, key) list.data" av-event="[dblclick] eventTrDblclick(:node,:event)" av-attr="[data-id] value.shop_goods_sku_id" data-checkbox="checkbox">
+			<th><input type="checkbox" checkbox="checkbox" av-attr="[data-id] value.shop_goods_sku_id"></th>
+			<td>{{parseInt(key)+1+((parseInt(list.page_now) - 1) * list.page_size)}}</td>
+			<td>
+				<div av-for="(sv,sk)shop_goods_spu_option">
+					<div av-for="(sonv,sonk)sv.son" av-is="value.shop_goods_spu_id.indexOf(sonv.shop_goods_spu_id)!=-1">
+						<label class="checkbox-inline" style="margin-right: 10px;">
+						<input type="checkbox" checked="checked" disabled="disabled" style="margin-left: -16px;">
+						<span  style="color: #999;">
+								{{sv.shop_goods_spu_name}}
+						</span>
+						{{sonv.shop_goods_spu_name}}
+					</label><br  av-is="value.shop_goods_sku_info && value.shop_goods_sku_info.length>0"/>
+					</div>
+				</div>
+				<label av-is="value.shop_goods_sku_info && value.shop_goods_sku_info.length>0" style="color:#f0a93d;">
+					{{value.shop_goods_sku_info}}
+				</label>
+			</td>
+			<td av-is="applicationCheckYitaoshop()"  >
+				<span av-if="value.shop_goods_sku_admin_id==''">游客</span>
+				<div av-else>
+					<span av-for="(role, index)adminOption" av-is="value.shop_goods_sku_admin_id==role.admin_id">
+						{{role.admin_name}}
+					</span>
+				</div>
+			
+			</td>
+			<td>
+				{{value.shop_goods_sku_stock}}
+			</td>
+			<td av-if="getShopGoodsData.shop_goods_property==1">
+				{{parseFloat(value.shop_goods_sku_cost_price/100).toFixed(2)}}
+			</td>
+			<td av-elseif="getShopGoodsData.shop_goods_property==0">
+				{{parseFloat(value.shop_goods_sku_cost_price/applicationCreditConfig().scale).toFixed(applicationCreditConfig().precision)}}
+			</td>
+
+			<td av-if="getShopGoodsData.shop_goods_property==1">
+				{{parseFloat(value.shop_goods_sku_market_price/100).toFixed(2)}}
+			</td>
+			<td av-elseif="getShopGoodsData.shop_goods_property==0">
+				{{parseFloat(value.shop_goods_sku_market_price/applicationCreditConfig().scale).toFixed(applicationCreditConfig().precision)}}
+			</td>
+
+			<td av-if="getShopGoodsData.shop_goods_property==1">
+				{{parseFloat(value.shop_goods_sku_price/100).toFixed(2)}}
+			</td>
+			<td av-elseif="getShopGoodsData.shop_goods_property==0">
+				{{parseFloat(value.shop_goods_sku_price/applicationCreditConfig().scale).toFixed(applicationCreditConfig().precision)}}
+			</td>
+			
+			<td av-if="applicationCheckEmshop() && getShopGoodsData.shop_goods_property==1">
+					{{parseFloat(value.shop_goods_sku_additional_money/applicationCreditConfig().scale).toFixed(applicationCreditConfig().precision)}}
+				
+			</td>
+			<td av-elseif="applicationCheckEmshop() && getShopGoodsData.shop_goods_property==0">
+					{{parseFloat(value.shop_goods_sku_additional_credit/100).toFixed(2)}}
+			</td>
+
+			<td av-if="getShopGoodsData.shop_goods_property==1">
+				{{parseFloat((value.shop_goods_sku_price - value.shop_goods_sku_cost_price)/100).toFixed(2)}}
+			</td>
+			<td av-elseif="getShopGoodsData.shop_goods_property==0">
+				{{parseFloat((value.shop_goods_sku_price - value.shop_goods_sku_cost_price)/applicationCreditConfig().scale).toFixed(applicationCreditConfig().precision)}}
+			</td>
+			<td>
+				<span av-if="parseInt(value.shop_goods_sku_update_time)">{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(value.shop_goods_sku_update_time) * 1000)}}</span>
+				<span av-else>-</span>
+			</td>
+			<td>
+				<button type="button" class="btn btn-default" av-event="[click] eventSkuEdit(:node,:event,value.shop_goods_sku_id)"><span class="glyphicon glyphicon-edit"></span> 编辑</button>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<div av-if="list && list.data && list.data.length" style="text-align: center;">
+	<button class="btn btn-default" data-page="1" av-class="{'disabled':isFirstPage(list.page_now)}" type="button" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">首页</button>
+	<button class="btn btn-default" av-attr="[data-page] parseInt(list.page_now) - 1" av-class="{'disabled':isFirstPage(list.page_now)}" type="button" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">上一页</button>
+	<button class="btn btn-default" type="button" style="margin-right: 5px;">
+			第{{list.page_now}}页
+			/ 共{{list.page_count}}页
+			/ 有{{list.row_count}}条数据</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] parseInt(list.page_now) + 1" av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">下一页</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] list.page_count" av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">尾页</button>
+</div>

@@ -1,0 +1,260 @@
+<script id="content" type="text/template">
+	<div class="form-group">
+    	<label>产品ID：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{response.get.ss_product_id}-->">
+  	</div>
+	<div class="form-group">
+    	<label>产品名称：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{response.get.ss_product_name}-->">
+  	</div>
+  	<div class="alert alert-warning" style="margin-bottom: 10px;">
+    	<strong>注意!</strong> 以排序字段、创建时间正序的方式排序。
+    </div>
+  	<button type="button" class="btn btn-default"  name="product-attr-parent-add-input"><span class="glyphicon glyphicon-plus"></span> 添加主题</button>
+	<button type="button" class="btn btn-default"  name="product-attr-add-input"><span class="glyphicon glyphicon-save"></span> 导入模板</button>
+	<button class="btn btn-default" type="button" action-button="sort"><span class="glyphicon glyphicon-sort"></span> 排序</button>
+	<button class="btn btn-danger" type="button" action-button="remove"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+  	<hr/>
+	
+	<!--if{response.softstore_product_attr_option.length}-->
+		<input type="checkbox" action-table="checkbox-attr-parent-all"> 
+		<span style="color: #909090;">全选主题</span>
+		<br/>
+		<input type="checkbox" action-table="checkbox-all"> 
+		<span style="color: #909090;">全选属性</span>
+		<!--for{var i in response.softstore_product_attr_option}-->
+		<div style="margin-left: 4px;padding: 20px 0 5px 0;border-left: 2px double #CCC;border-width:5px;">
+			<span style="color: #ccc;">╍</span> 
+			<span style="color: #909090;">序号:</span>
+			<span style="color: #000;">#<!--{parseInt(i)+1}--></span>
+			<input type="checkbox" action-table="checkbox-attr-parent" data-id="<!--{response.softstore_product_attr_option[i].ss_product_attr_id}-->"> 
+			<span style="color: #ccc;">╍</span> 
+			<span style="color: #909090;">主题名称:</span>
+			<span style="font-weight: bold;font-size: 20px;"><!--{response.softstore_product_attr_option[i].ss_product_attr_name}--></span>
+			<span style="color: #ccc;">╍</span> 
+			<span style="color: #909090;">排序:</span>
+			<input type="text" class="form-control" placeholder="排序" style="max-width: 100px;display: inline-block;" action-table="sort" data-id="<!--{response.softstore_product_attr_option[i].ss_product_attr_id}-->" value="<!--{response.softstore_product_attr_option[i].ss_product_attr_sort}-->">
+			<span style="color: #ccc;">╍</span> 
+			<a href="javascript:;" name="product-attr-parent-edit-input" data-parent="<!--{response.softstore_product_attr_option[i].ss_product_attr_parent_id}-->" data-id="<!--{response.softstore_product_attr_option[i].ss_product_attr_id}-->"><span class="glyphicon glyphicon-edit"></span> 编辑</a>
+			<span style="color: #ccc;">╍</span>
+			<a href="javascript:;" name="product-attr-add-input" data-parent="<!--{response.softstore_product_attr_option[i].ss_product_attr_id}-->"><span class="glyphicon glyphicon-plus"></span> 添加属性选项</a>
+			<!--if{response.softstore_product_attr_option[i].ss_product_attr_info}-->
+			<span style="color: #ccc;">╍</span>
+			<span style="color: #808080;">
+				<span class="glyphicon glyphicon-info-sign"></span>
+				<!--{response.softstore_product_attr_option[i].ss_product_attr_info}-->
+			</span>
+			<!--/if-->
+		</div>
+		
+		
+		<!--if{response.softstore_product_attr_option[i].son.length}-->
+	    <!--for{var s in response.softstore_product_attr_option[i].son}-->
+	    <div style="margin-left: 190px;padding: 5px 0;border-left: 2px dashed #CCC;margin-top: 5px;">
+			<span style="color: #ccc;">╍</span> 
+			<span style="color: #909090;">序号:</span>
+			<span style="color: #000;">#<!--{(parseInt(i)+1)+"."+(parseInt(s)+1)}--></span>
+			<input type="checkbox" action-table="checkbox" data-id="<!--{response.softstore_product_attr_option[i].son[s].ss_product_attr_id}-->"> 
+			<span style="color: #ccc;">╍</span> 
+			<span style="font-weight: bold;font-size: 15px;"><!--{response.softstore_product_attr_option[i].son[s].ss_product_attr_name}--></span>
+			<span style="color: #ccc;">╍</span> 
+			<span style="color: #909090;">是否必选:</span>
+			<!--if{parseInt(response.softstore_product_attr_option[i].son[s].ss_product_attr_required)}-->
+	        <span style="color: red;">是</span>
+	        <!--else-->
+	        <span style="color: #000;">否</span>
+	        <!--/if-->
+	        <span style="color: #ccc;">╍</span> 
+			<span style="color: #909090;">价格:</span>
+			<span style="color: red;font-weight: bold;">¥<!--{parseInt(response.softstore_product_attr_option[i].son[s].ss_product_attr_money)/100}--></span>
+			<span style="color: #ccc;">╍</span> 
+			<span style="color: #909090;">库存:</span>
+			<span style="color: #000;"><!--{response.softstore_product_attr_option[i].son[s].ss_product_attr_stock}--></span>
+			<span style="color: #ccc;">╍</span> 
+			<span style="color: #909090;">排序:</span>
+			<input type="text" class="form-control" placeholder="排序" style="max-width: 100px;display: inline-block;" action-table="sort" data-id="<!--{response.softstore_product_attr_option[i].son[s].ss_product_attr_id}-->" value="<!--{response.softstore_product_attr_option[i].son[s].ss_product_attr_sort}-->">
+			<span style="color: #ccc;">╍</span> 
+			<a href="javascript:;" name="product-attr-edit-input" data-parent="<!--{response.softstore_product_attr_option[i].son[s].ss_product_attr_parent_id}-->" data-id="<!--{response.softstore_product_attr_option[i].son[s].ss_product_attr_id}-->"><span class="glyphicon glyphicon-edit"></span> 编辑</a>
+			<!--if{response.softstore_product_attr_option[i].son[s].ss_product_attr_info}-->
+			<span style="color: #ccc;">╍</span>
+			<span style="color: #808080;">
+				<span class="glyphicon glyphicon-info-sign"></span>
+				<!--{response.softstore_product_attr_option[i].son[s].ss_product_attr_info}-->
+			</span>
+			<!--/if-->
+	    </div>
+		<!--/for-->
+		<!--/if-->
+		
+		
+		
+		
+		<!--/for-->
+	<!--else-->
+	<div style="text-align: center;color: #999;">没有产品属性数据</div>
+	<!--/if-->
+	
+	
+	
+	
+	
+	
+</script>
+<script id="attr-parent-add" type="text/template">
+	<div style="padding: 10px;width: 500px;">
+		<div class="form-group">
+		    <label>主题名称：</label>
+		    <input type="text" class="form-control" placeholder="输入主题名称" name="ss_product_attr_name">
+		</div>
+		<div class="form-group">
+		    <label>排序：</label>
+		    <input type="text" class="form-control" placeholder="输入排序" name="ss_product_attr_sort">
+		</div>
+		<div class="form-group">
+		    <label>描述：</label>
+		    <textarea class="form-control" rows="3" placeholder="输入描述" name="ss_product_attr_info"></textarea>
+		</div>
+		<br/>
+		<button type="button" class="btn btn-primary btn-block" name="product-attr-parent-add-submit">确定添加</button>
+	</div>
+</script>
+
+
+<script id="attr-parent-edit" type="text/template">
+	<div style="padding: 10px;width: 500px;">
+		<div class="form-group">
+		    <label>主题ID：</label>
+		    <input type="text" class="form-control" readonly="readonly" name="ss_product_attr_id" value="<!--{product_attr_data.ss_product_attr_id}-->">
+		</div>
+		<div class="form-group">
+		    <label>主题名称：</label>
+		    <input type="text" class="form-control" placeholder="输入主题名称" name="ss_product_attr_name" value="<!--{product_attr_data.ss_product_attr_name}-->" >
+		</div>
+		<div class="form-group">
+		    <label>排序：</label>
+		    <input type="text" class="form-control" placeholder="输入排序" name="ss_product_attr_sort" value="<!--{product_attr_data.ss_product_attr_sort}-->" >
+		</div>
+		<div class="form-group">
+		    <label>描述：</label>
+		    <textarea class="form-control" rows="3" placeholder="输入描述" name="ss_product_attr_info"><!--{product_attr_data.ss_product_attr_info}--></textarea>
+		</div>
+		<br/>
+		<button type="button" class="btn btn-primary btn-block" name="product-attr-parent-edit-submit">提交编辑</button>
+	</div>
+</script>
+
+
+
+
+
+
+<script id="attr-edit" type="text/template">
+	<div style="padding: 10px;width: 500px;">
+		<div class="form-group">
+		    <label>属性ID：</label>
+		    <input type="text" class="form-control" readonly="readonly" name="ss_product_attr_id" value="<!--{product_attr_data.ss_product_attr_id}-->">
+		</div>
+		
+		<div class="form-group">
+		    <label>属性名称：</label>
+		    <input type="text" class="form-control" placeholder="输入属性名称" name="ss_product_attr_name" value="<!--{product_attr_data.ss_product_attr_name}-->">
+		</div>
+		<div class="form-group">
+	    	<label>是否必选：</label>
+	    	<label class="checkbox-inline">
+				<input type="checkbox" value="1" name="ss_product_attr_required" <!--if{parseInt(product_attr_data.ss_product_attr_required)}-->checked="checked"<!--/if--> > 是
+			</label>
+	  	</div>
+	  	<div class="form-group">
+	    	<label>父级：</label>
+		  	<select class="form-control" name="ss_product_attr_parent_id">
+			  <option value="">-顶级-</option>
+			  <!--if{response.softstore_product_attr_option}-->
+			  <!--for{var i in response.softstore_product_attr_option}-->
+			  
+			  <option value="<!--{response.softstore_product_attr_option[i].ss_product_attr_id}-->" <!--if{product_attr_data.ss_product_attr_parent_id == response.softstore_product_attr_option[i].ss_product_attr_id}-->selected="selected"<!--/if--> >
+			  <!--{response.softstore_product_attr_option[i].ss_product_attr_name}-->
+			  </option>
+			  
+			  <!--/for-->
+			  <!--/if-->
+			</select>
+	  	</div>
+		<div class="form-group">
+		    <label>排序：</label>
+		    <input type="text" class="form-control" placeholder="输入排序" name="ss_product_attr_sort" value="<!--{product_attr_data.ss_product_attr_sort}-->" >
+		</div>
+		<div class="form-group">
+		    <label>库存：</label>
+		    <input type="text" class="form-control" placeholder="输入库存" name="ss_product_attr_stock" value="<!--{product_attr_data.ss_product_attr_stock}-->" >
+		</div>
+		<div class="form-group">
+		    <label>售卖单价：</label>
+		    <div class="input-group">
+			    <input type="text" class="form-control" placeholder="输入售卖单价" name="ss_product_attr_money" value="<!--{parseInt(product_attr_data.ss_product_attr_money)/100}-->" >
+			  	<span class="input-group-addon">元</span>
+			</div>
+		</div>
+		<div class="form-group">
+		    <label>描述：</label>
+		    <textarea class="form-control" rows="3" placeholder="输入描述" name="ss_product_attr_info"><!--{product_attr_data.ss_product_attr_info}--></textarea>
+		</div>
+		<br/>
+		<button type="button" class="btn btn-primary btn-block" name="product-attr-edit-submit">提交编辑</button>
+	</div>
+</script>
+
+
+
+<script id="attr-add" type="text/template">
+	<div style="padding: 10px;width: 500px;">
+		<div class="form-group">
+		    <label>属性名称：</label>
+		    <input type="text" class="form-control" placeholder="输入属性名称" name="ss_product_attr_name">
+		</div>
+		<div class="form-group">
+	    	<label>是否必选：</label>
+	    	<label class="checkbox-inline">
+				<input type="checkbox" value="1" name="ss_product_attr_required"> 是
+			</label>
+	  	</div>
+	  	<div class="form-group">
+	    	<label>父级：</label>
+		  	<select class="form-control" name="ss_product_attr_parent_id">
+			  <option value="">-顶级-</option>
+			  <!--if{response.softstore_product_attr_option}-->
+			  <!--for{var i in response.softstore_product_attr_option}-->
+			  
+			  <option value="<!--{response.softstore_product_attr_option[i].ss_product_attr_id}-->" <!--if{ss_product_attr_parent_id == response.softstore_product_attr_option[i].ss_product_attr_id}-->selected="selected"<!--/if-->>
+			  <!--{response.softstore_product_attr_option[i].ss_product_attr_name}-->
+			  </option>
+			  
+			  <!--/for-->
+			  <!--/if-->
+			</select>
+	  	</div>
+	  	<div class="form-group">
+		    <label>排序：</label>
+		    <input type="text" class="form-control" placeholder="输入排序" name="ss_product_attr_sort">
+		</div>
+		<div class="form-group">
+		    <label>库存：</label>
+		    <input type="text" class="form-control" placeholder="输入库存" name="ss_product_attr_stock" value="99999">
+		</div>
+		<div class="form-group">
+		    <label>售卖单价：</label>
+		    <div class="input-group">
+			    <input type="text" class="form-control" placeholder="输入售卖单价" name="ss_product_attr_money">
+			  	<span class="input-group-addon">元</span>
+			</div>
+		</div>
+		<div class="form-group">
+		    <label>描述：</label>
+		    <textarea class="form-control" rows="3" placeholder="输入描述" name="ss_product_attr_info"></textarea>
+		</div>
+		<br/>
+		<button type="button" class="btn btn-primary btn-block" name="product-attr-add-submit">确定提交</button>
+	</div>
+</script>
+
+

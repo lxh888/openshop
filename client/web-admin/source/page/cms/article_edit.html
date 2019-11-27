@@ -1,0 +1,24 @@
+<script id="content" type="text/template">
+	
+	<div class="btn-group">
+		<a href="<!--helper {'action-query-href'}-->" class="btn btn-default <!--if{action=='basics'}-->active<!--/if-->">基础信息</a>
+		<a href="<!--helper {'action-query-href'('content')}-->" class="btn btn-default <!--if{action=='content'}-->active<!--/if-->">文章内容</a>
+		<a href="<!--helper {'action-query-href'('type')}-->" class="btn btn-default <!--if{action=='type'}-->active<!--/if-->">文章分类</a>
+		<a href="<!--helper {'action-query-href'('image')}-->" class="btn btn-default <!--if{action=='image'}-->active<!--/if-->">文章图片</a>
+	</div>
+	<br/><br/>
+	
+	<!--helper{"import-action-template"}-->
+	
+	<div style="height: 100px;"></div>
+	
+</script>
+
+<script id="warning" type="text/template">
+	<div class="alert alert-warning">
+		<strong>警告!</strong> 没有可操作选项，页面参数不合法！
+    </div>
+</script>
+
+
+

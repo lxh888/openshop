@@ -1,0 +1,128 @@
+<div class="panel panel-default" av-if="type_parent_get">
+	<div class="panel-body">
+		<img av-if="type_parent_get.type_logo_image_id" av-attr="[src] applicationConfig.qiniu_domain+type_parent_get.type_logo_image_id+'?imageView2/1/w/40'" class="img-circle">
+		<div>父级分类ID：{{type_parent_get.type_id}}</div>
+		<div>父级分类名称：{{type_parent_get.type_name}}</div>
+		<div>父级分类简介：{{type_parent_get.type_info}}</div>
+		<div>父级分类模块：{{getModuleName(type_parent_get.type_module)}}
+			<span style="color: #999;"><span class="glyphicon glyphicon-tag"></span>{{type_parent_get.type_module}}</span>
+		</div>
+		<div>更新时间：{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(type_parent_get.type_update_time) * 1000)}}</div>
+		<div>操作：<button class="btn btn-default btn-xs" av-event="[click] ClickEdit('parent')"><span class="glyphicon glyphicon-edit"></span>编辑</button></div>
+	</div>
+</div>
+
+<button class="btn btn-default" type="button" av-event="[click] eventClickAdd" style="margin-right: 5px;"><span class="glyphicon glyphicon-plus"></span> 添加</button>
+<button class="btn btn-default" type="button" av-event="[click] eventClickSort" style="margin-right: 5px;"><span class="glyphicon glyphicon-sort"></span> 排序</button>
+<button class="btn btn-default" type="button" av-event="[click] eventClickState(1)" style="margin-right: 5px;"><span class="glyphicon glyphicon-ok-sign"></span> 显示</button>
+<button class="btn btn-default" type="button" av-event="[click] eventClickState(0)" style="margin-right: 5px;"><span class="glyphicon glyphicon-minus-sign"></span> 隐藏</button>
+<button class="btn btn-danger" type="button" av-event="[click] eventClickRemove" style="margin-right: 5px;"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+
+<hr/>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th><input type="checkbox" checkbox="checkbox-all"></th>
+			<th>#</th>
+
+			<th>
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'name_asc', 'name_desc')">
+					<span av-if="existSort('name_asc', 'name_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('name_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('name_desc')}"></span>分类名称</a>
+			</th>
+			<th>分类描述</th>
+			<th>
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'module_asc', 'module_desc')">
+					<span av-if="existSort('module_asc', 'module_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('module_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('module_desc')}"></span>模块</a>
+			</th>
+			<th>
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'label_asc', 'label_desc')">
+					<span av-if="existSort('label_asc', 'label_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('label_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('label_desc')}"></span>标签</a>
+			</th>
+			<th>JSON配置</th>
+			<th>
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'state_asc', 'state_desc')">
+					<span av-if="existSort('state_asc', 'state_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('state_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('state_desc')}"></span>状态</a>
+			</th>
+			<th>
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'sort_asc', 'sort_desc')">
+					<span av-if="existSort('sort_asc', 'sort_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('sort_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('sort_desc')}"></span>排序</a>
+			</th>
+			<th>
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'update_time_asc', 'update_time_desc')">
+					<span av-if="existSort('update_time_asc', 'update_time_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('update_time_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('update_time_desc')}"></span>更新时间</a>
+			</th>
+			<th av-if="!type_parent_get">
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'son_asc', 'son_desc')">
+					<span av-if="existSort('son_asc', 'son_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('son_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('son_desc')}"></span>子级</a>
+			</th>
+
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr av-if="list && list.data && list.data.length" av-for="(value,index)list.data" av-event="[dblclick] eventTrDblclick(:node,:event)" av-attr="[data-id] value.type_id" data-checkbox="checkbox">
+			<th><input type="checkbox" checkbox="checkbox" av-attr="[data-id] value.type_id"></th>
+			<td>
+				{{parseInt(index)+1+((parseInt(list.page_now) - 1) * list.page_size)}}
+			</td>
+			<th>
+				<img av-if="value.type_logo_image_id" class="img-circle image-look" av-attr="[src] applicationConfig.qiniu_domain+value.type_logo_image_id+'?imageView2/1/w/40'" av-attr="[data-src] applicationConfig.qiniu_domain+value.type_logo_image_id" av-attr="[data-width]value.type_logo_image_width" av-attr="[data-height] value.type_logo_image_height" style="cursor: pointer;"> {{value.type_name}}
+			</th>
+			<td>
+				<div av-event="[click] eventShowMessage(:node,:event,'查看分类简介', value.type_info)" data-title="" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 100px;cursor: pointer;">{{value.type_info}}</div>
+			</td>
+			<td>
+				{{getModuleName(value.type_module)}}
+				<div style="color: #999;"><span class="glyphicon glyphicon-tag"></span>{{value.type_module}}</div>
+			</td>
+			<td>
+				{{value.type_label}}
+				<div style="color: #999;" av-if="value.type_comment">#{{value.type_comment}}</div>
+			</td>
+
+			<td>
+				<div av-event="[click] eventShowMessage(:node,:event,'查看JSON参数', value.type_json)" data-title="" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 100px;cursor: pointer;">{{value.type_json}}</div>
+			</td>
+
+			<td>
+				<span av-if="value.type_state == 1" class="label label-success">显示</span>
+				<span av-else class="label label-danger">隐藏</span>
+			</td>
+
+			<td><input style="width: 50px;" type="text" class="form-control" placeholder="排序" input="sort" av-attr="[data-id]value.type_id" av-attr="[value] value.type_sort"></td>
+
+			<td>{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(value.type_update_time) * 1000)}}</td>
+
+			<td av-if="!type_parent_get">
+				<a av-attr="[href]'#/setting-type/?search=%257B%2522type_parent_id%2522%253A%2522'+value.type_id+'%2522%257D'">{{value.type_son_count}}个</a>
+			</td>
+
+			<td>
+				<button class="btn btn-default btn-sm" av-event="[click]ClickEdit(value.type_id)"><span class="glyphicon glyphicon-edit"></span>编辑</button>
+				<button av-if="!type_parent_get" av-event="[click] eventClickAddSon(value.type_id,value.type_module)" class="btn btn-default btn-sm" action-button="add" data-parent-id="<!--{response.list.data[i].type_id}-->"><span class="glyphicon glyphicon-plus" ></span>添加子级</button>
+				<a av-if="!type_parent_get" av-attr="[href]'#/application-type/?search=%257B%2522type_parent_id%2522%253A%2522'+value.type_id+'%2522%257D'" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-share"></span>查看子级</a>
+			</td>
+		</tr>
+		<tr av-else>
+			<td colspan="10" align="center">无数据</td>
+		</tr>
+
+	</tbody>
+</table>
+
+<div av-if="list.data.length" style="text-align: center;">
+	<button class="btn btn-default" data-page="1" av-class="{'disabled':isFirstPage(list.page_now)}" type="button" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">首页</button>
+	<button class="btn btn-default" av-attr="[data-page] parseInt(list.page_now) - 1" av-class="{'disabled':isFirstPage(list.page_now)}" type="button" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">上一页</button>
+	<button class="btn btn-default" type="button" style="margin-right: 5px;">
+		第{{list.page_now}}页
+		/ 共{{list.page_count}}页
+		/ 有{{list.row_count}}条数据</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] parseInt(list.page_now) + 1" av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">下一页</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] list.page_count" av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">尾页</button>
+</div>
+<div class="form-inline" style="text-align: center;margin-top: 10px;">
+	<div class="form-group" style="margin-right: 5px;">
+		<input type="text" class="form-control" input-page="requestPageRequestValue" placeholder="输入跳转页" style="width: 100px;">
+	</div>
+	<button type="button" class="btn btn-default" av-event="[click]eventPageRequestSubmit(:node,:event)">跳转</button>
+</div>

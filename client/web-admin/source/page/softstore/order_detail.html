@@ -1,0 +1,111 @@
+<script id="content" type="text/template">
+	
+<table class="table table-bordered">
+  <tbody>
+    <tr>
+    	<th style="width: 100px;">订单ID：</th>
+      	<td style="min-width: 100px;"><!--{response.get.ss_order_id}--></td>
+    	<th style="width: 100px;">客户姓名：</th>
+   		<td style="min-width: 100px;"><!--{response.get.ss_order_name}--></td>
+    	<th style="width: 100px;">下单时间：</th>
+    	<td><!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.ss_order_time) * 1000)}--></td>
+    </tr>
+    <tr>
+    	<th style="width: 100px;">公司名称：</th>
+   		<td style="min-width: 100px;"><!--{response.get.ss_order_company}--></td>
+		<th style="width: 100px;">QQ：</th>
+		<td><!--{response.get.ss_order_qq}--></td>
+		<th style="width: 100px;">微信：</th>
+		<td><!--{response.get.ss_order_wechat}--></td>
+    </tr>
+    <tr>
+    	<th style="width: 100px;">手机号：</th>
+    	<td><!--{response.get.ss_order_phone}--></td>
+    	<th style="width: 100px;">联系地址：</th>
+    	<td><!--{response.get.ss_order_region}--></td>
+    	<th style="width: 100px;">处理状态：</th>
+   		<td>
+   			<!--if{parseInt(response.get.ss_order_contact_state) == 0}-->
+			<span class="label label-danger">未联系</span>
+			<button class="btn btn-default btn-xs" type="button" action-button="determine_contact" data-id="<!--{response.list.data[i].ss_order_id}-->" ><span class="glyphicon glyphicon-phone"></span> 确定联系</button>
+			<!--elseif{parseInt(response.get.ss_order_contact_state) == 1}-->
+			<span class="label label-success">已联系</span>
+			<!--/if-->
+   		</td>
+   		
+   		
+    </tr>
+    <tr>
+    	<th style="width: 100px;">价格合计：</th>
+    	<th colspan="3" style="color: red;">¥ <!--{parseInt(response.get.ss_order_total_money)/100}--></th>
+    	<!--if{parseInt(response.get.ss_order_contact_state) == 1}-->
+    	<th style="width: 100px;">联系时间：</th>
+		<td><!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.ss_order_contact_time) * 1000)}--></td>
+    	<!--/if-->
+    </tr>
+    <!--if{parseInt(response.get.ss_order_contact_state) == 1}-->	
+    <tr>
+    	<th style="width: 100px;">联系备注：</th>
+    	<td colspan="5">
+    	<!--{response.get.ss_order_contact_notes}-->
+    	<button class="btn btn-default btn-xs" type="button" action-button="determine_contact" data-id="<!--{response.list.data[i].ss_order_id}-->" ><span class="glyphicon glyphicon-edit"></span> 编辑备注</button>	
+    	</td>
+    </tr>
+    <!--/if-->
+  </tbody>
+</table>
+
+
+
+	
+<!--if{response.get.ss_order_product}-->
+<!--for{var i in response.get.ss_order_product}-->
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th colspan="10">
+      	#<!--{parseInt(i)+1}--> 
+      	<span style="color: #999;font-weight: normal;">产品名称：</span><!--{response.get.ss_order_product[i].ss_product_name}-->
+      	<a href="<!--{http(http(), '#/softstore/product_edit?id='+response.get.ss_order_product[i].ss_product_id).href}-->" class="btn btn-default btn-xs" target="_blank"><span class="glyphicon glyphicon-share"></span> 查看产品</a>
+      	<span style="color: #999;font-weight: normal;">价格合计：</span>¥ <!--{parseInt(response.get.ss_order_product[i].ss_order_product_money)/100}-->
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+  	<!--js{var ss_product_attr = []; ss_product_attr = JSON.parse(response.get.ss_order_product[i].ss_product_attr);}-->
+  	<!--js{console.log(ss_product_attr)}-->
+  	<!--for{var a in ss_product_attr}-->
+    <tr>
+      <th style="width: 5%;"><!--{parseInt(i)+1}-->.<!--{parseInt(a)+1}--></th>
+      <td style="width: 35%;">
+      	<span style="color: #999999;"><!--{ss_product_attr[a].ss_product_attr_parent_name}--></span>
+      	<!--{ss_product_attr[a].ss_product_attr_name}-->
+      	<!--if{parseInt(ss_product_attr[a].ss_product_attr_required)}-->
+      	<span style="color: red;">*</span>
+      	<!--/if-->
+      </td>
+      <td style="width: 40%;"><!--{ss_product_attr[a].ss_product_attr_info}--></td>
+      <td style="width: 20%;">¥ <!--{parseInt(ss_product_attr[a].ss_product_attr_money)/100}--></td>
+    </tr>
+    <!--/for-->
+  </tbody>
+</table>
+<!--/for-->
+<!--/if-->	
+</script>
+
+
+<script id="contact_notes" type="text/template">
+	<div style="padding: 10px;width: 500px;">
+		<div class="form-group">
+		    <label>订单ID：</label>
+		    <input type="text" class="form-control" name="ss_order_id" readonly="readonly" value="<!--{ss_order_id}-->">
+		</div>
+		<div class="form-group">
+		    <label>联系备注：</label>
+		    <textarea class="form-control" rows="3" placeholder="输入联系备注" name="ss_order_contact_notes"><!--{ss_order_contact_notes}--></textarea>
+		</div>
+		<br/>
+		<button type="button" class="btn btn-primary btn-block" name="contact_notes-submit">确定提交</button>
+	</div>
+</script>

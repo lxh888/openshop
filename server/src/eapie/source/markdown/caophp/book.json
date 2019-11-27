@@ -1,0 +1,8 @@
+{
+	"title":"cao.php微框架v1.0文档",
+    "plugins": [
+        "highlight"
+    ],
+    "blacklist":["images", "SUMMARY.md"],
+    "description":"cao.php是对php浅封装适应接口开发的微框架。主要对程序设计中的路由、析构、会话、数据模型、对象实例等进行封装与使用。"
+}

@@ -1,0 +1,90 @@
+<script id="content" type="text/template">
+	
+	<div class="form-group">
+    	<label>应用ID：</label>
+    	<input type="text" class="form-control" placeholder="应用ID" name="application_id" value="<!--{response.get.application_id}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>应用名称：</label>
+    	<input type="text" class="form-control" placeholder="应用名称" name="application_name" value="<!--{response.get.application_name}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>应用介绍：</label>
+    	<textarea class="form-control" rows="3" placeholder="详细介绍" name="application_info"><!--{response.get.application_info}--></textarea>
+  	</div>
+  	<div class="form-group">
+    	<label>配置信息：</label>
+    	<div style="margin: 10px 0;">参数详解：<code>{"host":"主机/IP", "user":"数据库用户账号", "pass":"数据库密码", "base":"数据库名称", "prefix":"表前缀"}</code></div>
+    	<textarea class="form-control" rows="3" placeholder="配置信息" name="application_json"><!--{response.get.application_json}--></textarea>
+  	</div>
+  	
+  	<div class="form-group">
+    	<label>是否关闭：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="0" name="application_on_off" <!--if{parseInt(response.get.application_on_off)}--><!--else-->checked="checked"<!--/if--> > 是
+		</label>
+  	</div>
+  	
+  	<div class="form-group">
+    	<label>是否封禁：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="0" name="application_state" <!--if{parseInt(response.get.application_state)}--><!--else-->checked="checked"<!--/if--> > 是
+		</label>
+  	</div>
+  	<div class="form-group">
+    	<label>封禁信息：</label>
+    	<textarea class="form-control" rows="3" placeholder="封禁信息" name="application_warning"><!--{response.get.application_warning}--></textarea>
+  	</div>
+  	
+  	<div class="form-group">
+    	<label>是否为系统引擎管理员：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="administrator" <!--if{parseInt(response.get.administrator)}-->checked="checked"<!--/if--> > 是
+		</label>
+  	</div>
+  	
+  	<div class="form-group">
+    	<label>应用权限：</label>
+    	<table class="table table-striped table-hover">
+	      <tbody>
+	      	
+	      	<!--if{response.authority_option.length}-->
+			<!--for{var i in response.authority_option}-->
+	      	
+	        <tr>
+	          <th style="width: 150px;">
+	          	<label class="checkbox-inline" style="margin: 0px 10px;font-weight: bold;">
+	        		<input type="checkbox" action-table="checkbox-all-<!--{response.authority_option[i].module_id}-->" style="margin-left: -16px;">
+	        		<!--{response.authority_option[i].module_name}-->
+	        	</label>	
+	          </th>
+	          <td>
+	          	
+	          	<!--if{response.authority_option[i].authority.length}-->
+				<!--for{var s in response.authority_option[i].authority}-->
+				<label class="checkbox-inline" style="margin: 0px 10px;">
+				  <input type="checkbox" name="authority_id-checkbox" action-table="checkbox-<!--{response.authority_option[i].module_id}-->" <!--if helper{"authority in_array" (response.authority_option[i].authority[s].authority_id, response.get.authority_id)}-->checked="checked"<!--/if--> style="margin-left: -16px;" value="<!--{response.authority_option[i].authority[s].authority_id}-->">
+				  <!--{response.authority_option[i].authority[s].authority_name}-->
+				</label>
+				<!--/for-->
+				<!--else-->
+				<span style="color: #999999;margin-left: 15px;">无子权限</span>
+				<!--/if-->
+	          	
+	          </td>
+	        </tr>
+	        
+	        <!--/for-->
+			<!--/if-->
+	        
+	      </tbody>
+	    </table>
+    	
+    	
+  	</div>
+  	
+  	<br/>
+  	<button type="button" class="btn btn-primary" name="submit">确定更新</button>
+	
+	<div style="height: 100px;"></div>
+</script>

@@ -1,0 +1,119 @@
+<div class="btn-group" style="margin-left: 5px;">
+	<button av-event="[click] eventQuery(:node,:event,'is_success', false)" class="btn btn-default" av-class="{'active':( typeof is_success == 'undefined' )}">全部成团状态</button>
+	<button av-event="[click] eventQuery(:node,:event,'is_success', 0)" class="btn btn-default" av-class="{'active':( is_success == 0 )}">未成团</button>
+	<button av-event="[click] eventQuery(:node,:event,'is_success', 1)" class="btn btn-default" av-class="{'active':( is_success == 1 )}">已成团</button>
+</div>
+<div class="btn-group" style="margin-left: 5px;">
+	<button av-event="[click] eventQuery(:node,:event,'is_end', false)" class="btn btn-default" av-class="{'active':( typeof is_end == 'undefined' )}">全部结束状态</button>
+	<button av-event="[click] eventQuery(:node,:event,'is_end', 0)" class="btn btn-default" av-class="{'active':( is_end == 0 )}">未结束</button>
+	<button av-event="[click] eventQuery(:node,:event,'is_end', 1)" class="btn btn-default" av-class="{'active':( is_end == 1 )}">已结束</button>
+</div>
+
+<button class="btn btn-danger" av-event="[click] eventRemove(:node,:event)" type="button" style="margin-left: 5px;"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+<button class="btn btn-default" av-event="[click] eventSearch(:node,:event)" type="button" style="margin-left: 5px;"><span class="glyphicon glyphicon-filter"></span> 筛选</button>
+<span av-if="checkRouterAnchorQuerySearch()" class="label label-default" style="margin-left: 5px;">存在筛选</span>
+
+
+<hr/>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><input type="checkbox" checkbox="checkbox-all"></th>
+      <th>#</th>
+      <th width="40%">商品ID/商品规格/商品名称</th>
+      <th>团购价格</th>
+      <th>
+      	<a href="javascript:;" av-event="[click] eventSort(:node,:event,'start_time_asc', 'start_time_desc')" ><span av-if="existSort('start_time_asc', 'start_time_desc')"   class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('start_time_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('start_time_desc')}"></span>开始时间</a>
+      	/
+      	<a href="javascript:;" av-event="[click] eventSort(:node,:event,'end_time_asc', 'end_time_desc')" ><span av-if="existSort('end_time_asc', 'end_time_desc')"   class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('end_time_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('end_time_desc')}"></span>结束时间</a>
+      </th>
+      <th>已加入人数/成团人数/成团状态</th>
+      <th>结束状态</th>
+     <!-- <th><a href="javascript:;" av-event="[click] eventSort(:node,:event,'user_nickname_asc', 'user_nickname_desc')" ><span av-if="existSort('user_nickname_asc', 'user_nickname_desc')"   class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('user_nickname_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('user_nickname_desc')}"></span>添加者</a></th>-->
+      <th><a href="javascript:;" av-event="[click] eventSort(:node,:event,'update_time_asc', 'update_time_desc')"><span av-if="existSort('update_time_asc', 'update_time_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('update_time_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('update_time_desc')}"></span>更新时间</a></th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+  	<tr av-if="list && list.data && list.data.length" av-for="(value, key) list.data" av-event="[dblclick] eventTrDblclick(:node,:event)" av-attr="[data-id] value.shop_goods_group_id" data-checkbox="checkbox">
+      <th><input type="checkbox" checkbox="checkbox" av-attr="[data-id] value.shop_goods_group_id"></th>
+      <td>{{parseInt(key)+1+((parseInt(list.page_now) - 1) * list.page_size)}}</td>
+      <td>
+      	<div style="color: #999;">ID:{{value.shop_goods_id}}</div>
+      	<div>
+      		<span class="label label-primary" av-if="value.shop_goods_property == 1">积分商品</span>
+      		<span av-if="value.shop_goods_spu" av-for="(spuV)value.shop_goods_spu">
+      			[{{spuV.parent.shop_goods_spu_name}}:{{spuV.shop_goods_spu_name}}]
+      		</span>
+      		<span av-else>[-所有规格-]</span>
+      		{{value.shop_goods_name}}
+      	</div>
+      </td>
+      <td>
+      	<span av-if="value.shop_goods_property == 1">
+      		{{(parseInt(value.shop_goods_group_price)/applicationConfig.credit.scale).toFixed(applicationConfig.credit.precision)}} 积分数量
+      	</span>
+      	<span av-else>
+      		{{(parseInt(value.shop_goods_group_price)/100).toFixed(2)}} 元 
+      	</span>
+      </td>
+      <td>
+      	<div av-if="parseInt(value.shop_goods_group_start_time)">{{av.date("yyyy/MM/dd HH:mm:ss", parseInt(value.shop_goods_group_start_time) * 1000)}}</div>
+      	<div av-else>-</div>
+      	<div av-if="parseInt(value.shop_goods_group_end_time)">{{av.date("yyyy/MM/dd HH:mm:ss", parseInt(value.shop_goods_group_end_time) * 1000)}}</div>
+      	<div av-else>-</div>
+      </td>
+      <td>
+      	{{value.shop_goods_group_people_now}} / {{value.shop_goods_group_people}} / 
+      	<span av-if="value.shop_goods_group_success == 1" class="label label-success">已成团</span>
+      	<span av-else-if="value.shop_goods_group_success == 0" class="label label-danger">未成团</span>
+      	<span av-else class="label label-default">未知</span>
+      </td>
+      <td>
+      	<span av-if="value.shop_goods_group_state == 0" class="label label-success">已结束</span>
+      	<span av-else-if="value.shop_goods_group_state == 1" class="label label-warning">进行中</span>
+      	<span av-else-if="value.shop_goods_group_state == 2" class="label label-danger">未开始</span>
+      	<span av-else class="label label-default">未知</span>
+      </td>
+      <!--<td style="max-width: 250px;">
+      	<div style="max-width: 250px;display: inline-block;">
+          <img av-if="value.user_logo_image_id" av-attr="[src] applicationConfig.qiniu_domain+value.user_logo_image_id+'?imageView2/1/w/30'" class="img-circle">
+          <span av-if="value.user_nickname" av-text="value.user_nickname"></span>
+          <span av-else style="color: #999999;">未设置昵称</span>	
+          <span av-if="value.user_phone_verify_list" style="word-wrap:break-word;">
+          	({{value.user_phone_verify_list}})
+          </span>
+          <span av-else style="color: #999999;">无认证手机</span>
+      	</div>
+      </td>-->
+      <td>
+      	<span av-if="parseInt(value.shop_goods_update_time)">{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(value.shop_goods_update_time) * 1000)}}</span>
+      	<span av-else>-</span>
+      </td>
+      <td>
+		<a av-attr="[href] '#/shop-groupGoodsEdit/?id='+value.shop_goods_group_id" class="btn btn-default btn-sm">
+			<span class="glyphicon glyphicon-edit"></span> 编辑
+		</a>
+  	  </td>
+    </tr>
+    <tr av-else>
+    	<td colspan="10" align="center">无数据</td>
+    </tr>
+  </tbody>
+</table>
+
+<div av-if="list.data.length" style="text-align: center;">
+	<button class="btn btn-default" data-page="1" av-class="{'disabled':isFirstPage(list.page_now)}" type="button" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">首页</button>
+	<button class="btn btn-default" av-attr="[data-page] parseInt(list.page_now) - 1" av-class="{'disabled':isFirstPage(list.page_now)}" type="button" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">上一页</button>
+	<button class="btn btn-default" type="button" style="margin-right: 5px;">
+		第{{list.page_now}}页
+		/ 共{{list.page_count}}页
+		/ 有{{list.row_count}}条数据</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] parseInt(list.page_now) + 1" av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">下一页</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] list.page_count" av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">尾页</button>
+</div>
+
+
+
+
+

@@ -1,0 +1,60 @@
+<div class="btn-group">
+	<a av-attr="[href] av.router(av.router().url,'#/shop-goodsEdit/?id='+getShopGoodsId).href" class="btn btn-default">基础信息</a>
+	<a av-attr="[href] av.router(av.router().url,'#/shop-goodsDetailsEdit/?action=details&id='+getShopGoodsId).href"class="btn btn-default">商品详细</a>
+	<a av-attr="[href] '#/shop-goodsType/?id='+getShopGoodsId" class="btn btn-default">商品分类</a>
+	<a av-attr="[href] av.router(av.router().url,'index.html#/shop/goods_edit/?action=image&sort=update_time_desc&id='+getShopGoodsId).href" class="btn btn-default">商品图片</a>
+	<a av-attr="[href] av.router(av.router().url,'index.html#/shop/goods_edit/?action=file&sort=update_time_desc&id='+getShopGoodsId).href" class="btn btn-default">商品文件</a>
+	<a class="btn btn-default active">商品规格</a>
+</div>
+<br/><br/>
+
+<div class="form-group">
+	<label>商品ID：</label>
+	<input type="text" class="form-control" placeholder="输入商品id" readonly name="goods_id" av-event="[propertychange input]eventGetSingleGoodsInfo(:node,:event)" av-attr="[value] getShopGoodsId" />
+</div>
+<!-- 输入商品id后显示商品名称 -->
+<div av-if="getShopGoodsError" class="alert alert-danger" style="margin-bottom: 10px;padding: 8px;">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true"></span> &times; </button> {{getShopGoodsError}}
+</div>
+
+<div av-else-if="getShopGoodsData" class="form-group">
+	<div class="form-group">
+		<label>商品名称：</label>
+		<input type="text" class="form-control" readonly name="shop_goods_name" av-attr="[value] getShopGoodsData.shop_goods_name" />
+	</div>	
+	<div class="form-group">
+		<label>商品类型：</label>
+		<input av-if="getShopGoodsData.shop_goods_property == 0" av-attr="[value] '普通商品'" type="text" class="form-control" readonly/>
+		<input av-else-if="getShopGoodsData.shop_goods_property == 1" av-attr="[value] '积分商品'" type="text" class="form-control" readonly/>
+	</div>
+</div>
+
+<hr av-if="getShopGoodsId" />
+<ul av-is="getShopGoodsData" class="nav nav-tabs">
+	<li name="menu_now" av-class="{'active':nowMenu == 'spu'? true:false}">
+		<a style="cursor: pointer;" av-event="[click] eventChangeNowMenu(:node,:event,'spu')">属性</a>
+	</li>
+	<li name="menu_now" av-class="{'active':nowMenu == 'sku'? true:false}">
+		<a style="cursor: pointer;" av-event="[click] eventChangeNowMenu(:node,:event,'sku')">规格</a>
+	</li>
+</ul>
+<br/>
+<button av-is="getShopGoodsData" type="button" class="btn btn-default" style="margin-right: 5px;" av-event="[click] eventSpuAdd(:node,:event)"><span class="glyphicon glyphicon-plus"></span> 添加属性</button>
+<button av-is="getShopGoodsData" type="button" class="btn btn-default" style="margin-right: 5px;" av-event="[click] eventSkuAdd(:node,:event)"><span class="glyphicon glyphicon-plus"></span> 添加规格</button>
+<button av-is="getShopGoodsData && nowMenu=='spu'" class="btn btn-default" style="margin-right: 5px;" type="button" av-event="[click] eventSpuSort(:node,:event)"><span class="glyphicon glyphicon-sort"></span> 排序属性</button>
+<button av-is="getShopGoodsData && nowMenu=='spu'" class="btn btn-danger" type="button" av-event="[click] eventSpuRemove(:node,:event)"><span class="glyphicon glyphicon-trash"></span> 删除属性</button>
+<button av-is="getShopGoodsData && nowMenu=='sku'" class="btn btn-danger" type="button" av-event="[click] eventSkuRemove(:node,:event)"><span class="glyphicon glyphicon-trash"></span> 删除规格</button>
+<div av-if="getShopGoodsData && nowMenu=='sku'" class="alert alert-warning" style="margin-bottom: 10px;padding: 8px;margin-top: 10px;">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	<strong>注意!</strong> 当库存为0的时候，表示其规格已经失效，亦是其规格停止了售卖。
+</div>
+
+<!--规格-->
+<div av-template="skuTemplate" debug="template" av-if="getShopGoodsData && nowMenu=='sku' && list && list.data && list.data.length"></div>
+<!--属性-->
+<div av-template="spuTemplate" av-if="shop_goods_spu_option && nowMenu=='spu'"></div>
+
+
+<hr av-if="getShopGoodsData" />
+<span av-is="getShopGoodsData" style="color: #999999;">更新时间：{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(getShopGoodsData.shop_goods_update_time)*1000)}}</span>
+<div style="height: 100px;"></div>

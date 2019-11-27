@@ -1,0 +1,130 @@
+<div class="panel panel-default" av-if="moduleData">
+	<div class="panel-body">
+      	<div>模块ID：{{moduleData.module_id}}</div>
+		<div>模块名称：{{moduleData.module_name}}</div>
+		<div>更新时间：{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(moduleData.module_update_time) * 1000)}}</div>
+	</div>
+</div>
+
+<div class="btn-group" style="margin-left: 5px;">
+	<button av-event="[click] eventQuery(:node,:event,'state', false)" class="btn btn-default" av-class="{'active':( typeof state == 'undefined' )}">全部状态</button>
+	<button av-event="[click] eventQuery(:node,:event,'state', 0)" class="btn btn-default" av-class="{'active':( state == 0 )}">已关闭</button>
+	<button av-event="[click] eventQuery(:node,:event,'state', 1)" class="btn btn-default" av-class="{'active':( state == 1 )}">已开启</button>
+</div>
+<div class="btn-group" style="margin-left: 5px;">
+	<button av-event="[click] eventQuery(:node,:event,'is_version', false)" class="btn btn-default" av-class="{'active':( typeof is_version == 'undefined' )}">全部入口</button>
+	<button av-event="[click] eventQuery(:node,:event,'is_version', 0)" class="btn btn-default" av-class="{'active':( is_version == 0 )}">默认入口</button>
+	<button av-event="[click] eventQuery(:node,:event,'is_version', 1)" class="btn btn-default" av-class="{'active':( is_version == 1 )}">多版本入口</button>
+</div>
+
+<div class="btn-group" style="margin-left: 5px;">
+	<button av-event="[click] eventQuery(:node,:event,'is_administrator', false)" class="btn btn-default" av-class="{'active':( typeof is_administrator == 'undefined' )}">全部权限</button>
+	<button av-event="[click] eventQuery(:node,:event,'is_administrator', 0)" class="btn btn-default" av-class="{'active':( is_administrator == 0 )}">普通</button>
+	<button av-event="[click] eventQuery(:node,:event,'is_administrator', 1)" class="btn btn-default" av-class="{'active':( is_administrator == 1 )}">引擎</button>
+</div>
+<div class="btn-group" style="margin-left: 5px;">
+	<button av-event="[click] eventQuery(:node,:event,'is_admin', false)" class="btn btn-default" av-class="{'active':( typeof is_admin == 'undefined' )}">全部类型</button>
+	<button av-event="[click] eventQuery(:node,:event,'is_admin', 0)" class="btn btn-default" av-class="{'active':( is_admin == 0 )}">前台</button>
+	<button av-event="[click] eventQuery(:node,:event,'is_admin', 1)" class="btn btn-default" av-class="{'active':( is_admin == 1 )}">后台</button>
+</div>
+
+<button class="btn btn-danger" av-event="[click] eventRemove(:node,:event)" type="button" style="margin-left: 5px;"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+<button class="btn btn-default" av-event="[click] eventSearch(:node,:event)" type="button" style="margin-left: 5px;"><span class="glyphicon glyphicon-filter"></span> 筛选</button>
+<span av-if="checkRouterAnchorQuerySearch()" class="label label-default" style="margin-left: 5px;">存在筛选</span>
+
+
+
+<hr/>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><input type="checkbox" checkbox="checkbox-all"></th>
+      <th>#</th>
+      <th><a href="javascript:;" av-event="[click] eventSort(:node,:event,'id_asc', 'id_desc')" ><span av-if="existSort('id_asc', 'id_desc')"   class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('id_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('id_desc')}"></span>接口ID</a></th>
+      <th>
+      	<a href="javascript:;" av-event="[click] eventSort(:node,:event,'name_asc', 'name_desc')" ><span av-if="existSort('name_asc', 'name_desc')"   class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('name_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('name_desc')}"></span>接口名称</a>
+      	/
+      	<a href="javascript:;" av-event="[click] eventSort(:node,:event,'administrator_asc', 'administrator_desc')" ><span av-if="existSort('administrator_asc', 'administrator_desc')"   class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('administrator_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('administrator_desc')}"></span>权限</a>
+      	/
+      	<a href="javascript:;" av-event="[click] eventSort(:node,:event,'admin_asc', 'admin_desc')" ><span av-if="existSort('admin_asc', 'admin_desc')"   class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('admin_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('admin_desc')}"></span>类型</a>
+      </th>
+      <th><a href="javascript:;" av-event="[click] eventSort(:node,:event,'state_asc', 'state_desc')" ><span av-if="existSort('state_asc', 'state_desc')"   class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('state_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('state_desc')}"></span>状态</a></th>
+      <th><a href="javascript:;" av-event="[click] eventSort(:node,:event,'update_time_asc', 'update_time_desc')"><span av-if="existSort('update_time_asc', 'update_time_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('update_time_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('update_time_desc')}"></span>更新时间</a></th>
+      
+      <th av-if="!moduleData"><a href="javascript:;" av-event="[click] eventSort(:node,:event,'module_id_asc', 'module_id_desc')"><span av-if="existSort('module_id_asc', 'module_id_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('module_id_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('module_id_desc')}"></span>模块信息</a></th>
+      
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+  	<tr av-if="list && list.data && list.data.length" av-for="(value, key) list.data" av-event="[dblclick] eventTrDblclick(:node,:event)" av-attr="[data-id] value.api_id" data-checkbox="checkbox">
+      <th><input type="checkbox" checkbox="checkbox" av-attr="[data-id] value.api_id"></th>
+      <td cs="test-sx">{{parseInt(key)+1+((parseInt(list.page_now) - 1) * list.page_size)}}</td>
+      <td style="max-width: 200px;"><span style="word-wrap:break-word">{{value.api_id}}</span></td>
+      <td >
+      	<span av-if="value.api_version_count>0" class="btn btn-default btn-xs">多版本[{{value.api_version_count}}]</span>
+      	{{value.api_name}}
+      	<span av-if="parseInt(value.administrator)" class="label label-primary">引擎</span>
+      	<span av-else class="label label-default">普通</span>
+      	
+      	<span av-if="parseInt(value.api_admin)" class="label label-info">后台</span>
+      	<span av-else class="label label-warning">前台</span>
+      </td>
+      <td>
+          <span av-if="parseInt(value.api_state)" class="label label-success">开启中</span>
+          <span av-else class="label label-danger">已关闭</span>
+      </td>
+      <td>{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(value.api_update_time) * 1000)}}</td>
+      
+      <td av-if="!moduleData">
+      	<span av-if="value.module_id">{{value.module_name}}</span>
+      	<span av-else style="color: #999;">未设置</span>
+      </td>
+      
+      <!--<td style="max-width: 250px;">
+      	<div style="max-width: 250px;display: inline-block;">
+          <img av-if="value.user_logo_image_id" av-attr="[src] applicationConfig.qiniu_domain+value.user_logo_image_id+'?imageView2/1/w/30'" class="img-circle">
+          <span av-if="value.user_nickname" av-text="value.user_nickname"></span>
+          <span av-else style="color: #999999;">未设置昵称</span>	
+          <span av-if="value.user_phone_verify_list" style="word-wrap:break-word;">
+          	({{value.user_phone_verify_list}})
+          </span>
+          <span av-else style="color: #999999;">无认证手机</span>
+      	</div>
+      </td>-->
+      <td>
+      	
+      	<button class="btn btn-default btn-sm" av-event="[click]evnetShowDetails(:node,:event,value.api_id, value.api_name)" style="margin-right: 5px;"><span class="glyphicon glyphicon-zoom-in"></span>查看详细</button>
+      	<a av-attr="[href]av.router(av.router().url,'default.html#/administrator-apiEdit/?id='+value.api_id).href" class="btn btn-default btn-sm" style="margin-right: 5px;"><span class="glyphicon glyphicon-edit" ></span>编辑</a>
+      	<a av-if="!moduleData && value.module_id" av-attr="[href]'#/administrator-apiList/?search=%257B%2522module_id%2522%253A%2522'+value.module_id+'%2522%257D&sort=update_time_desc'" class="btn btn-default btn-sm">
+          	<span class="glyphicon glyphicon-filter"></span> 只查看该模块
+        </a>
+  	  </td>
+    </tr>
+    <tr av-else>
+    	<td colspan="10" align="center">无数据</td>
+    </tr>
+  </tbody>
+</table>
+
+<div av-if="list.data.length" style="text-align: center;">
+	<button class="btn btn-default" data-page="1" av-class="{'disabled':isFirstPage(list.page_now)}" type="button" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">首页</button>
+	<button class="btn btn-default" av-attr="[data-page] parseInt(list.page_now) - 1" av-class="{'disabled':isFirstPage(list.page_now)}" type="button" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">上一页</button>
+	<button class="btn btn-default" type="button" style="margin-right: 5px;">
+		第{{list.page_now}}页
+		/ 共{{list.page_count}}页
+		/ 有{{list.row_count}}条数据</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] parseInt(list.page_now) + 1" av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">下一页</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] list.page_count" av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">尾页</button>
+</div>
+
+
+
+
+
+
+
+
+
+
+

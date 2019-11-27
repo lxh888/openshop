@@ -1,0 +1,35 @@
+<script id="content" type="text/template">
+
+<div style="width: 100%; max-width: 350px;margin: 0 auto;">
+  	<div class="content_log_in" style="padding: 10px;position: relative;top:100px;">
+  	
+	  	<h1>登录</h1>
+	  	<hr/>
+	  	<div class="form-group">
+		    <label for="name"><span class="glyphicon glyphicon-phone"></span> 手机号:</label>
+		    <input type="text" name="phone" autocomplete="off" placeholder="请输入您的登录手机号" class="form-control">
+		</div>
+  		<div class="form-group">
+		    <label for="name"><span class="glyphicon glyphicon-lock"></span> 密码:</label>
+		    <input type="password" name="password" autocomplete="off" placeholder="请输入您的登录密码" class="form-control">
+		</div>
+	  	
+		<div class="image-verify-code-div" style="display: none;">
+			<div class="form-group">
+				<span style="font-size: 14px;color: #999999;display: block;text-align: center;">看不清楚?点击图片换一张</span>
+		    	<img class="image-verify-code-img" src="" alt="刷新验证码" style="cursor:pointer;width: 100%;margin-bottom: 5px;border-radius: 4px;" title="刷新验证码" />
+			</div>
+			<div class="form-group">
+				<label for="name"><span class="glyphicon glyphicon-hourglass"></span> 验证码:</label>
+				<input type="text" name="image_verify_code" autocomplete="off" placeholder="输入验证码" class="form-control">
+			</div>
+		</div>
+	  	<br/>
+	  	<button name="log_in_submit" class="btn btn-primary btn-lg btn-block">提交登录</button>
+	  	
+	</div>
+</div>
+	
+</script>
+
+

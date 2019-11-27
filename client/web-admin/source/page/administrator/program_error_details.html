@@ -1,0 +1,16 @@
+<script id="content" type="text/template">
+	<div style="max-width: 1200px;width: 100%;margin: 0 auto;">
+		<div style="padding: 20px;">
+		<!--if{response.get.length}-->
+		<div>共有 <!--{response.get.length}--> 条错误信息 <button type="button" class="btn btn-default action-repeat"><span class="glyphicon glyphicon-repeat"></span> 点击刷新</button></div>
+		<hr/>
+		<!--for{var i in response.get}-->
+		<pre style="font-size: 15px;white-space: pre-wrap;word-wrap: break-word;"><!--{response.get[i]}--></pre>
+		<hr/>
+		<!--/for-->
+        <!--else-->
+        <div style="color: #999;">无数据，或者没有权限访问</div>
+        <!--/if-->  
+        </div>  
+	</div>
+</script>

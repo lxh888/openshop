@@ -1,0 +1,20 @@
+<!-- 引入头部模板-->
+<div av-template="templateHeader"></div>
+<!-- 引入导航模板-->
+<div av-template="templateNavigation"></div>
+<div index="content">
+	<div class="body" av-style="content.bodyStyle">
+		<!--溢出隐藏滚动条-->
+		<div class="scroll">
+			<div class="wrap" av-style="content.wrapStyle">
+				<ol class="breadcrumb" av-if="navigation.checkedParentData">
+					<li class="active">{html{navigation.checkedParentData.management_label_before}} {{navigation.checkedParentData.management_name}}</li>
+					<li class="active">{html{navigation.checkedSonData.management_label_before}} {{navigation.checkedSonData.management_name}}</li>
+				</ol>
+				<div page="content">
+					<!--#引入导航模板-->
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>

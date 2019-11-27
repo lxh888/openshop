@@ -1,0 +1,73 @@
+<div class="btn-group" style="margin-right: 10px;">
+	<a av-attr="[href] '#/shop-goodsEdit/?id='+data.shop_goods_id" class="btn btn-default">基础信息</a>
+	<a av-attr="[href] '#/shop-goodsDetailsEdit/?id='+data.shop_goods_id" class="btn btn-default">商品详细</a>
+	<a av-attr="[href] '#/shop-goodsType/?id='+data.shop_goods_id" class="btn btn-default active">商品分类</a>
+
+	<!-- <a av-attr="[href] av.router(av.router().url,'index.html#/shop/goods_edit/?action=type&id='+formInput.shop_goods_id).href" class="btn btn-default">商品分类</a> -->
+	<a av-attr="[href] av.router(av.router().url,'index.html#/shop/goods_edit/?action=image&sort=update_time_desc&id='+data.shop_goods_id).href" class="btn btn-default">商品图片</a>
+	<a av-attr="[href] av.router(av.router().url,'index.html#/shop/goods_edit/?action=file&sort=update_time_desc&id='+data.shop_goods_id).href" class="btn btn-default">商品文件</a>
+	<a av-attr="[href] av.router(av.router().url,'#/shop-goodsAttr/?id='+data.shop_goods_id).href" class="btn btn-default">商品规格</a>
+</div>
+<br/><br/>
+
+<div class="form-group">
+	<label>商品ID：</label>
+	<input type="text" class="form-control" readonly="readonly" av-attr="[value]data.shop_goods_id">
+</div>
+<div class="form-group">
+	<label>商品名称：</label>
+	<input type="text" class="form-control" readonly="readonly" av-attr="[value]data.shop_goods_name">
+</div>
+<button type="button" class="btn btn-primary" av-event="[click] eventSubmit(:node,:event)" av-class="{'disabled':submitLock}"><span class="glyphicon glyphicon-floppy-disk"></span> 保存编辑</button>
+
+<br/><br/>
+<table class="table table-striped table-hover">
+  	<tbody>
+  		<tr av-if="typeModuleShopGoodsOption.length" av-for="(tmsgoValue)typeModuleShopGoodsOption">
+  			<th style="width: 200px;">
+  				{{tmsgoValue.type_name}}
+  				<span av-if="tmsgoValue.type_state == 0" style="color: red;">隐藏</span>
+		    </th>
+		    <td>
+		    	<label av-if="tmsgoValue.son.length" av-for="(tmsgoSonValue)tmsgoValue.son" class="checkbox-inline" style="margin: 0px 10px;">
+		    		<input type="checkbox" name="goods-type-checkbox" av-attr="[checked] goodsTypeInArray(tmsgoSonValue.type_id, data.shop_goods_type)?'checked':''" style="margin-left: -16px;" av-attr="[value] tmsgoSonValue.type_id">
+		    		{{tmsgoSonValue.type_name}}
+  					<span av-if="tmsgoSonValue.type_state == 0" style="color: red;">隐藏</span>
+		    	</label>
+				<span av-else style="color: #999999;margin-left: 15px;">无子选项
+					<a av-attr="[href] av.router(av.router().url,'index.html#/application/type/?type_parent_id='+tmsgoValue.type_id+'&sort=update_time_desc').href" class="btn btn-default btn-xs" ><span class="glyphicon glyphicon-plus"></span> 立即添加</a>
+				</span>
+		    </td>
+  		</tr>
+    	<span av-else style="color: #999999;margin-left: 15px;">无分类 <a href="av.router(av.router().url,'index.html#/application/type/?sort=update_time_desc').href" class="btn btn-default btn-xs" ><span class="glyphicon glyphicon-plus"></span> 立即添加</a></span>
+  	</tbody>
+</table>
+<div class="form-group" av-if="data.merchant_parent_type">
+	<label>店铺商品分类：</label>
+
+</div>
+<table class="table table-striped table-hover" av-if="data.merchant_parent_type">
+	<tbody>
+		<tr av-if="data.merchant_parent_type.length" av-for="(va,it)data.merchant_parent_type">
+			<th style="width: 200px;">
+				{{va.type_name}}
+				<span av-if="va.type_state == 0" style="color: red;">隐藏</span>
+		  </th>
+		  <td>
+			  <label av-if="va.son.length" av-for="(vason)va.son" class="checkbox-inline" style="margin: 0px 10px;">
+				  {{vason.type_name}}
+					<span av-if="tmsgoSonValue.type_state == 0" style="color: red;">隐藏</span>
+			  </label>
+		  </td>
+		</tr>
+	  
+	</tbody>
+</table>
+
+
+
+
+<hr/>
+<span style="color: #999999;">更新时间：{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(data.shop_goods_update_time) * 1000)}}</span>
+<div style="height: 100px;"></div>
+

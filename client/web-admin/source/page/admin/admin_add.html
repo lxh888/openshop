@@ -1,0 +1,66 @@
+<script id="content" type="text/template">
+	
+  	<div class="form-group">
+    	<label>角色名称：</label>
+    	<input type="text" class="form-control" placeholder="角色名称" name="admin_name">
+  	</div>
+  	<div class="form-group">
+    	<label>角色介绍：</label>
+    	<textarea class="form-control" rows="3" placeholder="角色介绍" name="admin_info"></textarea>
+  	</div>
+  	<div class="form-group">
+    	<label>排序：</label>
+    	<input type="text" class="form-control" placeholder="分类的排序" name="admin_sort">
+  	</div>
+  	<div class="form-group">
+    	<label>状态：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="0" name="admin_state"> 停用
+		</label>
+  	</div>
+  	<div class="form-group">
+    	<label>角色权限：</label>
+    	
+    	<table class="table table-striped table-hover">
+	      <tbody>
+	      	
+	      	<!--if{response.authority_option.length}-->
+			<!--for{var i in response.authority_option}-->
+	      	
+	        <tr>
+	          <th style="width: 150px;">
+	          	<label class="checkbox-inline" style="margin: 0px 10px;font-weight: bold;">
+	        		<input type="checkbox" action-table="checkbox-all-<!--{response.authority_option[i].module_id}-->" style="margin-left: -16px;">
+	        		<!--{response.authority_option[i].module_name}-->
+	        	</label>	
+	          </th>
+	          <td>
+	          	
+	          	<!--if{response.authority_option[i].authority.length}-->
+				<!--for{var s in response.authority_option[i].authority}-->
+				<label class="checkbox-inline" style="margin: 0px 10px;">
+				  <input type="checkbox" name="authority_id-checkbox" action-table="checkbox-<!--{response.authority_option[i].module_id}-->" style="margin-left: -16px;" value="<!--{response.authority_option[i].authority[s].authority_id}-->">
+				  <!--{response.authority_option[i].authority[s].authority_name}-->
+				</label>
+				<!--/for-->
+				<!--else-->
+				<span style="color: #999999;margin-left: 15px;">无子权限</span>
+				<!--/if-->
+	          	
+	          </td>
+	        </tr>
+	        
+	        <!--/for-->
+			<!--/if-->
+	        
+	      </tbody>
+	    </table>
+    	
+    	
+  	</div>
+  	
+  	<br/>
+  	<button type="button" class="btn btn-primary" name="submit">确定添加</button>
+	<div style="height: 100px;"></div>
+</script>
+

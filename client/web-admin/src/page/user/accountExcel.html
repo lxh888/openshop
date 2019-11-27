@@ -1,0 +1,46 @@
+<div av-if="accountExcelOption">
+	
+	<div class="form-group">
+	    <label class="control-label">导出项目：</label>
+	    <div class="radio"  av-for="(aeoV, aeoK)accountExcelOption">
+		  	<label><input type="radio" name="accountExcelProject" av-attr="[value] aeoV.api" av-attr="[checked] aeoK == 0? 'checked':false"> {{aeoV.title}}</label>
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label>指定手机号：<span style="color: #999;font-weight: normal;">用户的电话号码，不填的时候查询所有用户</span></label>
+		<input type="text" class="form-control" placeholder="指定手机号" name="user_phone">
+	</div>
+	
+	<div class="form-group">
+		<label>时间范围：</label>
+		<input type="text" class="form-control" placeholder="时间范围" name="time">
+	</div>
+	
+	<div class="form-group">
+		<label>当期发生额筛选：</label>
+		<select class="form-control" name="occurrence_is_zero">
+			<option value="0">当期发生额为零显示</option>
+			<option value="1">当期发生额为零不显示</option>
+		</select>
+	</div>
+	
+	<div class="form-group">
+		<label>期末余额筛选：</label>
+		<select class="form-control" name="balance_is_zero">
+			<option value="0">期末余额为零显示</option>
+			<option value="1">期末余额为零不显示</option>
+		</select>
+	</div>
+	
+	  
+	<br/>
+	<button type="button" class="btn btn-primary" av-event="[click] eventSubmit(:node,:event)" av-class="{'disabled':submitLock}" >确定导出</button>
+	<div style="height: 100px;"></div>
+	
+	
+</div>
+<div av-else style="color: red;">
+	无导出项目或无权限
+</div>
+

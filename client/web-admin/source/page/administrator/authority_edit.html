@@ -1,0 +1,34 @@
+<script id="content" type="text/template">
+	
+	<div class="form-group">
+    	<label>权限ID：</label>
+    	<input type="text" class="form-control" readonly="readonly" name="authority_id" value="<!--{response.get.authority_id}-->">
+  	</div>
+  	<div class="form-group">
+    	<label>权限名称：</label>
+    	<input type="text" class="form-control" placeholder="权限名称" name="authority_name" value="<!--{response.get.authority_name}-->" >
+  	</div>
+  	<div class="form-group">
+    	<label>权限简介：</label>
+    	<textarea class="form-control" rows="3" placeholder="权限简介" name="authority_info"><!--{response.get.authority_info}--></textarea>
+  	</div>
+  	<div class="form-group">
+    	<label>模块：</label>
+    	<select class="form-control" name="module_id">
+		  <option value="">-请选择-</option>
+		  <!--if{response.module_option.length}-->
+		  <!--for{var i in response.module_option}-->
+		  <option value="<!--{response.module_option[i].module_id}-->" <!--if{response.get.module_id == response.module_option[i].module_id}-->selected="selected"<!--/if--> >
+		  <!--{response.module_option[i].module_name}-->
+		  </option>
+		  <!--/for-->
+		  <!--/if-->
+		</select>
+  	</div>
+  	<div class="form-group">
+    	<label>排序：</label>
+    	<input type="text" class="form-control" placeholder="排序" name="authority_sort" value="<!--{response.get.authority_sort}-->" >
+  	</div>
+  	<br/>
+  	<button type="button" class="btn btn-primary" name="submit">确定编辑</button>
+</script>

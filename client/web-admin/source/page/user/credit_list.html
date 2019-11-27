@@ -1,0 +1,439 @@
+<script id="content" type="text/template">
+	<div class="btn-group">
+		<a href="<!--helper {'anchor-query-action'()}-->" class="btn btn-default <!--if{http().anchor.query.action}--><!--else-->active<!--/if-->">统计列表</a>
+		<a href="<!--helper {'anchor-query-action'('serial')}-->" class="btn btn-default <!--if{http().anchor.query.action == 'serial'}-->active<!--/if-->">交易流水</a>
+	</div>
+	<button class="btn btn-default search" type="button" ><span class="glyphicon glyphicon-filter"></span> 筛选</button>
+	<!--if{http().anchor.query.search}--><span class="label label-default">存在筛选</span><!--/if-->
+	<!--if{response.total}-->
+	<span> 合计数量：<!--{(response.total/response.application_config.credit.scale).toFixed(response.application_config.credit.precision)}--></span>
+	<!--/if-->
+	<hr/>
+	<table class="table table-striped">
+      <thead>
+        <tr>
+          <th><input type="checkbox" action-table="checkbox-all"></th>	
+          <th>#</th>
+          <th>用户ID</th>
+          <th>
+          	<!--if{http().anchor.query.sort == "user_nickname_desc"}-->
+          	<a href="javascript:;" action-sort="user_nickname_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>用户信息</a>
+          	<!--elseif{http().anchor.query.sort == "user_nickname_asc"}-->
+          	<a href="javascript:;" action-sort="user_nickname_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>用户信息</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="user_nickname_desc">用户信息</a>
+          	<!--/if-->
+          </th>
+          
+          <th>
+          	<!--if{http().anchor.query.sort == "value_desc"}-->
+          	<a href="javascript:;" action-sort="value_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>数量</a>
+          	<!--elseif{http().anchor.query.sort == "value_asc"}-->
+          	<a href="javascript:;" action-sort="value_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>数量</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="value_desc">数量</a>
+          	<!--/if-->
+          </th>
+          
+          <th>
+          	<!--if{http().anchor.query.sort == "time_desc"}-->
+          	<a href="javascript:;" action-sort="time_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>最后时间</a>
+          	<!--elseif{http().anchor.query.sort == "time_asc"}-->
+          	<a href="javascript:;" action-sort="time_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>最后时间</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="time_desc">最后时间</a>
+          	<!--/if-->
+          </th>
+          
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+      	<!--if{response.list.data.length}-->
+      	<!--for{var i in response.list.data}-->
+      	<tr>
+          <th><input type="checkbox" action-table="checkbox" data-id="<!--{response.list.data[i].user_id}-->"></th>
+          <td><!--{parseInt(i)+1+((parseInt(response.list.page_now) - 1) * response.list.page_size)}--></td>
+          <td><!--{response.list.data[i].user_id}--></td>
+          
+          <td style="max-width: 200px;">
+          	<div style="max-width: 200px;display: inline-block;">
+	          <!--if{response.list.data[i].user_logo_image_id}-->
+	          <img src="<!--{response.application_config.qiniu_domain+response.list.data[i].user_logo_image_id+'?imageView2/1/w/40'}-->" class="img-circle">
+	          <!--/if-->
+	          <!--if{response.list.data[i].user_nickname}-->
+	          <!--{response.list.data[i].user_nickname}-->
+	          <!--else-->
+	          <span style="color: #999999;">未设置昵称</span>
+	          <!--/if-->
+	          <!--if{response.list.data[i].user_phone_verify_list}-->
+	          	(<span style="word-wrap:break-word;"><!--{response.list.data[i].user_phone_verify_list}--></span>)
+	          <!--else-->
+	          <span style="color: #999999;">无认证手机</span>
+	          <!--/if-->
+          </div>
+          </td>
+          
+          <td><!--{(response.list.data[i].user_credit_value/response.application_config.credit.scale).toFixed(response.application_config.credit.precision)}--></td>
+          <td>
+          <!--if{parseInt(response.list.data[i].user_credit_time)}-->
+          <!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.list.data[i].user_credit_time) * 1000)}-->
+          <!--else-->
+			<span style="color: #999">没有交易记录</span>
+          <!--/if-->
+          </td>
+          
+          <td>
+          	<button class="btn btn-default btn-sm form_plus" data-id="<!--{response.list.data[i].user_id}-->" type="button"><span class="glyphicon glyphicon-plus"></span> 添加</button>
+          	<button class="btn btn-default btn-sm form_minus" data-id="<!--{response.list.data[i].user_id}-->" data-value="<!--{response.list.data[i].user_credit_value}-->" type="button"><span class="glyphicon glyphicon-minus"></span> 减少</button>
+          	
+          	<a href="#/user/credit_list/?action=serial&search=%257B%2522user_id%2522%253A%2522<!--{response.list.data[i].user_id}-->%2522%257D" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-share-alt"></span>查看交易流水</a>
+          </td>
+        </tr>
+        <!--/for-->
+      	<!--else-->
+        <tr>
+          <td colspan="10" align="center">无数据</td>
+        </tr>
+        <!--/if-->
+      </tbody>
+    </table>
+    
+    
+    
+    <!--if{response.list.data.length}-->
+	<div class="paging" style="text-align: center;">
+		<button class="first btn btn-default <!--if helper{"is_first_page" (response.list.page_now)}-->disabled<!--/if-->" data-page="1" type="button">首页</button>
+		<button class="previous btn btn-default <!--if helper{"is_first_page" (response.list.page_now)}-->disabled<!--/if-->" data-page="<!--{parseInt(response.list.page_now) - 1}-->" type="button">上一页</button>
+		<button class="btn btn-default" type="button">
+			第<!--{response.list.page_now}-->页
+			/ 共<!--{response.list.page_count}-->页
+			/ 有<!--{response.list.row_count}-->条数据</button>
+		<button class="next btn btn-default <!--if helper{"is_end_page" (response.list.page_now, response.list.page_count)}-->disabled<!--/if-->" type="button" data-page="<!--{parseInt(response.list.page_now) + 1}-->">下一页</button>
+		<button class="end btn btn-default <!--if helper{"is_end_page" (response.list.page_now, response.list.page_count)}-->disabled<!--/if-->" type="button" data-page="<!--{response.list.page_count}-->">尾页</button>
+	</div>
+	<div class="form-inline" style="text-align: center;margin-top: 10px;">
+		<div class="form-group">
+			<input type="text" class="form-control paging--value" placeholder="输入跳转页" style="width: 100px;">
+		</div>
+		<button type="button" class="btn btn-default paging--submit">跳转</button>
+	</div>
+	<!--/if-->
+	
+	
+</script>
+
+
+<script id="plus" type="text/template">
+	<div style="padding: 10px;width: 500px;">
+		<div class="form-group">
+		    <label>用户ID：</label>
+		    <input type="text" class="form-control" readonly="readonly" name="user_id" value="<!--{user_id}-->" >
+		</div>
+		
+		<div class="form-group">
+		    <label>增加积分的数量：</label>
+		    <input type="text" class="form-control" placeholder="输入增加积分的数量" name="value">
+		</div>
+		<div class="form-group">
+		    <label>备注信息：</label>
+		    <input type="text" class="form-control" placeholder="输入备注信息" name="comment">
+		</div>
+		<br/>
+		<button type="button" class="btn btn-primary btn-block" name="plus-submit">确定增加</button>
+	</div>
+</script>
+
+
+<script id="minus" type="text/template">
+	<div style="padding: 10px;width: 500px;">
+		<div class="form-group">
+		    <label>用户ID：</label>
+		    <input type="text" class="form-control" readonly="readonly" name="user_id" value="<!--{user_id}-->" >
+		</div>
+		<div class="form-group">
+		    <label>当前积分的数量：<span style="color: red;">
+		    	<!--{(value/application_config_credit.scale).toFixed(application_config_credit.precision)}-->
+		    </span></label>
+		</div>
+		<div class="form-group">
+		    <label>减少积分的数量：</label>
+		    <input type="text" class="form-control" placeholder="输入减少积分的数量，必须是小于等于<!--{(value/application_config_credit.scale).toFixed(application_config_credit.precision)}-->" name="value">
+		</div>
+		<div class="form-group">
+		    <label>备注信息：</label>
+		    <input type="text" class="form-control" placeholder="输入备注信息" name="comment">
+		</div>
+		<br/>
+		<button type="button" class="btn btn-primary btn-block" name="minus-submit">确定减少</button>
+	</div>
+</script>
+
+
+
+<script id="search" type="text/template">
+	<div style="padding: 10px;width: 500px;">
+		<div class="form-group">
+		    <label>用户ID：</label>
+		    <input type="text" class="form-control" search placeholder="输入要搜索的用户ID" name="user_id" value="<!--{search.user_id}-->">
+		</div>
+		<div class="form-group">
+		    <label>用户昵称：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的用户昵称" name="user_nickname" value="<!--{search.user_nickname}-->">
+		</div>
+		<div class="form-group">
+		    <label>用户手机号：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的用户手机号" name="user_phone" value="<!--{search.user_phone}-->">
+		</div>
+		
+		<div class="form-group">
+		    <label>最小积分：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的最小积分" name="min_value" value="<!--if{search.min_value}--><!--{(search.min_value/application_config_credit.scale).toFixed(application_config_credit.precision)}--><!--/if-->">
+		</div>
+		
+		<div class="form-group">
+		    <label>最大积分：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的最大积分" name="max_value" value="<!--if{search.max_value}--><!--{(search.max_value/application_config_credit.scale).toFixed(application_config_credit.precision)}--><!--/if-->">
+		</div>
+		<br/>
+		<div class="btn-group" style="width: 100%;">
+			<button type="button" class="btn btn-primary" style="width: 50%;" name="search-submit">确定筛选</button>
+			<button type="button" class="btn btn-default" style="width: 50%;" name="search-clear">清理筛选</button>
+		</div>
+	</div>
+</script>
+
+
+
+
+<script id="serial-content" type="text/template">
+	
+	<!--if{response.user_get}-->
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<!--if{response.user_get.user_logo_image_id}-->
+          	<img src="<!--{response.application_config.qiniu_domain+response.user_get.user_logo_image_id+'?imageView2/1/w/40'}-->" class="img-circle">
+          	<!--/if-->	
+          	<div>用户ID：<!--{response.user_get.user_id}--></div>
+			<div>用户昵称：<!--if{response.user_get.user_nickname}-->
+	          <!--{response.user_get.user_nickname}-->
+	          <!--else-->
+	          <span style="color: #999999;">未设置昵称</span>
+	          <!--/if--></div>
+			<div>注册时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.user_get.user_register_time) * 1000)}--></div>
+			<div>操作：<a href="#/user/user_edit/?id=<!--{response.user_get.user_id}-->" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-edit"></span>编辑</a></div>
+		</div>
+	</div>
+	<!--/if-->
+	
+	<div class="btn-group">
+		<a href="<!--helper {'anchor-query-action'()}-->" class="btn btn-default <!--if{http().anchor.query.action}--><!--else-->active<!--/if-->">统计列表</a>
+		<a href="<!--helper {'anchor-query-action'('serial')}-->" class="btn btn-default <!--if{http().anchor.query.action == 'serial'}-->active<!--/if-->">交易流水</a>
+	</div>
+	<button class="btn btn-default search" type="button" ><span class="glyphicon glyphicon-filter"></span> 筛选</button>
+	<!--if{http().anchor.query.search}--><span class="label label-default">存在筛选</span><!--/if-->
+	
+	<hr/>
+	<table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>交易流水号/关联交易号</th>
+          <th>交易类型</th>
+          <th>更新/剩余</th>
+          <th>备注</th>
+          <th>
+          	<!--if{http().anchor.query.sort == "time_desc"}-->
+          	<a href="javascript:;" action-sort="time_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>交易时间</a>
+          	<!--elseif{http().anchor.query.sort == "time_asc"}-->
+          	<a href="javascript:;" action-sort="time_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>交易时间</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="time_desc">交易时间</a>
+          	<!--/if-->
+          </th>
+          
+          <th>
+          	操作人信息
+          </th>
+          
+          
+          <!--if{response.user_get}-->
+          <!--else-->
+          <th>
+          	用户信息
+          </th>
+          <th>操作</th>
+          <!--/if-->
+        </tr>
+      </thead>
+      <tbody>
+      	<!--if{response.list.data.length}-->
+      	<!--for{var i in response.list.data}-->
+      	<tr>
+          <td><!--{parseInt(i)+1+((parseInt(response.list.page_now) - 1) * response.list.page_size)}--></td>
+          <td>
+          <!--{response.list.data[i].user_credit_id}-->
+          <div style="color: #999;"><!--{response.list.data[i].user_credit_join_id}--></div>
+          </td>
+          <td>
+          	<!--if{response.list.data[i].user_credit_type_name}-->
+          	<!--{response.list.data[i].user_credit_type_name}-->
+          	<!--else-->
+          	<span style="color: #999;">未知交易类型</span>
+          	<!--/if-->	
+          	<div style="color: #999;"><span class="glyphicon glyphicon-tag"></span> <!--{response.list.data[i].user_credit_type}--></div>
+          </td>
+          
+          <td>
+          <!--if{parseInt(response.list.data[i].user_credit_plus)}-->
+          <span style="color: green;">+<!--{(response.list.data[i].user_credit_plus/100).toFixed(2)}--></span>
+          <!--elseif{parseInt(response.list.data[i].user_credit_minus)}-->
+          <span style="color: red;">-<!--{(response.list.data[i].user_credit_minus/100).toFixed(2)}--></span>
+          <!--else-->
+          <div style="color: #999;">未知</div>
+          <!--/if-->	
+          <div style="color: #999;"><!--{(response.list.data[i].user_credit_value/100).toFixed(2)}--></div>
+          </td>
+          
+          <td>
+          	<div class="tips" data-title="查看交易备注" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 150px;cursor: pointer;" data="<!--{response.list.data[i].order_comment}-->"><!--{response.list.data[i].order_comment}--></div>
+          </td>
+          <td>
+          <!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.list.data[i].user_credit_time) * 1000)}-->
+          </td>
+          
+          <td style="max-width: 200px;">
+          	<!--if{response.list.data[i].order_action_user_id}-->
+          	<div style="max-width: 200px;display: inline-block;">
+	          <!--if{response.list.data[i].order_action_user_logo_image_id}-->
+	          <img src="<!--{response.application_config.qiniu_domain+response.list.data[i].order_action_user_logo_image_id+'?imageView2/1/w/30'}-->" class="img-circle">
+	          <!--/if-->
+	          
+	          <!--if{response.list.data[i].order_action_user_nickname}-->
+	          <!--{response.list.data[i].order_action_user_nickname}-->
+	          <!--else-->
+	          <span style="color: #999999;">未设置昵称</span>
+	          <!--/if-->
+	          <!--if{response.list.data[i].order_action_user_phone_verify_list}-->
+	          	(<span style="word-wrap:break-word;"><!--{response.list.data[i].order_action_user_phone_verify_list}--></span>)
+	          <!--else-->
+	          <span style="color: #999999;">无认证手机</span>
+	          <!--/if-->
+            </div>
+            <!--else-->
+            <span style="color: #999999;">无操作人</span>
+            <!--/if-->
+          </td>
+          
+          
+          <!--if{response.user_get}-->
+          <!--else-->
+          <th style="max-width: 200px;">
+          	<div style="max-width: 200px;display: inline-block;">
+	          <!--if{response.list.data[i].user_logo_image_id}-->
+	          <img src="<!--{response.application_config.qiniu_domain+response.list.data[i].user_logo_image_id+'?imageView2/1/w/40'}-->" class="img-circle">
+	          <!--/if-->
+	          
+	          <!--if{response.list.data[i].user_nickname}-->
+	          <!--{response.list.data[i].user_nickname}-->
+	          <!--else-->
+	          <span style="color: #999999;">未设置昵称</span>
+	          <!--/if-->
+	          <!--if{response.list.data[i].user_phone_verify_list}-->
+	          	(<span style="word-wrap:break-word;font-weight: bold;"><!--{response.list.data[i].user_phone_verify_list}--></span>)
+	          <!--else-->
+	          <span style="color: #999999;">无认证手机</span>
+	          <!--/if-->
+            </div>
+          </th>
+          <td>
+          <a href="#/user/credit_list/?action=serial&search=%257B%2522user_id%2522%253A%2522<!--{response.list.data[i].user_id}-->%2522%257D" class="btn btn-default btn-sm">
+          	<span class="glyphicon glyphicon-filter"></span> 只查看该用户
+          </a>
+          </td>
+          <!--/if-->	
+          
+        </tr>
+        <!--/for-->
+      	<!--else-->
+        <tr>
+          <td colspan="10" align="center">无数据</td>
+        </tr>
+        <!--/if-->
+      </tbody>
+    </table>
+    
+    
+    
+    <!--if{response.list.data.length}-->
+	<div class="paging" style="text-align: center;">
+		<button class="first btn btn-default <!--if helper{"is_first_page" (response.list.page_now)}-->disabled<!--/if-->" data-page="1" type="button">首页</button>
+		<button class="previous btn btn-default <!--if helper{"is_first_page" (response.list.page_now)}-->disabled<!--/if-->" data-page="<!--{parseInt(response.list.page_now) - 1}-->" type="button">上一页</button>
+		<button class="btn btn-default" type="button">
+			第<!--{response.list.page_now}-->页
+			/ 共<!--{response.list.page_count}-->页
+			/ 有<!--{response.list.row_count}-->条数据</button>
+		<button class="next btn btn-default <!--if helper{"is_end_page" (response.list.page_now, response.list.page_count)}-->disabled<!--/if-->" type="button" data-page="<!--{parseInt(response.list.page_now) + 1}-->">下一页</button>
+		<button class="end btn btn-default <!--if helper{"is_end_page" (response.list.page_now, response.list.page_count)}-->disabled<!--/if-->" type="button" data-page="<!--{response.list.page_count}-->">尾页</button>
+	</div>
+	<div class="form-inline" style="text-align: center;margin-top: 10px;">
+		<div class="form-group">
+			<input type="text" class="form-control paging--value" placeholder="输入跳转页" style="width: 100px;">
+		</div>
+		<button type="button" class="btn btn-default paging--submit">跳转</button>
+	</div>
+	<!--/if-->
+	
+	
+</script>
+
+
+
+<script id="serial-search" type="text/template">
+	<div style="padding: 10px;width: 500px;">
+		<div class="form-group">
+		    <label>交易流水号：</label>
+		    <input type="text" class="form-control" search placeholder="输入要搜索的交易流水号" name="user_credit_id" value="<!--{search.user_credit_id}-->">
+		</div>
+		<div class="form-group">
+		    <label>交易类型标签：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的交易类型标签" name="type" value="<!--{search.type}-->">
+		</div>
+		<div class="form-group">
+		    <label>交易类型名称：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的交易类型名称" name="type_name" value="<!--{search.type_name}-->">
+		</div>
+		
+		<div class="form-group">
+		    <label>用户ID：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的用户ID" name="user_id" value="<!--{search.user_id}-->">
+		</div>
+		<div class="form-group">
+		    <label>用户昵称：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的用户昵称" name="user_nickname" value="<!--{search.user_nickname}-->">
+		</div>
+		<div class="form-group">
+		    <label>用户手机号：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的用户手机号" name="user_phone" value="<!--{search.user_phone}-->">
+		</div>
+		
+		
+		<div class="form-group">
+		    <label>操作人ID：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的操作人ID" name="order_action_user_id" value="<!--{search.order_action_user_id}-->">
+		</div>
+		<div class="form-group">
+		    <label>操作人昵称：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的操作人昵称" name="order_action_user_nickname" value="<!--{search.order_action_user_nickname}-->">
+		</div>
+		<div class="form-group">
+		    <label>操作人手机号：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的操作人手机号" name="order_action_user_phone" value="<!--{search.order_action_user_phone}-->">
+		</div>
+		<br/>
+		<div class="btn-group" style="width: 100%;">
+			<button type="button" class="btn btn-primary" style="width: 50%;" name="search-submit">确定筛选</button>
+			<button type="button" class="btn btn-default" style="width: 50%;" name="search-clear">清理筛选</button>
+		</div>
+	</div>
+</script>

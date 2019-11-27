@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>接口开发</title>
+<script type="text/javascript" src="jquery-2.1.4.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="http.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="eonfox.js" charset="utf-8"></script>
+<style>
+body {
+	margin:0;
+	padding:0;
+	background: #FFFFFF;
+	box-sizing: border-box
+}
+*{
+	font-family: "Microsoft YaHei",Tahoma,"Simsun",sans-serif;
+	box-sizing: border-box
+}
+label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+}	
+	
+.center{
+	padding: 30px 10px;
+	margin:0 auto; 
+	width: 100%;
+	max-width:1200px; 
+}
+.highlight {
+	margin-top: 16px;
+	margin-right: 0;
+	margin-left: 0;
+	border-width: 1px;
+	border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+	display: block;
+	width: 100%;
+	max-width:1200px; 
+}
+
+pre {
+	padding: 0;
+	margin-top: 10px;
+	margin-bottom: 0;
+	word-break: normal;
+	white-space: nowrap;
+	background-color: transparent;
+	border: 0;
+	padding: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+	word-break: normal;
+	white-space: nowrap;
+	background-color: transparent;
+	border: 0;
+	display: block;
+	padding: 10px;
+	margin: 0 0 10px;
+	margin-top: 0px;
+	margin-bottom: 10px;
+	font-size: 13px;
+	line-height: 1.42857143;
+	color: #333;
+	word-break: break-all;
+	word-wrap: break-word;
+	background-color: #f5f5f5;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+.form-control {
+	display: block;
+	width: 100%;
+	max-width:1200px; 
+	padding: 6px 12px;
+	font-size: 14px;
+	line-height: 1.42857143;
+	color: #555;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+	-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.form-control1 {
+	display: block;
+	width: 100%;
+	max-width:1200px; 
+	padding: 6px 12px;
+	font-size: 14px;
+	line-height: 1.42857143;
+	color: #555;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+	-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.btn-group {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.btn-primary {
+	color: #fff;
+	background-color: #337ab7;
+	border-color: #2e6da4;
+}
+
+.btn {
+	display: inline-block;
+	padding: 6px 12px;
+	margin-bottom: 0;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.42857143;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	background-image: none;
+	border: 1px solid transparent;
+	border-radius: 4px;
+}
+.form-group{
+	margin-bottom: 20px;
+}
+button {
+	text-transform: none;
+}
+.btn-click {
+	padding: 6px;
+	cursor: pointer;
+}
+</style>	
+</head>
+<body>
+
+<div class="center">
+	<h1>EAPIE 开发接口测试</h1>
+	<div class="form-group">
+		<label>接口参数:</label>
+		<textarea id="request" class="form-control" rows="6" placeholder="输入接口参数，是一个json字符串"></textarea>
+		<pre class="highlight">
+		{"自定义键名称":[接口ID, [参数列表]], "自定义键名称2":[接口ID, [参数列表]]}<br/><br/>
+		示例，获取接口列表：<br/>
+		{"接口列表":["API"]}<br/><br/>
+		
+		又示例，用户登录：<br/>
+		{"login":["USERLOGIN",[{"phone":"11111111111","password":"12345678"}]]}
+		</pre>
+	</div>
+	<div class="form-group">
+		<label>接口地址:</label>
+		<input id="api_server_url" type="text" class="form-control1" placeholder="输入接口地址" value="http://developer.eapie.eonfox.com/">
+	</div>
+	
+	<div class="form-group">
+		<label>应用ID:</label>
+		<input id="application" type="text" class="form-control1" placeholder="输入应用ID">
+	</div>
+	
+	
+	<div class="form-group">
+		<label>结果输出:</label>
+		<textarea id="response" class="form-control" readonly="readonly" rows="10" placeholder="输出窗口"></textarea>
+	</div>
+<div>
+
+
+<button type="button" class="btn btn-primary" id="submit" style="width: 100px;">提交</button>
+<button type="button" class="btn-click" id="get_token">获取token</button>
+<button type="button" class="btn-click" id="set_developer_api_server_url">开发接口地址</button>
+<button type="button" class="btn-click" id="set_online_api_server_url">线上接口地址</button>
+<script>
+	var _http = http();
+	if( _http.query && (_http.query.app || _http.query.application) ){
+		if( _http.query.app ) $("#application").val(_http.query.app);
+		if( _http.query.application ) $("#application").val(_http.query.application);
+	}
+	
+	$("#set_developer_api_server_url").click(function(){
+		$("#api_server_url").val("http://developer.eapie.eonfox.com/");
+	});
+	$("#set_online_api_server_url").click(function(){
+		$("#api_server_url").val("http://eapie.eonfox.com/");
+	});
+	
+	$("#get_token").click(function(){
+		var application_id = $.trim($("#application").val());
+		if( !application_id ){
+			alert("请输入应用ID");
+			return true;
+		}
+		var api_server_url = $.trim($("#api_server_url").val());
+		if( !api_server_url ){
+			alert("请输入接口地址");
+			return true;
+		}
+		
+		var ef = new eonfox({application:application_id, api_server_url:api_server_url});
+		var token = ef.token();
+		var session_left_token = token.session_left_token? token.session_left_token : "无";
+		var session_right_token = token.session_right_token? token.session_right_token : "无";
+		$("#response").val( "【左token】"+session_left_token+"\n"+  "【右token】"+session_right_token);
+	});
+	
+	
+	$("#submit").click(function(){
+		var request = $.trim($("#request").val());
+		if( !request ){
+			alert("请输入请求参数");
+			return true;
+		}
+		var application_id = $.trim($("#application").val());
+		if( !application_id ){
+			alert("请输入应用ID");
+			return true;
+		}
+		var api_server_url = $.trim($("#api_server_url").val());
+		if( !api_server_url ){
+			alert("请输入接口地址");
+			return true;
+		}
+		
+		eonfox({application:application_id, api_server_url:api_server_url}).submit({            
+	        request : request,            
+	        //async : false,            
+	        callback:function(r){
+	        	$("#response").val( JSON.stringify(r) );
+	            console.log(r)
+	    }});
+	});
+	
+</script>	
+</body>
+</html>

@@ -1,0 +1,231 @@
+<script id="content" type="text/template">
+	<!--if{response.merchant_get}-->
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<!--if{response.merchant_get.merchant_logo_image_id}-->
+          	<img src="<!--{response.application_config.qiniu_domain+response.merchant_get.merchant_logo_image_id+'?imageView2/1/w/40'}-->">
+          	<!--/if-->	
+          	<div>商家ID：<!--{response.merchant_get.merchant_id}--></div>
+			<div>商家名称：<!--{response.merchant_get.merchant_name}--></div>
+			<div>商家简介：<!--{response.merchant_get.merchant_info}--></div>
+			<div>创建时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.merchant_get.merchant_insert_time) * 1000)}--></div>
+			<div>操作：<a href="#/merchant/merchant_edit/?id=<!--{response.merchant_get.merchant_id}-->" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-edit"></span>编辑</a></div>
+		</div>
+	</div>
+	<!--/if-->
+	
+	<button class="btn btn-default search" type="button" ><span class="glyphicon glyphicon-filter"></span> 筛选</button>
+	<!--if{http().anchor.query.search}--><span class="label label-default">存在筛选</span><!--/if-->
+	
+	<div class="alert alert-warning alert-dismissible" style="padding: 8px;margin-top: 10px;">
+	  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	  <strong>友情提示！</strong> 商家记账即商家在线下交易时，记录的交易凭证。
+	</div>
+	
+	<hr/>
+	<table class="table table-striped">
+      <thead>
+        <tr>
+          <th><input type="checkbox" action-table="checkbox-all"></th>	
+          <th>#</th>
+          
+          <th>收据凭证</th>
+          <th>商品名称</th>
+          <th>商品数量</th>
+          <th>商品单价（元）</th>
+          <th>
+          	<!--if{http().anchor.query.sort == "client_phone_desc"}-->
+          	<a href="javascript:;" action-sort="client_phone_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>顾客手机号</a>
+          	<!--elseif{http().anchor.query.sort == "client_phone_asc"}-->
+          	<a href="javascript:;" action-sort="client_phone_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>顾客手机号</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="client_phone_desc">顾客手机号</a>
+          	<!--/if-->
+          </th>
+          <th>备注</th>
+           <th>
+          	<!--if{http().anchor.query.sort == "user_nickname_desc"}-->
+          	<a href="javascript:;" action-sort="user_nickname_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>提交人昵称</a>
+          	<!--elseif{http().anchor.query.sort == "user_nickname_asc"}-->
+          	<a href="javascript:;" action-sort="user_nickname_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>提交人昵称</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="user_nickname_desc">提交人昵称</a>
+          	<!--/if-->
+          	/
+          	<!--if{http().anchor.query.sort == "user_phone_verify_list_desc"}-->
+          	<a href="javascript:;" action-sort="user_phone_verify_list_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>手机信息</a>
+          	<!--elseif{http().anchor.query.sort == "user_phone_verify_list_asc"}-->
+          	<a href="javascript:;" action-sort="user_phone_verify_list_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>手机信息</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="user_phone_verify_list_desc">手机信息</a>
+          	<!--/if-->
+          	
+          </th>
+           <th>
+          	<!--if{http().anchor.query.sort == "insert_time_desc"}-->
+          	<a href="javascript:;" action-sort="insert_time_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>提交时间</a>
+          	<!--elseif{http().anchor.query.sort == "insert_time_asc"}-->
+          	<a href="javascript:;" action-sort="insert_time_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>提交时间</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="insert_time_desc">提交时间</a>
+          	<!--/if-->
+          </th>
+          
+          
+          <!--if{response.merchant_get}-->
+          <!--else-->
+          <th>
+          	<!--if{http().anchor.query.sort == "merchant_id_desc"}-->
+          	<a href="javascript:;" action-sort="merchant_id_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>商家信息</a>
+          	<!--elseif{http().anchor.query.sort == "merchant_id_asc"}-->
+          	<a href="javascript:;" action-sort="merchant_id_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>商家信息</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="merchant_id_desc">商家信息</a>
+          	<!--/if-->
+          </th>
+          <!--/if-->
+         
+         
+          <!--if{response.merchant_get}-->
+          <!--else-->
+          <th>操作</th>
+          <!--/if-->
+        </tr>
+      </thead>
+      <tbody>
+      	<!--if{response.list.data.length}-->
+      	<!--for{var i in response.list.data}-->
+      	<tr>
+          <th><input type="checkbox" action-table="checkbox" data-id="<!--{response.list.data[i].merchant_withdraw_id}-->"></th>
+          <td><!--{parseInt(i)+1+((parseInt(response.list.page_now) - 1) * response.list.page_size)}--></td>
+          
+          <td>
+          	<!--if{response.list.data[i].merchant_tally_voucher}-->
+          	<img src="<!--{response.application_config.qiniu_domain+response.list.data[i].merchant_tally_voucher+'?imageView2/1/w/40/40'}-->" data-src="<!--{response.application_config.qiniu_domain+response.list.data[i].merchant_tally_voucher}-->" class="image-look" data-width="<!--{response.list.data[i].merchant_tally_voucher_image_width}-->" data-height="<!--{response.list.data[i].merchant_tally_voucher_image_height}-->" style="cursor: pointer;">
+          	<!--else-->
+          	<span style="color: #999;">未上传</span>
+          	<!--/if-->
+          </td>
+          
+          <td><!--{response.list.data[i].merchant_tally_goods_name}--></td>
+          <td><!--{response.list.data[i].merchant_tally_goods_number}--></td>
+          <td><!--{(response.list.data[i].merchant_tally_goods_money/100).toFixed(2)}--> 元</td>
+          <td><!--{response.list.data[i].merchant_tally_client_phone}--></td>
+          <td><div class="tips" data-title="查看备注" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 150px;cursor: pointer;" data="<!--{response.list.data[i].merchant_tally_comment}-->"><!--{response.list.data[i].merchant_tally_comment}--></div></td>
+          
+          <td style="max-width: 200px;">
+          	<div style="max-width: 200px;display: inline-block;">
+	          <!--if{response.list.data[i].user_logo_image_id}-->
+	          <img src="<!--{response.application_config.qiniu_domain+response.list.data[i].user_logo_image_id+'?imageView2/1/w/40'}-->" class="img-circle">
+	          <!--/if-->
+	          <!--if{response.list.data[i].user_nickname}-->
+	          <!--{response.list.data[i].user_nickname}-->
+	          <!--else-->
+	          <span style="color: #999999;">未设置昵称</span>
+	          <!--/if-->
+	          <!--if{response.list.data[i].user_phone_verify_list}-->
+	          	(<span style="word-wrap:break-word;"><!--{response.list.data[i].user_phone_verify_list}--></span>)
+	          <!--else-->
+	          <span style="color: #999999;">无认证手机</span>
+	          <!--/if-->
+          </div>
+          </td>
+          
+          <td>
+          	<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.list.data[i].merchant_tally_insert_time) * 1000)}-->
+          </td>
+          
+          <!--if{response.merchant_get}-->
+          <!--else-->
+          <td>
+          <!--if{response.list.data[i].merchant_logo_image_id}-->
+          <img src="<!--{response.application_config.qiniu_domain+response.list.data[i].merchant_logo_image_id+'?imageView2/1/w/40'}-->">
+          <!--/if-->	
+          <!--if{response.list.data[i].merchant_name}-->
+          <!--{response.list.data[i].merchant_name}-->
+          <!--else-->
+          <span style="color: #999999;">未设置名称</span>
+          <!--/if-->
+          </td>
+          <!--/if-->
+          
+          
+          <!--if{response.merchant_get}-->
+          <!--else-->
+          <td>
+          	<a href="#/merchant/merchant_tally/?search=%257B%2522merchant_id%2522%253A%2522<!--{response.list.data[i].merchant_id}-->%2522%257D" class="btn btn-default btn-sm">
+          	<span class="glyphicon glyphicon-filter"></span> 只查看该商家的记账
+          	</a>
+          </td>
+          <!--/if-->
+          
+        </tr>
+        <!--/for-->
+      	<!--else-->
+        <tr>
+          <td colspan="15" align="center">无数据</td>
+        </tr>
+        <!--/if-->
+      </tbody>
+    </table>
+    
+    
+    
+    <!--if{response.list.data.length}-->
+	<div class="paging" style="text-align: center;">
+		<button class="first btn btn-default <!--if helper{"is_first_page" (response.list.page_now)}-->disabled<!--/if-->" data-page="1" type="button">首页</button>
+		<button class="previous btn btn-default <!--if helper{"is_first_page" (response.list.page_now)}-->disabled<!--/if-->" data-page="<!--{parseInt(response.list.page_now) - 1}-->" type="button">上一页</button>
+		<button class="btn btn-default" type="button">
+			第<!--{response.list.page_now}-->页
+			/ 共<!--{response.list.page_count}-->页
+			/ 有<!--{response.list.row_count}-->条数据</button>
+		<button class="next btn btn-default <!--if helper{"is_end_page" (response.list.page_now, response.list.page_count)}-->disabled<!--/if-->" type="button" data-page="<!--{parseInt(response.list.page_now) + 1}-->">下一页</button>
+		<button class="end btn btn-default <!--if helper{"is_end_page" (response.list.page_now, response.list.page_count)}-->disabled<!--/if-->" type="button" data-page="<!--{response.list.page_count}-->">尾页</button>
+	</div>
+	<div class="form-inline" style="text-align: center;margin-top: 10px;">
+		<div class="form-group">
+			<input type="text" class="form-control paging--value" placeholder="输入跳转页" style="width: 100px;">
+		</div>
+		<button type="button" class="btn btn-default paging--submit">跳转</button>
+	</div>
+	<!--/if-->
+	
+</script>
+
+
+
+
+<script id="search" type="text/template">
+	<div style="padding: 10px;width: 500px;">
+		<div class="form-group">
+		    <label>操作人用户ID：</label>
+		    <input type="text" class="form-control" search placeholder="输入要搜索的操作人用户ID" name="user_id" value="<!--{search.user_id}-->">
+		</div>
+		<div class="form-group">
+		    <label>操作人用户手机号：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的操作人用户手机号" name="user_phone" value="<!--{search.user_phone}-->">
+		</div>
+		<div class="form-group">
+		    <label>操作人用户昵称：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的操作人用户名称" name="user_nickname" value="<!--{search.user_nickname}-->">
+		</div>
+		<div class="form-group">
+		    <label>商家ID：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的商家ID" name="merchant_id" value="<!--{search.merchant_id}-->">
+		</div>
+		<div class="form-group">
+		    <label>商家名称：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的商家名称" name="merchant_name" value="<!--{search.merchant_name}-->">
+		</div>
+		<div class="form-group">
+		    <label>顾客手机号：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的顾客手机号" name="merchant_tally_client_phone" value="<!--{search.merchant_tally_client_phone}-->">
+		</div>
+		<br/>
+		<div class="btn-group" style="width: 100%;">
+			<button type="button" class="btn btn-primary" style="width: 50%;" name="search-submit">确定筛选</button>
+			<button type="button" class="btn btn-default" style="width: 50%;" name="search-clear">清理筛选</button>
+		</div>
+	</div>
+</script>
+

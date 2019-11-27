@@ -1,0 +1,66 @@
+[28-Apr-2019 14:42:32 Asia/Shanghai] PHP Fatal error:  Uncaught Exception: 连接异常Exception: appKey Or masterSecret is Auth Failed in D:\www\green\server\SDK\GETUI_PHP_SDK_4.1.0.0\GETUI_PHP_SDK_4.1.0.0\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php:166
+Stack trace:
+#0 D:\www\green\server\SDK\GETUI_PHP_SDK_4.1.0.0\GETUI_PHP_SDK_4.1.0.0\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php(124): IGeTui->connect()
+#1 D:\www\green\server\SDK\GETUI_PHP_SDK_4.1.0.0\GETUI_PHP_SDK_4.1.0.0\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php(192): IGeTui->httpPostJSON('http://sdk.open...', Array)
+#2 D:\www\green\server\SDK\GETUI_PHP_SDK_4.1.0.0\GETUI_PHP_SDK_4.1.0.0\GETUI_PHP_SDK_4.1.0.0\pushMessageToSingle.php(40): IGeTui->pushMessageToSingle(Object(IGtSingleMessage), Object(IGtTarget))
+#3 D:\www\green\server\SDK\GETUI_PHP_SDK_4.1.0.0\GETUI_PHP_SDK_4.1.0.0\GETUI_PHP_SDK_4.1.0.0\pushMessageToSingle.php(15): pushMessageToSingle()
+#4 {main} in D:\www\green\server\SDK\GETUI_PHP_SDK_4.1.0.0\GETUI_PHP_SDK_4.1.0.0\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php:133
+Stack trace:
+#0 D:\www\green\server\SDK\GETUI_PHP_SDK_4.1.0.0\GETUI_P in D:\www\green\server\SDK\GETUI_PHP_SDK_4.1.0.0\GETUI_PHP_SDK_4.1.0.0\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php on line 133
+[28-Apr-2019 15:06:10 Asia/Shanghai] PHP Fatal error:  Uncaught Error: Call to undefined function IGtNotyPopLoadTemplateDemo() in D:\www\GETUI_PHP_SDK_4.1.0.0\pushMessageToSingle.php:23
+Stack trace:
+#0 D:\www\GETUI_PHP_SDK_4.1.0.0\pushMessageToSingle.php(15): pushMessageToSingle()
+#1 {main}
+  thrown in D:\www\GETUI_PHP_SDK_4.1.0.0\pushMessageToSingle.php on line 23
+[28-Apr-2019 15:12:05 Asia/Shanghai] PHP Notice:  Undefined variable: appIdList in D:\www\GETUI_PHP_SDK_4.1.0.0\pushMessageToApp.php on line 31
+[28-Apr-2019 15:12:05 Asia/Shanghai] PHP Notice:  Undefined variable: cdt in D:\www\GETUI_PHP_SDK_4.1.0.0\pushMessageToApp.php on line 32
+[28-Apr-2019 15:12:05 Asia/Shanghai] PHP Warning:  A non-numeric value encountered in D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php on line 453
+[28-Apr-2019 15:12:05 Asia/Shanghai] PHP Warning:  A non-numeric value encountered in D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php on line 453
+[28-Apr-2019 15:12:05 Asia/Shanghai] PHP Notice:  Array to string conversion in D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php on line 453
+[28-Apr-2019 15:12:05 Asia/Shanghai] PHP Fatal error:  Uncaught Exception: 0Array in D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php:453
+Stack trace:
+#0 D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php(398): IGeTui->getListAppContentId(Object(IGtAppMessage), NULL)
+#1 D:\www\GETUI_PHP_SDK_4.1.0.0\pushMessageToApp.php(34): IGeTui->pushMessageToApp(Object(IGtAppMessage))
+#2 D:\www\GETUI_PHP_SDK_4.1.0.0\pushMessageToApp.php(10): pushMessageToApp()
+#3 {main}
+  thrown in D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php on line 453
+[28-Apr-2019 15:12:15 Asia/Shanghai] PHP Warning:  A non-numeric value encountered in D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php on line 453
+[28-Apr-2019 15:12:15 Asia/Shanghai] PHP Warning:  A non-numeric value encountered in D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php on line 453
+[28-Apr-2019 15:12:15 Asia/Shanghai] PHP Notice:  Array to string conversion in D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php on line 453
+[28-Apr-2019 15:12:15 Asia/Shanghai] PHP Fatal error:  Uncaught Exception: 0Array in D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php:453
+Stack trace:
+#0 D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php(398): IGeTui->getListAppContentId(Object(IGtAppMessage), NULL)
+#1 D:\www\GETUI_PHP_SDK_4.1.0.0\pushMessageToApp.php(34): IGeTui->pushMessageToApp(Object(IGtAppMessage))
+#2 D:\www\GETUI_PHP_SDK_4.1.0.0\pushMessageToApp.php(10): pushMessageToApp()
+#3 {main}
+  thrown in D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php on line 453
+[28-Apr-2019 15:14:52 Asia/Shanghai] PHP Warning:  A non-numeric value encountered in D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php on line 453
+[28-Apr-2019 15:14:52 Asia/Shanghai] PHP Warning:  A non-numeric value encountered in D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php on line 453
+[28-Apr-2019 15:14:52 Asia/Shanghai] PHP Notice:  Array to string conversion in D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php on line 453
+[28-Apr-2019 15:14:52 Asia/Shanghai] PHP Fatal error:  Uncaught Exception: 0Array in D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php:453
+Stack trace:
+#0 D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php(398): IGeTui->getListAppContentId(Object(IGtAppMessage), NULL)
+#1 D:\www\GETUI_PHP_SDK_4.1.0.0\pushMessageToApp.php(34): IGeTui->pushMessageToApp(Object(IGtAppMessage))
+#2 D:\www\GETUI_PHP_SDK_4.1.0.0\pushMessageToApp.php(10): pushMessageToApp()
+#3 {main}
+  thrown in D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php on line 453
+[28-Apr-2019 15:18:26 Asia/Shanghai] PHP Warning:  A non-numeric value encountered in D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php on line 453
+[28-Apr-2019 15:18:26 Asia/Shanghai] PHP Warning:  A non-numeric value encountered in D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php on line 453
+[28-Apr-2019 15:18:26 Asia/Shanghai] PHP Notice:  Array to string conversion in D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php on line 453
+[28-Apr-2019 15:18:26 Asia/Shanghai] PHP Fatal error:  Uncaught Exception: 0Array in D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php:453
+Stack trace:
+#0 D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php(398): IGeTui->getListAppContentId(Object(IGtAppMessage), NULL)
+#1 D:\www\GETUI_PHP_SDK_4.1.0.0\pushMessageToApp.php(34): IGeTui->pushMessageToApp(Object(IGtAppMessage))
+#2 D:\www\GETUI_PHP_SDK_4.1.0.0\pushMessageToApp.php(10): pushMessageToApp()
+#3 {main}
+  thrown in D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php on line 453
+[28-Apr-2019 15:18:30 Asia/Shanghai] PHP Warning:  A non-numeric value encountered in D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php on line 453
+[28-Apr-2019 15:18:30 Asia/Shanghai] PHP Warning:  A non-numeric value encountered in D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php on line 453
+[28-Apr-2019 15:18:30 Asia/Shanghai] PHP Notice:  Array to string conversion in D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php on line 453
+[28-Apr-2019 15:18:30 Asia/Shanghai] PHP Fatal error:  Uncaught Exception: 0Array in D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php:453
+Stack trace:
+#0 D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php(398): IGeTui->getListAppContentId(Object(IGtAppMessage), NULL)
+#1 D:\www\GETUI_PHP_SDK_4.1.0.0\pushMessageToApp.php(34): IGeTui->pushMessageToApp(Object(IGtAppMessage))
+#2 D:\www\GETUI_PHP_SDK_4.1.0.0\pushMessageToApp.php(10): pushMessageToApp()
+#3 {main}
+  thrown in D:\www\GETUI_PHP_SDK_4.1.0.0\IGt.Push.php on line 453

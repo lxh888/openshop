@@ -1,0 +1,232 @@
+body{
+	margin:0;
+	padding:0;
+	background: #FFFFFF;
+}
+*{
+	font-family: "Microsoft YaHei",Tahoma,"Simsun",sans-serif;
+}
+/*默认去掉所有图片的边框*/
+img {
+	border: 0px;
+}
+
+input[type="checkbox"]{
+	cursor: pointer;
+}
+/*去掉input表单输入时的边框。去掉文本框选中后出现蓝色框*/
+input[type="text"],
+input[type="password"],
+textarea,
+select,
+option,
+input:focus,
+input:active,
+input:hover,
+input:visited,
+input:link,
+select:focus,
+select:active,
+select:hover,
+select:visited,
+select:link,
+option:focus,
+option:active,
+option:hover,
+option:visited,
+option:link,
+textarea:focus,
+textarea:active,
+textarea:hover,
+textarea:visited,
+textarea:link,
+button,
+button:focus,
+button:active,
+button:hover,
+button:visited,
+button:link {
+	outline: 0;
+	outline-style: none;
+}
+
+/*自动填充背景黄色问题。可以对input:-webkit-autofill使用足够大的纯色内阴影来覆盖input输入框的黄色背景*/
+input:-webkit-autofill {
+	-webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+
+/*小手指针*/
+button {
+	cursor: pointer;
+}
+
+pre[class*="language-"] > code {
+	padding: 5px 10px;
+}
+
+
+#left .drag {
+	position: absolute;
+	/*border: 1px solid #000;*/
+	width: 5px;
+	height: 100%;
+	top: 0;
+	right: 0;
+	background-color: transparent;
+}
+#left .drag:hover {
+	background-color: #999;
+	cursor: w-resize;
+}
+
+
+
+#left .body {
+	position: fixed;
+	width: 250px; 
+	height: 100%; 
+	overflow: hidden; 
+	margin: 0; 
+	padding: 0; 
+	left 0; 
+	top: 0;
+	box-shadow: 0 0 5px #888;
+	border-bottom: 1px solid #ebebeb;
+	
+	/*禁止文字选择*/
+	-moz-user-select: none; /*火狐*/ 
+	-webkit-user-select: none; /*webkit浏览器*/ 
+	-ms-user-select: none; /*IE10*/ 
+	-khtml-user-select: none; /*早期浏览器*/ 
+	user-select: none; 
+	background-color: #FFFFFF;
+	
+	z-index: 999;
+}
+#left .scroll {
+	width:270px;
+	height:100%;
+	overflow-y: auto;
+}
+#left .wrap {
+	width: 250px;
+	height:auto;
+	min-height: -moz-calc(100%); 
+	min-height: -webkit-calc(100%);
+	min-height: calc(100%); 
+	background-color: #FFFFFF;
+}
+
+
+#left .head {
+	width: 100%;
+	text-align: center;
+	margin-bottom: 20px;
+	background-color: #FFFFFF;
+}
+
+#left .head h1 {
+	padding: 10px;
+	font-size: 21px;
+	font-weight: 400;
+	text-align: center;
+	color: #636363;
+	/*border-bottom: 1px dashed #999;*/
+}
+
+
+#right {
+	position: relative;
+	width: -moz-calc(100% - 250px); 
+	width: -webkit-calc(100% - 250px);
+	width: calc(100% - 250px);
+	height: 100%; 
+	margin: 0; 
+	padding: 0; 
+	left: 250px; 
+	z-index: 1;
+	
+	background: #FFFFFF;
+}
+/*中间的内容*/
+#right .body {
+	width: 100%;
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 20px 10px 100px 10px;
+	font-size: 16px;
+}
+
+
+#page h1{
+	margin: 10px 0 30px 0;
+	font-size: 36px;
+	font-weight: 400;
+	text-align: center;
+	/*line-height: 42px;
+	overflow: hidden;*/
+	/*text-overflow: ellipsis;
+	white-space: nowrap;*/
+	color: #636363;
+}
+
+
+#content h1,#content h2,#content h3,#content h4,#content h5,#content h6 {
+	font-weight: bold;
+	margin: 20px 0 10px 0;
+}
+
+#content h1{
+	/*border-left:4px solid #ccc;
+	padding-left: 10px;*/
+	font-size: 36px!important;
+}
+#content h2{
+	/*border-left:4px solid #ccc;
+	padding-left: 10px;*/
+	font-size: 30px!important;
+}
+#content h3{
+	font-size: 26px!important;
+}
+#content h4{
+	font-size: 24px!important;
+}
+#content h5{
+	font-size: 20px!important;
+}
+#content h6{
+	font-size: 18px!important;
+}
+
+/*#content code:not(.prism) {
+    padding: 2px 4px;
+    font-size: 14px;
+    color: #c7254e;
+    background-color: #f9f2f4;
+    border-radius: 4px;
+    font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+}*/
+
+#content blockquote {
+	margin: 10px 0;
+}
+#content code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+}
+#content code.prism {
+    font-size: 14px;
+    letter-spacing: 0.6px;
+}
+
+#content .layui-badge-rim {
+	color: #000;
+}
+
+#content img {
+	display: block;
+	margin: 10px 0;
+	max-width: 100%;
+	cursor: pointer;
+	max-height: 400px;
+}

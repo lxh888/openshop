@@ -1,0 +1,67 @@
+
+<div id="dvData">
+	<div style="border: solid 1px #000;width:100%;height:366px;font-size: 12px;padding: 10px;">
+		<div style="border-bottom: solid 1px #000;">
+			<label style="font-size: 18px;">伊起购 </label><label>一起滋养生命！ 售后电话：17386760322</label>
+		</div>
+		<div>
+			订单id：{{data.shop_order_id}}
+		</div>
+		<div>
+			联系人：{{data.user_address_consignee}}
+		</div>
+		<div>
+			联系电话：{{data.user_address_phone}}
+		</div>
+		<div>
+			收货地址：{{data.user_address_details}}
+		</div>
+		<div>
+			取货地址：{{data.shop_order_receive_address}}
+		</div>
+
+		<table style="border: solid 1px #000;width: 100%;">
+				<thead>
+					<tr>
+						<th style="border: solid 1px #000;">#</th>
+						<th style="border: solid 1px #000;">商品名称</th>
+						<th style="border: solid 1px #000;">数量</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<tr av-if="data && data.shop_order_goods && data.shop_order_goods.length" av-for="(value,key)data.shop_order_goods">
+						<th style="border: solid 1px #000;width: 5%;">{{key+1}}</th>
+						<td style="border: solid 1px #000;width: 85%;">
+							{{JSON.parse(value.shop_order_goods_json).spu_string}}
+						</td>
+						
+					
+						<td style="border: solid 1px #000;width: 10%;">{{value.shop_order_goods_number}}</td>
+					
+					</tr>
+					<tr av-else>
+						<td colspan="10" align="center">无数据</td>
+					</tr>
+				</tbody>
+			</table>
+			<span >
+				数量合计：{{eventCountNumber()}}
+			</span>
+		
+	</div>
+
+</div>
+
+
+<hr />
+<div class="btn-group">
+	<button type="button" class="btn btn-default" av-event="[click] eventPrint()">
+		打印
+	</button>
+</div>
+
+<hr />
+<span
+	style="color: #999999;">更新时间：{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(data.shop_order_update_time) * 1000)}}</span>
+<div style="height: 100px;"></div>

@@ -1,0 +1,204 @@
+<script id="content" type="text/template">
+	<div class="btn-group">
+		<a href="<!--helper {'anchor-query-state'()}-->" class="btn btn-default <!--if{http().anchor.query.state}--><!--else-->active<!--/if-->">全部状态</a>
+		<a href="<!--helper {'anchor-query-state'('0')}-->" class="btn btn-default <!--if{http().anchor.query.state == '0'}-->active<!--/if-->">审核失败</a>
+		<a href="<!--helper {'anchor-query-state'('1')}-->" class="btn btn-default <!--if{http().anchor.query.state == '1'}-->active<!--/if-->">发布成功</a>
+		<a href="<!--helper {'anchor-query-state'('2')}-->" class="btn btn-default <!--if{http().anchor.query.state == '2'}-->active<!--/if-->">等待审核</a>
+		<a href="<!--helper {'anchor-query-state'('3')}-->" class="btn btn-default <!--if{http().anchor.query.state == '3'}-->active<!--/if-->">编辑中</a>
+		<a href="<!--helper {'anchor-query-state'('4')}-->" class="btn btn-default <!--if{http().anchor.query.state == '4'}-->active<!--/if-->">初始化</a>
+	</div>
+	
+	<button class="btn btn-default" type="button" action-button="state_yes"><span class="glyphicon glyphicon-ok-circle"></span> 审核成功</button>
+	<button class="btn btn-default" type="button" action-button="state_not"><span class="glyphicon glyphicon-ban-circle"></span> 驳回发布</button>
+	<button class="btn btn-warning" type="button" action-button="trash"><span class="glyphicon glyphicon-trash"></span> 回收</button>
+	<button class="btn btn-default search" type="button" ><span class="glyphicon glyphicon-filter"></span> 筛选</button>
+	<!--if{http().anchor.query.search}--><span class="label label-default">存在筛选</span><!--/if-->
+	<hr/>
+	<table class="table table-striped">
+      <thead>
+        <tr>
+          <th><input type="checkbox" action-table="checkbox-all"></th>	
+          <th>#</th>
+          <th>
+          	<!--if{http().anchor.query.sort == "name_desc"}-->
+          	<a href="javascript:;" action-sort="name_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>产品名称</a>
+          	<!--elseif{http().anchor.query.sort == "name_asc"}-->
+          	<a href="javascript:;" action-sort="name_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>产品名称</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="name_desc">产品名称</a>
+          	<!--/if-->
+          </th>
+          <th>
+          	<!--if{http().anchor.query.sort == "state_desc"}-->
+          	<a href="javascript:;" action-sort="state_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>产品分类</a>
+          	<!--elseif{http().anchor.query.sort == "state_asc"}-->
+          	<a href="javascript:;" action-sort="state_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>产品分类</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="state_desc">产品分类</a>
+          	<!--/if-->
+          </th>
+          <th>
+          	<!--if{http().anchor.query.sort == "state_desc"}-->
+          	<a href="javascript:;" action-sort="state_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>状态</a>
+          	<!--elseif{http().anchor.query.sort == "state_asc"}-->
+          	<a href="javascript:;" action-sort="state_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>状态</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="state_desc">状态</a>
+          	<!--/if-->
+          </th>
+          <th>
+          	<!--if{http().anchor.query.sort == "update_time_desc"}-->
+          	<a href="javascript:;" action-sort="update_time_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>更新时间</a>
+          	<!--elseif{http().anchor.query.sort == "update_time_asc"}-->
+          	<a href="javascript:;" action-sort="update_time_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>更新时间</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="update_time_desc">更新时间</a>
+          	<!--/if-->
+          </th>
+          <th>
+          	<!--if{http().anchor.query.sort == "user_nickname_desc"}-->
+          	<a href="javascript:;" action-sort="user_nickname_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>用户信息</a>
+          	<!--elseif{http().anchor.query.sort == "user_nickname_asc"}-->
+          	<a href="javascript:;" action-sort="user_nickname_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>用户信息</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="user_nickname_desc">用户信息</a>
+          	<!--/if-->
+          </th>
+          
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+      	<!--if{response.list.data.length}-->
+      	<!--for{var i in response.list.data}-->
+      	<tr>
+          <th><input type="checkbox" action-table="checkbox" data-id="<!--{response.list.data[i].house_product_id}-->"></th>
+          <td><!--{parseInt(i)+1+((parseInt(response.list.page_now) - 1) * response.list.page_size)}--></td>
+          <th><!--{response.list.data[i].house_product_name}--></th>
+          <td><!--{response.list.data[i].house_product_type}--></td>
+          
+          <td>
+			<!--if{parseInt(response.list.data[i].house_product_state) == 0}-->
+			<span class="label label-danger">审核失败</span>
+			<!--elseif{parseInt(response.list.data[i].house_product_state) == 1}-->
+			<span class="label label-success">发布成功</span>
+			<!--elseif{parseInt(response.list.data[i].house_product_state) == 2}-->
+			<span class="label label-warning">等待审核</span>
+			<!--elseif{parseInt(response.list.data[i].house_product_state) == 3}-->
+			<span class="label label-info">编辑中</span>
+			<!--elseif{parseInt(response.list.data[i].house_product_state) == 4}-->
+			<span class="label label-info">初始化</span>
+			<!--else-->
+			<span class="label label-default">未知</span>
+			<!--/if-->
+		  </td>
+          
+          <td><!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.list.data[i].house_product_update_time) * 1000)}--></td>
+          <td style="max-width: 200px;">
+          	<div style="max-width: 200px;display: inline-block;">
+	          <!--if{response.list.data[i].user_logo_image_id}-->
+	          <img src="<!--{response.application_config.qiniu_domain+response.list.data[i].user_logo_image_id+'?imageView2/1/w/30'}-->" class="img-circle">
+	          <!--/if-->
+	          <!--if{response.list.data[i].user_nickname}-->
+	          <!--{response.list.data[i].user_nickname}-->
+	          <!--else-->
+	          <span style="color: #999999;">未设置昵称</span>
+	          <!--/if-->
+	          <!--if{response.list.data[i].user_phone_verify_list}-->
+	          	(<span style="word-wrap:break-word;"><!--{response.list.data[i].user_phone_verify_list}--></span>)
+	          <!--else-->
+	          <span style="color: #999999;">无认证手机</span>
+	          <!--/if-->
+          </div>
+        </td>
+          
+          
+          
+        <td>
+        	<button class="btn btn-default btn-sm open-edit" data-id="<!--{response.list.data[i].house_product_id}-->"><span class="glyphicon glyphicon-edit"></span>编辑</button>
+          	<button class="btn btn-default btn-sm open-details" data-name="<!--{response.list.data[i].house_product_name}-->" data-id="<!--{response.list.data[i].house_product_id}-->"><span class="glyphicon glyphicon-zoom-in"></span>查看详细</button>
+          </td>
+        </tr>
+        <!--/for-->
+      	<!--else-->
+        <tr>
+          <td colspan="10" align="center">无数据</td>
+        </tr>
+        <!--/if-->
+      </tbody>
+    </table>
+    
+    
+    
+    <!--if{response.list.data.length}-->
+	<div class="paging" style="text-align: center;">
+		<button class="first btn btn-default <!--if helper{"is_first_page" (response.list.page_now)}-->disabled<!--/if-->" data-page="1" type="button">首页</button>
+		<button class="previous btn btn-default <!--if helper{"is_first_page" (response.list.page_now)}-->disabled<!--/if-->" data-page="<!--{parseInt(response.list.page_now) - 1}-->" type="button">上一页</button>
+		<button class="btn btn-default" type="button">
+			第<!--{response.list.page_now}-->页
+			/ 共<!--{response.list.page_count}-->页
+			/ 有<!--{response.list.row_count}-->条数据</button>
+		<button class="next btn btn-default <!--if helper{"is_end_page" (response.list.page_now, response.list.page_count)}-->disabled<!--/if-->" type="button" data-page="<!--{parseInt(response.list.page_now) + 1}-->">下一页</button>
+		<button class="end btn btn-default <!--if helper{"is_end_page" (response.list.page_now, response.list.page_count)}-->disabled<!--/if-->" type="button" data-page="<!--{response.list.page_count}-->">尾页</button>
+	</div>
+	<div class="form-inline" style="text-align: center;margin-top: 10px;">
+		<div class="form-group">
+			<input type="text" class="form-control paging--value" placeholder="输入跳转页" style="width: 100px;">
+		</div>
+		<button type="button" class="btn btn-default paging--submit">跳转</button>
+	</div>
+	<!--/if-->
+	
+	
+	
+	
+</script>
+
+<script id="search" type="text/template">
+	<div style="padding: 10px;width: 500px;">
+		<div class="form-group">
+		    <label>产品ID：</label>
+		    <input type="text" class="form-control" search placeholder="输入要搜索的产品ID" name="house_product_id" value="<!--{search.house_product_id}-->">
+		</div>
+		
+		<div class="form-group">
+		    <label>产品名称：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的产品名称" name="house_product_name" value="<!--{search.house_product_name}-->">
+		</div>
+		
+		<div class="form-group">
+		    <label>用户ID：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的用户ID" name="user_id" value="<!--{search.user_id}-->">
+		</div>
+		<div class="form-group">
+		    <label>用户昵称：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的用户昵称" name="user_nickname" value="<!--{search.user_nickname}-->">
+		</div>
+		<div class="form-group">
+		    <label>用户手机号：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的用户手机号" name="user_phone" value="<!--{search.user_phone}-->">
+		</div>
+		
+		<br/>
+		<div class="btn-group" style="width: 100%;">
+			<button type="button" class="btn btn-primary" style="width: 50%;" name="search-submit">确定筛选</button>
+			<button type="button" class="btn btn-default" style="width: 50%;" name="search-clear">清理筛选</button>
+		</div>
+	</div>
+</script>
+
+
+<script id="edit" type="text/template">
+	<div style="padding: 10px;width: 500px;">
+		<div class="form-group">
+	    	<label>产品ID：</label>
+	    	<input type="text" class="form-control" name="house_product_id" readonly="readonly" value="<!--{product.house_product_id}-->">
+	  	</div>
+		<div class="form-group">
+		    <label>微信群ID：</label>
+		    <input type="text" class="form-control" placeholder="输入微信群ID" name="wechat_group_id" value="<!--{product.wechat_group_id}-->">
+		</div>
+		<br/>
+		<button type="button" class="btn btn-primary" name="edit-submit">确定编辑</button>
+	</div>
+</script>	

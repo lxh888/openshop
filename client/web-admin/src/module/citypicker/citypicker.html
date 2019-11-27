@@ -1,0 +1,12 @@
+<select av-if="provinceShow" class="form-control" av-event="[change] eventProvinceChange(:node,:event)" style="display: inline-block;width: 30%;margin-right: 10px;">
+	<option av-attr="[value] provinceValue.value" av-attr="[index] provinceKey" av-for="(provinceValue, provinceKey) provinceList" av-attr="[selected] provinceSelected == provinceValue.value? 'selected':false">{{provinceValue.label}}</option>
+</select>
+
+<select av-if="cityShow" class="form-control" av-event="[change] eventCityChange(:node,:event)" style="display: inline-block;width: 30%;margin-right: 10px;">
+	<option av-attr="[value] cityValue.value" av-attr="[index] cityKey" av-for="(cityValue, cityKey) cityList" av-attr="[selected] citySelected == cityValue.value? 'selected':false">{{cityValue.label}}</option>
+</select>
+
+<select av-if="areaShow" class="form-control" av-event="[change] eventAreaChange(:node,:event)" style="display: inline-block;width: 30%;margin-right: 10px;">
+	<option av-attr="[value] areaValue.value" av-attr="[index] areaKey" av-for="(areaValue, areaKey) areaList" av-attr="[selected] areaSelected == areaValue.value? 'selected':false">{{areaValue.label}}</option>
+</select>
+

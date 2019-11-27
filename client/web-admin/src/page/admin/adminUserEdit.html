@@ -1,0 +1,36 @@
+<div class="form-group">
+	<label>用户ID：</label>
+	<input type="text" class="form-control" readonly="readonly" av-attr="[value] data.user_id">
+</div>
+<div class="form-group">
+	<label>管理角色：</label>
+	<select class="form-control" name="admin_id" av-event="[change] eventSelectAdminOptionChange(:node,:event)">
+		<option value="">-请选择-</option>
+		<option av-if="admin_option && admin_option.length" av-for="(item,index)admin_option"
+			av-attr="[value] item.admin_id" av-attr="[selected] data.admin_id==item.admin_id? 'selected':false">
+			{{item.admin_name}}[{{item.admin_user_count}}人]
+		</option>
+	</select>
+</div>
+<div class="form-group">
+	<label>简介：</label>
+	<textarea class="form-control" rows="3" placeholder="简介" name="admin_user_info">{{data.admin_user_info}}</textarea>
+</div>
+<div class="form-group">
+	<label>状态：</label>
+	<label class="checkbox-inline">
+		<input type="checkbox" value="0" name="admin_user_state"
+			av-attr="[checked] data.admin_user_state==0?'checked':false"> 封禁
+	</label>
+</div>
+
+<!-- e麦 并且是区域代理 -->
+<div class="form-group" av-if="applicationCheckEmshop() && selectAdminOption=='area_agent'">
+	<label>是否显示区域下订单：</label>
+	<label class="checkbox-inline">
+		<input type="checkbox" name="show_region_order"
+			av-attr="[checked] data.admin_user_json.show_region_order==1?'checked':false"> 是
+	</label>
+</div>
+<br />
+<button type="button" class="btn btn-primary" av-class="{'disabled':submitLock}" av-event="[click] eventSubmit()">确定更新</button>

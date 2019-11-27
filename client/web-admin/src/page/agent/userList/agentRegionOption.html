@@ -1,0 +1,9 @@
+<div class="form-group" style="margin-top:5px;">
+	<label >选择代理地区</label>
+		<select name="agentRegionOption"  class="form-control" av-event="[change] eventChangeSelect()">
+			<option av-for="(avl,ak)agentRegionOption" av-attr="[value] avl.agent_region_id"  av-attr="[selected] yitaoShenheAgentid == avl.agent_region_id? 'selected':false"
+			>
+				{{avl.agent_region_province}}/{{avl.agent_region_city}}/{{avl.agent_region_district}}
+			</option>
+		</select>
+</div>

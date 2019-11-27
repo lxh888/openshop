@@ -1,0 +1,176 @@
+<div class="btn-group" style="margin-left: 5px;">
+	<button av-event="[click] eventQuery(:node,:event,'state', false)" class="btn btn-default" av-class="{'active':( typeof state == 'undefined' )}">全部状态</button>
+	<button av-event="[click] eventQuery(:node,:event,'state', 1)" class="btn btn-default" av-class="{'active':( state == 1 )}">正常</button>
+	<button av-event="[click] eventQuery(:node,:event,'state', 0)" class="btn btn-default" av-class="{'active':( state == 0 )}">封禁</button>
+</div>
+
+<button class="btn btn-danger" av-event="[click] eventRemove(:node,:event)" type="button" style="margin-left: 5px;"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+<button class="btn btn-default" av-event="[click] eventSearch(:node,:event)" type="button" style="margin-left: 5px;"><span class="glyphicon glyphicon-filter"></span> 筛选</button>
+<span av-if="checkRouterAnchorQuerySearch()" class="label label-default" style="margin-left: 5px;">存在筛选</span>
+
+
+<hr/>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th style="width: 2%;"><input type="checkbox" checkbox="checkbox-all"></th>
+			<th style="width: 3%;">#</th>
+			<!-- 优惠券名称 -->
+      <th style="width: 15%;">
+	    	<a href="javascript:;" av-event="[click] eventSort(:node,:event,'name_asc', 'name_desc')" >
+					<span av-if="existSort('name_asc', 'name_desc')"  class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('name_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('name_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('name_desc')}"></span>优惠券名称</a>
+			</th>
+			<!-- 优惠券标签 -->
+      <th style="width: 10%;">
+					优惠券标签
+			</th>
+			<!-- 优惠券类型 -->
+			<th style="width: 5%;">
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'type_asc', 'type_desc')">
+					<span av-if="existSort('type_asc', 'type_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('type_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('type_desc')}"></span>类型</a>
+			</th>
+			<!-- 资金类型 -->
+			<th style="width: 8%;">
+				资金类型
+			</th>
+			<!-- 折扣 -->
+			<th style="width: 10%;">
+					折扣
+			</th>
+			
+			<th av-if="applicationCheckYouli()" style="width: 10%;">
+				可领次数
+			</th>
+			<!-- 使用限制条件 -->
+			<th style="width: 12%;">
+					最小限制/最大限制
+			</th>
+			<th style="width: 14%;">
+					<a href="javascript:;" av-event="[click] eventSort(:node,:event,'start_time_asc', 'start_time_desc')">
+						<span av-if="existSort('start_time_asc', 'start_time_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('start_time_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('start_time_desc')}"></span>
+						开始时间
+					</a>/
+					<a href="javascript:;" av-event="[click] eventSort(:node,:event,'end_time_asc', 'end_time_desc')">
+						<span av-if="existSort('end_time_asc', 'end_time_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('end_time_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('end_time_desc')}"></span>
+						结束时间
+					</a>
+			</th>
+			<th style="width: 15%;">
+					<a href="javascript:;" av-event="[click] eventSort(:node,:event,'update_time_asc', 'update_time_desc')">
+						<span av-if="existSort('update_time_asc', 'update_time_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('update_time_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('update_time_desc')}"></span>
+						修改时间</a>
+			</th>
+			<th style="width: 5%;"><a href="javascript:;" av-event="[click] eventSort(:node,:event,'state_asc', 'state_desc')"><span av-if="existSort('state_asc', 'state_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('state_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('state_desc')}"></span>状态</a>
+			</th>
+    	<th style="width: 20%;">操作</th>
+  	</tr>
+	</thead>
+  <tbody>
+  	<tr av-if="list && list.data && list.data.length" av-for="(value, key) list.data" av-event="[dblclick] eventTrDblclick(:node,:event)" av-attr="[data-id] value.coupon_id" data-checkbox="checkbox">
+      <th><input type="checkbox" checkbox="checkbox" av-attr="[data-id] value.coupon_id"></th>
+      <td>{{parseInt(key)+1+((parseInt(list.page_now) - 1) * list.page_size)}}</td>
+			<!-- 优惠券名称 -->
+			<td>
+      	<span>
+					{{value.coupon_name}}
+      	</span>
+			</td>
+			<!-- 优惠券标签 -->
+			<td>
+					<span>
+						{{value.coupon_label}}
+					</span>
+				</td>
+			<!--优惠券类型-->
+			<td>
+					<span av-for="(type, index)typeOption"  av-is="value.coupon_type==index">
+							{{type}}
+					</span>
+			</td>
+			<!--资金类型-->
+			<td>
+					<span  av-if="value.coupon_property==0">
+							人民币
+					</span>
+					<span  av-if="value.coupon_property==1">
+							积分
+					</span>
+			</td>
+			<!-- 折扣券*10 人民币*100 积分券无-->
+			<td>
+					<span av-if="value.coupon_type == 4">
+						{{value.coupon_discount}}%
+					</span>
+					<span av-elseif="value.coupon_property == 0">
+						￥{{(value.coupon_discount/100).toFixed(2)}}
+					</span>
+					<span av-elseif="value.coupon_property == 1">
+						{{parseFloat(value.coupon_discount/applicationCreditConfig().scale).toFixed(applicationCreditConfig().precision)}}(积分)
+					</span>
+			</td>
+			
+			<td av-if="applicationCheckYouli()">
+				{{value.coupon_get_num}}
+			</td>
+			<!-- 使用限制条件 -->
+			<td>
+					<span av-if="value.coupon_property == 0">￥{{(value.coupon_limit_min/100).toFixed(2)}}</span>
+					<span av-else>{{parseFloat(value.coupon_limit_min/applicationCreditConfig().scale).toFixed(applicationCreditConfig().precision)}}</span>/
+					<span av-if="value.coupon_property == 0">￥{{(value.coupon_limit_max/100).toFixed(2)}}</span>
+					<span av-else>{{parseFloat(value.coupon_limit_max/applicationCreditConfig().scale).toFixed(applicationCreditConfig().precision)}}(积分)</span>
+			</td>
+			<!-- 开始时间/结束时间 -->
+			<td>
+				<span av-if="parseInt(value.coupon_start_time)&&parseInt(value.coupon_end_time)">
+					{{av.date("yyyy/MM/dd HH:mm", parseInt(value.coupon_start_time) * 1000)}}
+				</span>
+				<span av-else>-</span><br/>
+				<span av-if="parseInt(value.coupon_end_time)">{{av.date("yyyy/MM/dd HH:mm", parseInt(value.coupon_end_time) * 1000)}}</span>
+				<span av-else>-</span>
+			</td>
+			<!-- 修改时间 -->
+			<td>
+      	<span av-if="parseInt(value.coupon_update_time)">{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(value.coupon_update_time) * 1000)}}</span>
+      	<span av-else>-</span>
+			</td>
+			<!-- 状态 -->
+			<td>
+				<span av-if="applicationCheckYouli() && value.coupon_state == 1 && value.coupon_get_type==1 " class="label label-success">可领取</span>
+				<span av-elseif="applicationCheckYouli() && value.coupon_state == 1 && value.coupon_get_type==0 " class="label label-danger">不可领取</span>
+				<span av-elseif="value.coupon_state == 1" class="label label-success">开启</span>
+				<span av-else-if="value.coupon_state == 0" class="label label-danger">封禁</span>
+				<span av-else class="label label-default">未知</span>
+			</td>
+      <td>
+      	<!-- <button av-event="[click] eventShowMessage(:node,:event,'查看优惠券信息', value.coupon_info)" class="btn btn-default btn-sm" style="margin-right: 5px;">
+					<span class="glyphicon glyphicon-exclamation-sign"></span> 查看详情
+				</button> -->
+      	<a av-attr="[href] '#/application-couponEdit/?id='+value.coupon_id" class="btn btn-default btn-sm">
+					<span class="glyphicon glyphicon-edit"></span> 编辑
+				</a>
+  	  </td>
+    </tr>
+    <tr av-else>
+    	<td colspan="10" align="center">无数据</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+<div av-if="list.data.length" style="text-align: center;">
+	<button class="btn btn-default" data-page="1" av-class="{'disabled':isFirstPage(list.page_now)}" type="button" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">首页</button>
+	<button class="btn btn-default" av-attr="[data-page] parseInt(list.page_now) - 1" av-class="{'disabled':isFirstPage(list.page_now)}" type="button" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">上一页</button>
+	<button class="btn btn-default" type="button" style="margin-right: 5px;">
+		第{{list.page_now}}页
+		/ 共{{list.page_count}}页
+		/ 有{{list.row_count}}条数据</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] parseInt(list.page_now) + 1" av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">下一页</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] list.page_count" av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">尾页</button>
+</div>
+
+
+
+
+
+

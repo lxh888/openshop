@@ -1,0 +1,78 @@
+<button type="button" class="btn btn-default" av-event="[click] eventRestore()" >
+	<span class="glyphicon glyphicon-ok"></span>
+	还原</button>
+<!--<button class="btn btn-warning" type="button" action-button="clear"><span class="glyphicon glyphicon-remove"></span> 删除</button>
+	<button class="btn btn-danger" type="button" action-button="clear-all"><span class=" glyphicon glyphicon-remove-sign"></span> 清空回收站</button>-->
+<hr />
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th><input type="checkbox" checkbox="checkbox-all"></th>
+			<th>#</th>
+			<th>
+					<a href="javascript:;" av-event="[click] eventSort(:node,:event,'name_asc', 'name_desc')">
+							<span av-if="existSort('name_asc', 'name_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('name_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('name_desc')}"></span>商品名称</a>
+		
+			</th>
+			<th>商品简介</th>
+			<th>
+					<a href="javascript:;" av-event="[click] eventSort(:node,:event,'trash_time_asc', 'trash_time_desc')">
+							<span av-if="existSort('trash_time_asc', 'trash_time_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('trash_time_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('trash_time_desc')}"></span>更新时间</a>
+			
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr av-if="list && list.data && list.data.length" av-for="(value,index)list.data" av-event="[dblclick] eventTrDblclick(:node,:event)" av-attr="[data-id] value.cms_article_id" data-checkbox="checkbox">
+			<th><input type="checkbox" checkbox="checkbox" av-attr="[data-id] value.cms_article_id" ></th>
+			<td>
+					{{parseInt(index)+1+((parseInt(list.page_now) - 1) * list.page_size)}}
+			</td>
+			<td>
+					{{value.cms_article_name}}
+			</td>
+			<td>
+				<div class="tips" data-title="查看商品详细"
+					style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 200px;cursor: pointer;"
+					av-event="[click] eventShowInfo(:node,:event,value.cms_article_id)">
+					{{value.cms_article_info}}
+				</div>
+			</td>
+			<td>
+					{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(value.cms_article_trash_time) * 1000)}}
+			
+				
+			</td>
+		</tr>
+		<tr av-else>
+			<td colspan="10" align="center">无数据</td>
+		</tr>
+	</tbody>
+</table>
+
+
+
+<div av-if="list.data.length" style="text-align: center;">
+	<button class="btn btn-default" data-page="1" av-class="{'disabled':isFirstPage(list.page_now)}" type="button"
+		style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">首页</button>
+	<button class="btn btn-default" av-attr="[data-page] parseInt(list.page_now) - 1"
+		av-class="{'disabled':isFirstPage(list.page_now)}" type="button" style="margin-right: 5px;"
+		av-event="[click] eventPageRequest(:node,:event)">上一页</button>
+	<button class="btn btn-default" type="button" style="margin-right: 5px;">
+		第{{list.page_now}}页
+		/ 共{{list.page_count}}页
+		/ 有{{list.row_count}}条数据</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] parseInt(list.page_now) + 1"
+		av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;"
+		av-event="[click] eventPageRequest(:node,:event)">下一页</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] list.page_count"
+		av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;"
+		av-event="[click] eventPageRequest(:node,:event)">尾页</button>
+</div>
+<div class="form-inline" style="text-align: center;margin-top: 10px;">
+	<div class="form-group" style="margin-right: 5px;">
+		<input type="text" class="form-control" input-page="requestPageRequestValue" placeholder="输入跳转页"
+			style="width: 100px;">
+	</div>
+	<button type="button" class="btn btn-default" av-event="[click]eventPageRequestSubmit(:node,:event)">跳转</button>
+</div>

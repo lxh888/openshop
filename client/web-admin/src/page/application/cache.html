@@ -1,0 +1,14 @@
+
+	<button class="btn btn-default" type="button" av-event="[click] eventClearAll(:node,:event)" style="margin-right:5px;"><span class="glyphicon glyphicon-trash"></span> 
+		清理全部缓存</button>
+	<button av-if="applicationCheckEmshop()" class="btn btn-default" type="button" av-event="[click] eventUpdateRelationalChainCaching(:node,:event)"><span class="glyphicon glyphicon-trash">
+	</span> 
+	更新关系链缓存 </button>
+
+	<div class="form-group" style="margin-top:20px;" av-if="applicationCheckEmshop()">
+		<label>重置用户身份及推荐关系链：</label>
+				<input type="text"  class="form-control" placeholder="用户id" name="user_id"/>
+				<button type="button" class="btn btn-primary" style="margin-top:10px;" av-event="[click] eventSubmit()">确定更新</button>
+
+	</div>
+

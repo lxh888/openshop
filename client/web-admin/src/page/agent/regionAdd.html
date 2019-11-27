@@ -1,0 +1,41 @@
+<div class="form-group" av-if='!applicationCheckYouli()'>
+	<label>代理范围：</label>
+	<select class="form-control" av-event="[change] eventSelectedScope(:node,:event)" name="agent_region_scope">
+		<option value="1" av-attr="[selected] selectedScope == 1? 'selected':false">省(直辖市)</option>
+		<option value="2" av-attr="[selected] selectedScope == 2? 'selected':false">市</option>
+		<option value="3" av-attr="[selected] selectedScope == 3? 'selected':false">区(县)</option>
+	</select>
+</div>
+
+<div class="form-group" av-if='!applicationCheckYouli()'>
+	<label>选择分配地区：</label>
+	<div module="citypicker"></div>
+</div>
+
+<div class="form-group">
+	<label>代理详细地址：</label>
+	<input type="text" class="form-control" name="agent_region_details" placeholder="代理详细地址">
+</div>
+
+<div class="form-group">
+	<label>状态：</label>
+	<label class="checkbox-inline">
+		<input type="checkbox" value="0" name="agent_region_state"> 封禁
+	</label>
+</div>
+  	
+<!--<div class="form-group">
+	<label>排序：</label>
+	<input type="text" class="form-control" name="agent_region_sort" placeholder="输入排序" av-attr="[value]''">
+</div>-->
+
+<div class="form-group">
+	<label>介绍：</label>
+	<textarea class="form-control" rows="3" name="agent_region_info" placeholder="介绍" >{{''}}</textarea>
+</div>
+
+<br/>
+<button type="button" class="btn btn-primary" av-event="[click] eventSubmit(:node,:event)" av-class="{'disabled':submitLock}" >确定添加</button>
+<div style="height: 100px;"></div>
+
+

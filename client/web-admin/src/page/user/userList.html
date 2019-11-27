@@ -1,0 +1,162 @@
+<div av-if="typeof user_parent !=='undefined'" class="panel panel-default">
+	<div class="panel-body">
+		<img av-is="user_parent.user_logo_image_id" av-attr="[src] applicationConfig.qiniu_domain+user_parent.user_logo_image_id+'?imageView2/1/w/40'" class="img-circle">
+		<div>推荐人ID： {{user_parent.user_id}}
+		</div>
+		<div>推荐人昵称： {{user_parent.user_nickname}}
+		</div>
+		<div>注册时间： {{av.date("yyyy/MM/dd HH:mm EEE", parseInt(user_parent.user_register_time) * 1000)}}
+		</div>
+		<div>操作：
+			<a av-attr="[href] '#/user-userEdit/?id='+user_parent.user_id" class="btn btn-default btn-xs" style="margin-right:5px;"><span class="glyphicon glyphicon-edit"></span>编辑</a>
+		</div>
+	</div>
+</div>
+
+<button class="btn btn-success" type="button" av-event="[click] eventUnban(:node,:event)" style="margin-right:5px;"><span
+		class="glyphicon glyphicon-ok-circle"></span> 解封</button>
+<button class="btn btn-danger" type="button" av-event="[click] eventBan(:node,:event)" style="margin-right:5px;"><span
+		class="glyphicon glyphicon-ban-circle"></span> 封禁</button>
+<button class="btn btn-default" av-event="[click] eventSearch(:node,:event)" type="button" style="margin-left: 5px;"><span
+		class="glyphicon glyphicon-filter"></span> 筛选</button>
+<span av-if="checkRouterAnchorQuerySearch()" class="label label-default" style="margin-left: 5px;">存在筛选</span>
+
+<hr />
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th><input type="checkbox" checkbox="checkbox-all"></th>
+			<th>#</th>
+			<th>
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'nickname_asc', 'nickname_desc')">
+					<span av-if="existSort('nickname_asc', 'nickname_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('nickname_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('nickname_desc')}"></span>用户昵称</a>
+				/
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'phone_verify_count_asc', 'phone_verify_count_desc')">
+					<span av-if="existSort('phone_verify_count_asc', 'phone_verify_count_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('phone_verify_count_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('phone_verify_count_desc')}"></span>认证手机</a>
+				/
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'phone_login_count_asc', 'phone_login_count_desc')">
+					<span av-if="existSort('phone_login_count_asc', 'phone_login_count_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('phone_login_count_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('phone_login_count_desc')}"></span>登录手机</a>
+			</th>
+			<th style="width:5%;">
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'sex_asc', 'sex_desc')">
+					<span av-if="existSort('sex_asc', 'sex_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('sex_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('sex_desc')}"></span>性别</a>
+			</th>
+			<th style="width:5%;">
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'state_asc', 'state_desc')">
+					<span av-if="existSort('state_asc', 'state_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('state_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('state_desc')}"></span>状态</a>
+			</th>
+			<th style="width:8%;" av-if="!applicationCheckZhongrunhuizhan()">
+
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'user_recommend_count_asc', 'user_recommend_count_desc')">
+					<span av-if="existSort('user_recommend_count_asc', 'user_recommend_count_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('user_recommend_count_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('user_recommend_count_desc')}"></span>推广人数</a>
+			</th>
+			<th>
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'register_time_asc', 'register_time_desc')">
+					<span av-if="existSort('register_time_asc', 'register_time_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('register_time_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('register_time_desc')}"></span>注册时间</a>
+			</th>
+			<th av-if="!applicationCheckZhongrunhuizhan() && typeof user_parent =='undefined'" >
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'parent_id_asc', 'parent_id_desc')">
+					<span av-if="existSort('parent_id_asc', 'parent_id_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('parent_id_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('parent_id_desc')}"></span>推荐人</a>
+			</th>
+			<th av-if="applicationCheckYitaoshop()">地址</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr av-if="list && list.data && list.data.length" av-for="(value,index)list.data" av-event="[dblclick] eventTrDblclick(:node,:event)" av-attr="[data-id] value.user_id" data-checkbox="checkbox">
+			<th><input type="checkbox" checkbox="checkbox" av-attr="[data-id] value.user_id"></th>
+			<td>
+				{{parseInt(index)+1+((parseInt(list.page_now) - 1) * list.page_size)}}
+			</td>
+			<td>
+				<img av-is="value.user_logo_image_id" av-attr="[src] applicationConfig.qiniu_domain+value.user_logo_image_id+'?imageView2/1/w/40'" class="img-circle">
+				<span av-if="value.user_nickname">{{value.user_nickname}}</span>
+				<span av-else style="color: #999999;">未设置昵称</span>
+				<div style="max-width: 200px;display: inline-block;">
+					<span av-if="value.user_phone_verify_list" style="word-wrap:break-word;display: block;font-weight: bold;">
+					({{value.user_phone_verify_list}})
+				</span></div>
+				<div style="max-width: 200px;">
+					(<label av-if="parseInt(value.user_phone_verify_count)" style="font-weight:normal">
+						<span style="color: forestgreen;">{{value.user_phone_verify_count}}</span>个认证</label>
+					<span av-else style="color: #999999;">无认证手机</span>
+					<label av-if="parseInt(value.user_phone_login_count)" style="font-weight:normal;margin-left: 5px;">
+						<span style="color: forestgreen;">{{value.user_phone_login_count}}</span>个登录设置</label>
+					<span av-else style="color: #999999;margin-left: 5px;">无登录设置</span>)
+
+				</div>
+			</td>
+
+			<td>
+				<span av-if="parseInt(value.user_sex)==1" class="label label-info">男性</span>
+				<span av-elseif="parseInt(value.user_sex)==2" class="label label-warning">女性</span>
+				<span av-else class="label label-default">未知</span>
+			</td>
+
+			<td>
+				<span av-if="parseInt(value.user_state)==1" class="label label-success">正常</span>
+				<span av-elseif="parseInt(value.user_state)==0" class="label label-danger">封禁</span>
+				<span av-else class="label label-default">未知</span>
+			</td>
+
+			<td av-if="!applicationCheckZhongrunhuizhan()">{{value.user_recommend_count}}</td>
+			<td>{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(value.user_register_time) * 1000)}}</td>
+
+			<td av-if="!applicationCheckZhongrunhuizhan() && typeof user_parent =='undefined'" style="max-width: 190px;">
+				<!--if{response.list.data[i].user_parent_id}-->
+				<div av-if="value.user_parent_id">
+					<img av-if="value.user_parent_logo_image_id " av-attr="[src] applicationConfig.qiniu_domain+value.user_parent_logo_image_id+'?imageView2/1/w/30'" class="img-circle">
+					<span av-if="value.user_parent_nickname">{{value.user_parent_nickname}}</span>
+					<span av-else style="color: #999999;">未设置昵称</span>
+					<!--/if-->
+					<!--if{response.list.data[i].user_parent_phone_verify_list}-->
+					<div av-if="value.user_parent_phone_verify_list">
+						(<span style="word-wrap:break-word;font-weight: bold;">{{value.user_parent_phone_verify_list}}</span>)
+					</div>
+					<span av-else style="color: #999999;">无认证手机</span>
+				</div>
+				<span av-else style="color: #999999;">无推荐人</span>
+			</td>
+			<td av-if="applicationCheckYitaoshop()">
+					{{value.address.province+"-"+value.address.city+"-"+value.address.area}}
+			</td>
+			<td>
+				<a av-attr="[href] '#/user-userEdit/?id='+value.user_id" class="btn btn-default btn-sm" style="margin-right:5px;"><span class="glyphicon glyphicon-edit"></span>编辑</a>
+				<button class="btn btn-default btn-sm user_json" type="button" style="margin-right:5px;" av-event="[click] eventShowInfo(:node,:event,value.user_id)">
+					<span class="glyphicon glyphicon-info-sign"></span> 其他信息
+				</button>
+
+				<a av-if="!applicationCheckZhongrunhuizhan()" av-attr="[href] '#/user-userList/?search=%257B%2522user_parent_id%2522%253A%2522'+value.user_parent_id+'%2522%257D'" class="btn btn-default btn-sm" style="margin-right:5px;">
+					<span class="glyphicon glyphicon-filter"></span> 父级推荐
+				</a>
+				<a av-if="!applicationCheckZhongrunhuizhan()" av-attr="[href] '#/user-userList/?search=%257B%2522user_parent_id%2522%253A%2522'+value.user_id+'%2522%257D'" class="btn btn-default btn-sm" style="margin-right:5px;">
+					<span class="glyphicon glyphicon-filter"></span> 用户推荐
+				</a>
+				<button av-is="applicationCheckYitaoshop() && !value.user_parent_id" class="btn btn-default btn-sm user_json" type="button" style="margin-right:5px;" av-event="[click] eventSetInvite(:node,:event,value.user_id)">
+					<span class="glyphicon glyphicon-cog"></span> 设置所在区域代理为邀请人
+				</button>
+
+			</td>
+		</tr>
+		<tr av-else>
+			<td colspan="10" align="center">无数据</td>
+		</tr>
+	</tbody>
+</table>
+
+<div av-if="list.data.length" style="text-align: center;">
+	<button class="btn btn-default" data-page="1" av-class="{'disabled':isFirstPage(list.page_now)}" type="button" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">首页</button>
+	<button class="btn btn-default" av-attr="[data-page] parseInt(list.page_now) - 1" av-class="{'disabled':isFirstPage(list.page_now)}" type="button" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">上一页</button>
+	<button class="btn btn-default" type="button" style="margin-right: 5px;">
+		第{{list.page_now}}页
+		/ 共{{list.page_count}}页
+		/ 有{{list.row_count}}条数据</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] parseInt(list.page_now) + 1" av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">下一页</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] list.page_count" av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">尾页</button>
+</div>
+<div class="form-inline" style="text-align: center;margin-top: 10px;">
+	<div class="form-group" style="margin-right: 5px;">
+		<input type="text" class="form-control" input-page="requestPageRequestValue" placeholder="输入跳转页" style="width: 100px;">
+	</div>
+	<button type="button" class="btn btn-default" av-event="[click]eventPageRequestSubmit(:node,:event)">跳转</button>
+</div>

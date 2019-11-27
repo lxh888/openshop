@@ -1,0 +1,26 @@
+<script id="content" type="text/template">
+
+	<div class="btn-group">
+		<a href="<!--helper {'action-query-href'}-->" class="btn btn-default <!--if{action=='basics'}-->active<!--/if-->">基础信息</a>
+		<a href="<!--helper {'action-query-href'('details')}-->" class="btn btn-default <!--if{action=='details'}-->active<!--/if-->">产品详细</a>
+		<a href="<!--helper {'action-query-href'('type')}-->" class="btn btn-default <!--if{action=='type'}-->active<!--/if-->">产品分类</a>
+		<a href="<!--helper {'action-query-href'('attr')}-->" class="btn btn-default <!--if{action=='attr'}-->active<!--/if-->">产品属性</a>
+		<a href="<!--helper {'action-query-href'('image')}-->" class="btn btn-default <!--if{action=='image'}-->active<!--/if-->">产品图片</a>
+		<a href="<!--helper {'action-query-href'('file')}-->" class="btn btn-default <!--if{action=='file'}-->active<!--/if-->">产品文件</a>
+	</div>
+	<br/><br/>
+	
+	<!--helper{"import-action-template"}-->
+	
+	<div style="height: 100px;"></div>
+
+</script>
+
+<script id="warning" type="text/template">
+	<div class="alert alert-warning" role="alert">
+      <strong>警告!</strong> 没有可操作选项，页面参数不合法！
+    </div>
+</script>
+
+
+

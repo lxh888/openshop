@@ -1,0 +1,160 @@
+<script id="content" type="text/template">
+	<button class="btn btn-default search" type="button" ><span class="glyphicon glyphicon-filter"></span> 筛选</button>
+	<!--if{http().anchor.query.search}--><span class="label label-default">存在筛选</span><!--/if-->
+	<hr/>
+	<table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>
+          	<!--if{http().anchor.query.sort == "api_id_desc"}-->
+          	<a href="javascript:;" action-sort="api_id_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>接口</a>
+          	<!--elseif{http().anchor.query.sort == "api_id_asc"}-->
+          	<a href="javascript:;" action-sort="api_id_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>接口</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="api_id_desc">接口</a>
+          	<!--/if-->
+          </th>
+          <th>
+          	<!--if{http().anchor.query.sort == "ip_desc"}-->
+          	<a href="javascript:;" action-sort="ip_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>IP地址</a>
+          	<!--elseif{http().anchor.query.sort == "ip_asc"}-->
+          	<a href="javascript:;" action-sort="ip_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>IP地址</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="ip_desc">IP地址</a>
+          	<!--/if-->
+          </th>
+          <th>
+          	<!--if{http().anchor.query.sort == "user_nickname_desc"}-->
+          	<a href="javascript:;" action-sort="user_nickname_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>用户昵称</a>
+          	<!--elseif{http().anchor.query.sort == "user_nickname_asc"}-->
+          	<a href="javascript:;" action-sort="user_nickname_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>用户昵称</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="user_nickname_desc">用户昵称</a>
+          	<!--/if-->
+          	/
+          	<!--if{http().anchor.query.sort == "user_phone_verify_list_desc"}-->
+          	<a href="javascript:;" action-sort="user_phone_verify_list_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>手机信息</a>
+          	<!--elseif{http().anchor.query.sort == "user_phone_verify_list_asc"}-->
+          	<a href="javascript:;" action-sort="user_phone_verify_list_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>手机信息</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="user_phone_verify_list_desc">手机信息</a>
+          	<!--/if-->
+          	
+          </th>
+          
+          <th>
+          	<!--if{http().anchor.query.sort == "time_desc"}-->
+          	<a href="javascript:;" action-sort="time_asc"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>时间</a>
+          	<!--elseif{http().anchor.query.sort == "time_asc"}-->
+          	<a href="javascript:;" action-sort="time_desc"><span class="glyphicon glyphicon-sort-by-attributes"></span>时间</a>
+          	<!--else-->
+          	<a href="javascript:;" action-sort="time_desc">时间</a>
+          	<!--/if-->
+          </th>
+          
+          <th>操作</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+      	<!--if{response.list.data.length}-->
+      	<!--for{var i in response.list.data}-->
+      	<tr>
+          <td><!--{parseInt(i)+1+((parseInt(response.list.page_now) - 1) * response.list.page_size)}--></td>
+          <td>
+          	<div style="color: #999;"><!--{response.list.data[i].api_id}--></div>
+          	<div><!--{response.list.data[i].api.api_name}--></div>
+          </td>
+          <td><!--{response.list.data[i].admin_log_ip}--></td>
+          <td style="max-width: 200px;">
+          	<div style="max-width: 200px;display: inline-block;">
+	          <!--if{response.list.data[i].user_logo_image_id}-->
+	          <img src="<!--{response.application_config.qiniu_domain+response.list.data[i].user_logo_image_id+'?imageView2/1/w/30'}-->" class="img-circle">
+	          <!--/if-->
+	          <!--if{response.list.data[i].user_nickname}-->
+	          <!--{response.list.data[i].user_nickname}-->
+	          <!--else-->
+	          <span style="color: #999999;">未设置昵称</span>
+	          <!--/if-->
+	          <!--if{response.list.data[i].user_phone_verify_list}-->
+	          	(<span style="word-wrap:break-word;"><!--{response.list.data[i].user_phone_verify_list}--></span>)
+	          <!--else-->
+	          <span style="color: #999999;">无认证手机</span>
+	          <!--/if-->
+          </div>
+          </td>
+          
+          <td><!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.list.data[i].admin_log_time) * 1000)}--></td>
+          <td>
+          	<button class="btn btn-default btn-sm tips" data-title="查看实际参数" data="<!--{response.list.data[i].admin_log_real_args}-->" type="button"><span class="glyphicon glyphicon-zoom-in"></span> 查看实际参数</button>
+          	<button class="btn btn-default btn-sm tips" data-title="查看备份参数" data="<!--{response.list.data[i].admin_log_clear_args}-->" type="button"><span class="glyphicon glyphicon-zoom-in"></span> 查看备份参数</button>
+          </td>
+        </tr>
+        <!--/for-->
+      	<!--else-->
+        <tr>
+          <td colspan="10" align="center">无数据</td>
+        </tr>
+        <!--/if-->
+      </tbody>
+    </table>
+    
+    
+    
+    <!--if{response.list.data.length}-->
+	<div class="paging" style="text-align: center;">
+		<button class="first btn btn-default <!--if helper{"is_first_page" (response.list.page_now)}-->disabled<!--/if-->" data-page="1" type="button">首页</button>
+		<button class="previous btn btn-default <!--if helper{"is_first_page" (response.list.page_now)}-->disabled<!--/if-->" data-page="<!--{parseInt(response.list.page_now) - 1}-->" type="button">上一页</button>
+		<button class="btn btn-default" type="button">
+			第<!--{response.list.page_now}-->页
+			/ 共<!--{response.list.page_count}-->页
+			/ 有<!--{response.list.row_count}-->条数据</button>
+		<button class="next btn btn-default <!--if helper{"is_end_page" (response.list.page_now, response.list.page_count)}-->disabled<!--/if-->" type="button" data-page="<!--{parseInt(response.list.page_now) + 1}-->">下一页</button>
+		<button class="end btn btn-default <!--if helper{"is_end_page" (response.list.page_now, response.list.page_count)}-->disabled<!--/if-->" type="button" data-page="<!--{response.list.page_count}-->">尾页</button>
+	</div>
+	<div class="form-inline" style="text-align: center;margin-top: 10px;">
+		<div class="form-group">
+			<input type="text" class="form-control paging--value" placeholder="输入跳转页" style="width: 100px;">
+		</div>
+		<button type="button" class="btn btn-default paging--submit">跳转</button>
+	</div>
+	<!--/if-->
+	
+</script>
+
+
+
+<script id="search" type="text/template">
+	<div style="padding: 10px;width: 500px;">
+		<div class="form-group">
+		    <label>接口ID：</label>
+		    <input type="text" class="form-control" search placeholder="输入要搜索的接口ID" name="api_id" value="<!--{search.api_id}-->">
+		</div>
+		<div class="form-group">
+		    <label>IP地址：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的IP地址" name="admin_log_ip" value="<!--{search.admin_log_ip}-->">
+		</div>
+		
+		<div class="form-group">
+		    <label>用户ID：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的用户ID" name="user_id" value="<!--{search.user_id}-->">
+		</div>
+		<div class="form-group">
+		    <label>用户手机号：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的用户手机号" name="user_phone" value="<!--{search.user_phone}-->">
+		</div>
+		<div class="form-group">
+		    <label>用户昵称：</label>
+		    <input type="text" class="form-control" placeholder="输入要搜索的用户名称" name="user_nickname" value="<!--{search.user_nickname}-->">
+		</div>
+		
+		<br/>
+		<div class="btn-group" style="width: 100%;">
+			<button type="button" class="btn btn-primary" style="width: 50%;" name="search-submit">确定筛选</button>
+			<button type="button" class="btn btn-default" style="width: 50%;" name="search-clear">清理筛选</button>
+		</div>
+	</div>
+</script>
+
+

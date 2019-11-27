@@ -1,0 +1,139 @@
+<input type="text" input-focus="page-shop-goodsAttr::skuEdit" style="position: fixed;left: 99999999px;" />
+
+<div id="goodsAttrSkuEdit" style="padding: 20px;">
+	<div class="form-group">
+		<label>库存售卖ID：</label>
+		<input type="text" class="form-control" readonly="readonly" name="shop_goods_sku_id" av-attr="[value] shop_goods_sku.shop_goods_sku_id">
+	</div>
+	<div class="form-group">
+			<label>属性列表：</label>
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div av-is="shopGoodsSpuOption" av-for="(v,k)shopGoodsSpuOption" style="margin-bottom: 20px;" >
+						<div class="label label-default" style="font-size: 100%;display: block;margin-bottom: 10px;">
+							#{{parseInt(k)+1}}{{v.shop_goods_spu_name}}
+						</div>
+						<label av-if="v.son" av-for="(sonv,sonk)v.son" class="checkbox-inline" style="margin-right: 10px;">
+							<input  type="radio" id="shop_goods_spu_id" av-attr="[name] 'shop_goods_spu_id'+k" style="margin-left: -16px;" av-attr="[value] sonv.shop_goods_spu_id" av-attr="[checked] shop_goods_sku.shop_goods_spu_id.indexOf(sonv.shop_goods_spu_id)>-1?'checked':false" checkbox="checkbox-spu-skuEdit"/>
+							{{sonv.shop_goods_spu_name}}
+						</label>
+						<div av-else style="color: #999;text-align: center;">无选项</div>
+					</div>
+				</div>
+			</div>
+	</div>
+	
+	<div av-is="applicationCheckYitaoshop()" class="form-group">
+			<label>指定售卖角色：</label>
+			<select class="form-control" name="shop_goods_sku_admin_id" av-event="[change] eventSelectRoleChange(:node,:event)">
+				<!-- <option value="">-请选择-</option> -->
+				<option av-for="(role, index)adminOption" av-is="role.admin_type==1" av-attr="[value] role.admin_id" av-attr="[selected] admin_id==role.admin_id? 'selected':false">
+						{{role.admin_name}}[{{role.admin_user_count}}人]
+				</option>
+			</select>
+	</div>
+	<div av-is="applicationCheckYitaoshop() && admin_id!='visitor' && shop_goods_index!=1 && admin_id!='shop_manager' && admin_id!='chief_inspector' && admin_id!='founder'" class="form-group">
+		<label>店长差价：</label>
+		<input class="form-control"type="text" placeholder="输入差价" name="shop_manager_difference" av-attr="[value] (shop_goods_sku.shop_manager_difference/100).toFixed(2)">
+	</div>
+	<div av-is="applicationCheckYitaoshop() && admin_id!='visitor' && shop_goods_index!=1 &&  admin_id!='chief_inspector' && admin_id!='founder'" class="form-group">
+		<label>店长一级提成：</label>
+		<input class="form-control" type="text" placeholder="输入提成" name="shop_manager_royalty" av-attr="[value] shop_goods_sku.shop_manager_royalty==''?0:(shop_goods_sku.shop_manager_royalty[0]/100).toFixed(2)">
+	</div>
+	<div av-is="applicationCheckYitaoshop() && admin_id!='visitor' && shop_goods_index!=1 &&  admin_id!='chief_inspector' && admin_id!='founder'" class="form-group">
+		<label>店长二级提成：</label>
+		<input class="form-control" type="text" placeholder="输入提成" name="shop_manager_royalty" av-attr="[value] shop_goods_sku.shop_manager_royalty==''?0:(shop_goods_sku.shop_manager_royalty[1]/100).toFixed(2)">
+	</div>
+	<!-- <div av-is="applicationCheckYitaoshop() && admin_id!='visitor' && shop_goods_index!=1 &&  admin_id!='chief_inspector' && admin_id!='founder'" class="form-group">
+		<label>店长三级提成：</label>
+		<input class="form-control" type="text" placeholder="输入提成" name="shop_manager_royalty" av-attr="[value] (shop_goods_sku.shop_manager_royalty[2]/100).toFixed(2)">
+	</div> -->
+	<div av-is="applicationCheckYitaoshop() && admin_id!='visitor' && shop_goods_index!=1 && admin_id!='chief_inspector' && admin_id!='founder'" class="form-group">
+		<label>总监差价：</label>
+		<input class="form-control"type="text" placeholder="输入差价" name="chief_inspector_difference" av-attr="[value] (shop_goods_sku.chief_inspector_difference/100).toFixed(2)">
+	</div>
+	<div av-is="applicationCheckYitaoshop() && admin_id!='visitor' && shop_goods_index!=1 && admin_id!='founder'" class="form-group">
+		<label>总监一级提成：</label>
+		<input class="form-control" type="text" placeholder="输入提成" name="chief_inspector_royalty" av-attr="[value] shop_goods_sku.chief_inspector_royalty==''?0:(shop_goods_sku.chief_inspector_royalty[0]/100).toFixed(2)">
+	</div>
+	<!-- <div av-is="applicationCheckYitaoshop() && admin_id!='visitor' && shop_goods_index!=1 && admin_id!='founder'" class="form-group">
+		<label>总监二级提成：</label>
+		<input class="form-control" type="text" placeholder="输入提成" name="chief_inspector_royalty" av-attr="[value] (shop_goods_sku.chief_inspector_royalty[1]/100).toFixed(2)">
+	</div> -->
+	<div av-is="applicationCheckYitaoshop() && admin_id!='visitor' && shop_goods_index!=1 && admin_id!='founder'" class="form-group">
+		<label>创始人差价：</label>
+		<input class="form-control"type="text" placeholder="输入差价" name="founder_difference" av-attr="[value] (shop_goods_sku.founder_difference/100).toFixed(2)">
+	</div>
+	<div av-is="applicationCheckYitaoshop() && admin_id!='visitor' && shop_goods_index!=1" class="form-group">
+		<label>创始人一级提成：</label>
+		<input class="form-control" type="text" placeholder="输入提成" name="founder_royalty" av-attr="[value] shop_goods_sku.founder_royalty==''?0:(shop_goods_sku.founder_royalty[0]/100).toFixed(2)">
+	</div>
+	<!-- <div av-is="applicationCheckYitaoshop() && admin_id!='visitor' && shop_goods_index!=1" class="form-group">
+		<label>创始人二级提成：</label>
+		<input class="form-control" type="text" placeholder="输入提成" name="founder_royalty" av-attr="[value] (shop_goods_sku.founder_royalty[1]/100).toFixed(2)">
+	</div> -->
+	<div av-is="applicationCheckYitaoshop() && admin_id!='visitor' && shop_goods_index!=1" class="form-group">
+		<label>创始人区域管理费：</label>
+		<div class="input-group">
+			<input  type="text" placeholder="输入区域管理费" class="form-control" name="founder_region_money" av-attr="[value] parseFloat(shop_goods_sku.founder_region_money/100).toFixed(2)">
+			<span class="input-group-addon">元</span>
+		</div>
+	</div>
+	<div class="form-group">
+		<label>库存：</label>
+		<input type="text" class="form-control"  name="shop_goods_sku_stock" av-attr="[value] shop_goods_sku.shop_goods_sku_stock" >
+	</div>
+	<div class="form-group">
+		<label>成本价：</label>
+		<div class="input-group">
+			<input av-if="shop_goods_property==0" type="text" class="form-control" name="shop_goods_sku_cost_price" av-attr="[value] parseFloat(shop_goods_sku.shop_goods_sku_cost_price/100).toFixed(2)">
+			<input av-elseif="shop_goods_property==1" type="text" class="form-control" name="shop_goods_sku_cost_price" av-attr="[value] parseFloat(shop_goods_sku.shop_goods_sku_cost_price/applicationCreditConfig().scale).toFixed(applicationCreditConfig().precision)">
+			<span av-if="shop_goods_property==0" class="input-group-addon">元</span>
+			<span av-elseif="shop_goods_property==1"class="input-group-addon">积分数量</span>
+		</div>
+	</div>
+	
+	<div class="form-group">
+			<label>市场价：<span style="color: #999;">可不填</span></label>
+			<div class="input-group">
+				<input av-if="shop_goods_property==0" type="text" class="form-control"  name="shop_goods_sku_market_price" av-attr="[value] parseFloat(shop_goods_sku.shop_goods_sku_market_price/100).toFixed(2)">
+				<input av-elseif="shop_goods_property==1"type="text" class="form-control" name="shop_goods_sku_market_price" av-attr="[value] parseFloat(shop_goods_sku.shop_goods_sku_market_price/applicationCreditConfig().scale).toFixed(applicationCreditConfig().precision)">
+				<span av-if="shop_goods_property==0" class="input-group-addon">元</span>
+				<span av-elseif="shop_goods_property==1"class="input-group-addon">积分数量</span>
+		</div>
+	</div>
+	
+	<div class="form-group">
+			<label>售卖单价：</label>
+			<div class="input-group">
+				<input av-if="shop_goods_property==0" type="text" class="form-control" name="shop_goods_sku_price" av-attr="[value] parseFloat(shop_goods_sku.shop_goods_sku_price/100).toFixed(2)">
+				<input av-elseif="shop_goods_property==1" type="text" class="form-control" name="shop_goods_sku_price" av-attr="[value] parseFloat(shop_goods_sku.shop_goods_sku_price/applicationCreditConfig().scale).toFixed(applicationCreditConfig().precision)">
+				<span av-if="shop_goods_property==0" class="input-group-addon">元</span>
+				<span av-elseif="shop_goods_property==1"class="input-group-addon">积分数量</span>
+			</div>
+	</div>
+	
+	<!-- e麦商场 积分加人民币购买    积分附加人民币   -->
+	<div av-if="applicationCheckEmshop() && shop_goods_property==1" class="form-group" >
+		<label>附加人民币：<span style="color: #999;">可不填</span></label>
+		<div class="input-group">
+			<input type="text" class="form-control" placeholder="输入附加人民币" name="shop_goods_sku_additional_money" av-attr="[value] parseFloat(shop_goods_sku.shop_goods_sku_additional_money/100).toFixed(2)">
+			<span class="input-group-addon">元</span>
+		</div>
+	</div>
+	<!-- 人民币附加积分 -->
+	<div av-elseif="applicationCheckEmshop() && shop_goods_property==0" class="form-group" >
+		<label>附加积分：<span style="color: #999;">可不填</span></label>
+		<div class="input-group">
+			<input type="text" class="form-control" placeholder="输入附加积分" name="shop_goods_sku_additional_credit" av-attr="[value] parseFloat(shop_goods_sku.shop_goods_sku_additional_credit/applicationCreditConfig().scale).toFixed(applicationCreditConfig().precision)">
+			<span class="input-group-addon">积分数量</span>
+		</div>
+	</div>
+
+	<div class="form-group">
+			<label>描述：</label>
+			<textarea class="form-control" rows="3" placeholder="输入描述" name="shop_goods_sku_info">{{shop_goods_sku.shop_goods_sku_info}}</textarea>
+	</div>
+	<br/>
+	<button type="button" class="btn btn-primary" av-event="[click] eventSubmit(:node,:event)">确定编辑</button>
+</div>

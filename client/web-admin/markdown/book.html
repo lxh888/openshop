@@ -1,0 +1,34 @@
+<div id="left">
+	<div class="body" av-style="leftBodyStyle">
+		<div class="head">
+			<h1>{{book.title}}</h1>
+			<div class="layui-btn-group">
+				<a av-attr="[href] av.router(av.router().url, 'default.html#/administrator-markdown').href" class="layui-btn layui-btn-primary layui-btn-sm">
+				    <i class="layui-icon">&#xe65c;</i> 文档列表
+				</a>
+				<a av-attr="[href] av.router(av.router().url, 'default.html#/').href" class="layui-btn layui-btn-primary layui-btn-sm">
+				    <i class="layui-icon">&#xe68e;</i> 后台首页
+				</a>
+			</div>
+		</div>
+		<!--溢出隐藏滚动条-->
+		<div class="scroll" av-style="leftScrollStyle">
+			<div class="wrap" av-style="leftWrapStyle">
+				
+				<div id="tree"></div>
+				<div style="height: 300px;"></div>
+				
+			</div>
+		</div>
+		<div class="drag"></div>
+	</div>
+</div>
+<div id="right" av-style="rightStyle">
+	<div class="body">
+		<div id="page" av-if="page"><h1>{{page.name}}</h1></div>
+		<div id="content"></div>
+	</div>
+</div>
+
+
+

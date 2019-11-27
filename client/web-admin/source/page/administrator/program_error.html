@@ -1,0 +1,35 @@
+<script id="content" type="text/template">
+	<button class="btn btn-danger" type="button" action-button="remove"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+	<hr/>
+	<table class="table table-striped">
+      <thead>
+        <tr>
+          <th><input type="checkbox" action-table="checkbox-all"></th>	
+          <th>文件名称</th>
+          <th>文件大小</th>
+          <th>时间</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+      	<!--if{response.list.data.length}-->
+      	<!--for{var i in response.list.data}-->
+      	<tr>
+          <th><input type="checkbox" action-table="checkbox" data-id="<!--{response.list.data[i].file_name}-->"></th>
+          <th><!--{response.list.data[i].file_name}--></th>
+          <td><!--{response.list.data[i].size_unit}--></td>
+          <td><!--{response.list.data[i].filemtime_format}--></td>
+          <td>
+          	<button class="btn btn-default btn-sm open-details" data-name="<!--{response.list.data[i].file_name}-->" data-id="<!--{response.list.data[i].file_name}-->"><span class="glyphicon glyphicon-zoom-in"></span>查看详细</button>
+          </td>
+        </tr>
+        <!--/for-->
+      	<!--else-->
+        <tr>
+          <td colspan="10" align="center">无数据</td>
+        </tr>
+        <!--/if-->
+      </tbody>
+    </table>
+	
+</script>

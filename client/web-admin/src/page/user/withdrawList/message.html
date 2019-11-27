@@ -1,0 +1,14 @@
+<div av-if="typeof alipay != 'undefined'">
+	<div style="font-size:18px;margin: 10px;">支付宝账号信息:</div>
+	<div style="background-color:#eee;padding: 5px 5px;border-top: 1px #ccc solid;">账户信息: {{alipay.account}}</div>
+	<div style="background-color:#eee;padding: 5px 5px;border-top: 1px #ccc solid;">真实姓名: {{alipay.realname}}</div>
+</div>
+<div av-if="typeof bankcard != 'undefined'">
+	<div style="font-size:18px;margin: 10px;">银行卡账号信息:</div>
+	<div style="background-color:#eee;padding: 5px 5px;border-top: 1px #ccc solid;">银行账户: {{bankcard.account}}</div>
+	<div style="background-color:#eee;padding: 5px 5px;border-top: 1px #ccc solid;">银行名称: {{bankcard.bankname}}</div>
+	<div style="background-color:#eee;padding: 5px 5px;border-top: 1px #ccc solid;">真实姓名: {{bankcard.realname}}</div>
+</div>
+<div av-if="typeof alipay == 'undefined' && typeof bankcard == 'undefined'">
+	<div style="text-align: center;color: #999;width: 100%;margin: 10px;">无信息</div>
+</div>

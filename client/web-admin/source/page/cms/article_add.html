@@ -1,0 +1,54 @@
+<script id="content" type="text/template">
+	
+  	<div class="form-group">
+    	<label>文章名称：</label>
+    	<input type="text" class="form-control" placeholder="文章名称" name="cms_article_name">
+  	</div>
+  	<div class="form-group">
+    	<label>文章简介：</label>
+    	<textarea class="form-control" rows="3" placeholder="文章简介" name="cms_article_info"></textarea>
+  	</div>
+  	<div class="form-group">
+    	<label>排序：</label>
+    	<input type="text" class="form-control" placeholder="排序" name="cms_article_sort">
+  	</div>
+  	
+  	<div class="form-group">
+    	<label>状态：</label>
+    	<select class="form-control" name="cms_article_state">
+			<option value="0">关闭</option>
+			<option value="1">发布</option>
+			<option value="2">待审核</option>
+			<option value="3" selected="selected">编辑中</option>
+		</select>
+  	</div>
+  	<div class="form-group">
+    	<label>文章来源：</label>
+    	<div class="alert alert-warning" style="margin-bottom: 5px;padding: 5px;">
+    		<strong>提示：</strong> 为空则是原创，否则是转载，会显示文章来源信息。
+    	</div>
+    	<input type="text" class="form-control" placeholder="文章来源" name="cms_article_source">
+  	</div>
+  	<div class="form-group">
+    	<label>meta关键字：</label>
+    	<div class="alert alert-warning" style="margin-bottom: 5px;padding: 5px;">
+    		<strong>提示：</strong> APP不填该项。只放在html页的关键字中，有利于搜索引擎收录用。
+    	</div>
+    	<input type="text" class="form-control" placeholder="meta关键字，多个关键字以英文逗号隔开" name="cms_article_keywords">
+  	</div>
+  	<div class="form-group">
+    	<label>meta描述：</label>
+    	<div class="alert alert-warning" style="margin-bottom: 5px;padding: 5px;">
+    		<strong>提示：</strong> APP不填该项。只放在html页的描述中，有利于搜索引擎收录用。
+    	</div>
+    	<textarea class="form-control" rows="3" placeholder="meta描述" name="cms_article_description"></textarea>
+  	</div>
+  	
+  	<br/>
+  	<button type="button" class="btn btn-primary" name="submit">确定创建</button>
+	<div style="height: 100px;"></div>
+</script>
+
+
+
+

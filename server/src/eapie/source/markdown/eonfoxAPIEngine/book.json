@@ -1,0 +1,5 @@
+{
+	"title":"优狐网络应用程序接口引擎开发文档",
+    "blacklist":["images", "SUMMARY.md"],
+    "description":"eapie是Eonfox Application Program Interface Engine的简称，是优狐网络应用程序接口引擎。"
+}

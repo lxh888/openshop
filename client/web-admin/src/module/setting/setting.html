@@ -1,0 +1,11 @@
+<div style="padding: 20px;">
+	<input type="text" input-focus="module-setting" style="position: fixed;left: 99999999px;" />
+	<div class="form-group">
+	    <label>分页条数：</label>
+	    <input type="text" class="form-control" placeholder="输入分页条数" name="page_size" av-attr="[value]admin.admin_user_json.page_size">
+	</div>
+	<hr/>
+	<div class="btn-group">
+		<button type="button" class="btn btn-primary" av-class="{'disabled':submitDisabled}" style="width: 100%;" av-event="[click] submit(:node,:event)">确定提交</button>
+	</div>
+</div>

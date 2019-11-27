@@ -1,0 +1,33 @@
+<input type="text" input-focus="page-shop-goodsAttr::spuAdd" style="position: fixed;left: 99999999px;" />
+
+<div id="goodsAttrSpuAdd" style="padding: 20px;">
+	<div class="form-group">
+			<label>属性名称：</label>
+			<input type="text" class="form-control" placeholder="输入属性名称" name="shop_goods_spu_name">
+	</div>
+	<div class="form-group">
+			<label>是否必选：</label>
+			<label class="checkbox-inline">
+			<input type="checkbox" name="shop_goods_spu_required"> 是
+		</label>
+		</div>
+		<div class="form-group">
+			<label>父级：</label>
+			<select class="form-control" name="shop_goods_spu_parent_id">
+			<option value="">-顶级-</option>
+			<option av-for="(v,k)shopGoodsSpuOption" av-attr="[value] v.shop_goods_spu_id" av-attr="[selected] v.shop_goods_spu_id==shop_goods_spu_parent_id?'selected':false">
+				{{v.shop_goods_spu_name}}
+			</option>
+		</select>
+		</div>
+	<div class="form-group">
+			<label>排序：</label>
+			<input type="text" class="form-control" placeholder="输入排序" name="shop_goods_spu_sort" >
+	</div>
+	<div class="form-group">
+			<label>描述：</label>
+			<textarea class="form-control" rows="3" placeholder="输入描述" name="shop_goods_spu_info"></textarea>
+	</div>
+	<br/>
+	<button type="button" class="btn btn-primary btn-block" av-event="[click] eventSubmit(:node,:event)">确定添加</button>
+</div>

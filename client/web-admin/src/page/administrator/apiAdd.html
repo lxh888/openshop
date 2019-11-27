@@ -1,0 +1,119 @@
+<div class="btn-group" style="margin-right: 10px;">
+	<button av-event="[click]eventController(:node,:event,0)" type="button" class="btn btn-default" av-class="{'active': controller == 0}">基础信息</button>
+	<button av-event="[click]eventController(:node,:event,1)" type="button" class="btn btn-default" av-class="{'active': controller == 1}">程序入口</button>
+	<button av-event="[click]eventController(:node,:event,2)" type="button" class="btn btn-default" av-class="{'active': controller == 2}">详细信息</button>
+</div>
+<button type="button" class="btn btn-primary" av-event="[click] eventSubmit(:node,:event)" av-class="{'disabled':submitLock}" >确定添加</button>
+<br/><br/>
+<div av-if="controller == 0">
+	<div class="form-group">
+    	<label>接口ID：</label>
+    	<input type="text" class="form-control" placeholder="接口ID" name="api_id">
+  	</div>
+	<div class="form-group">
+    	<label>接口名称：</label>
+    	<input type="text" class="form-control" placeholder="接口名称" name="api_name">
+  	</div>
+  	<div class="form-group">
+    	<label>接口简介：</label>
+    	<textarea class="form-control" rows="3" placeholder="接口简介" name="api_info"></textarea>
+  	</div>
+	<div class="form-group">
+    	<label>模块：</label>
+	  	<select class="form-control" name="module_id">
+		  <option value="">-请选择-</option>
+		  <option av-for="(moV, moK)moduleOption" av-attr="[value] moV.module_id">
+		  {{moV.module_name}}
+		  </option>
+		</select>
+  	</div>
+  	<div class="form-group">
+    	<label>排序：</label>
+    	<input type="text" class="form-control" placeholder="排序" name="api_sort">
+  	</div>
+	<div class="form-group">
+    	<label>是否为引擎接口：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="administrator"> 是
+		</label>
+  	</div>
+  	<div class="form-group">
+    	<label>是否为后台接口：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="1" name="api_admin"> 是
+		</label>
+  	</div>
+  	<div class="form-group">
+    	<label>是否关闭该接口：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="0" name="api_state"> 是
+		</label>
+  	</div>
+  	
+</div>
+<div av-else-if="controller == 1">
+	<div class="form-group">
+    	<label>接口ID：</label>
+    	<input type="text" class="form-control" readonly="readonly" placeholder="接口ID" av-attr="[value] formInput.api_id">
+  	</div>
+  	<div class="alert alert-warning" style="margin-bottom: 5px;padding: 5px;">
+		<strong>程序入口必须是一个JSON数据，格式要求：</strong> {"class":"类名称","method":"方法"}<br/>
+		<strong>注意事项：</strong>接口版本在创建之后，前端调用接口后，引擎会先检查该接口版本绑定的当前应用，然后指定对应的程序入口。如果当前应用没有接口版本，那么就会使用默认程序入口。
+	</div>
+	<div class="form-group">
+    	<label>默认程序入口：</label>
+    	<textarea class="form-control" rows="3" placeholder="程序入口" name="api_program"></textarea>
+  	</div>
+	<button class="btn btn-default" type="button" av-event="[click]eventApiVersionGatherAdd(:node,:event)"><span class="glyphicon glyphicon-plus"></span> 添加接口版本</button>
+	<br/><br/>
+	<div class="panel panel-default" av-for="(avgV, avgK)apiVersionGather" style="padding: 8px;">
+		<div class="form-group">
+	    	<label>版本ID：</label>
+	    	<input type="text" class="form-control" placeholder="接口版本ID" av-event="[propertychange input] inputApiVersionId(:node,:event,avgK)" av-attr="[value] avgV.api_version_id">
+	  	</div>
+		<div class="form-group">
+	    	<label>程序入口：</label>
+	    	<textarea class="form-control" rows="3" placeholder="程序入口" av-event="[propertychange input] inputApiVersionProgram(:node,:event,avgK)">{{avgV.api_version_program}}</textarea>
+	  	</div>
+	  	<div class="form-group">
+    	<label>状态：</label>
+    	<label class="checkbox-inline">
+			<input type="checkbox" value="0" av-event="[click] inputApiVersionState(:node,:event,avgK)"> 封禁
+		</label>
+  	</div>
+	  	<button av-event="[click]eventApiVersionGatherRemove(:node,:event,avgK)" type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+	</div>
+	
+	
+</div>
+<div av-else-if="controller == 2">
+	<div class="form-group">
+    	<label>接口ID：</label>
+    	<input type="text" class="form-control" readonly="readonly" placeholder="接口ID" av-attr="[value] formInput.api_id">
+  	</div>
+	<div class="alert alert-warning">
+		<strong>请求参数、响应参数的格式要求：</strong> [{"(参数)[类型][是否必填][最小长度或最大长度][名称]":"描述。示例值:示例值1|示例值2|示例值3"}]<br/>
+		<strong>示例，如果没有长度限制：</strong> [{"(name)[string][必填][-][用户名]":"必须是汉字。"}]<br/>
+		<strong>示例，如果只有最大长度限制：</strong> [{"(name)[string][必填][&gt;=100][用户名]":"描述"}]<br/>
+		<strong>示例，如果有最小最大长度限制：</strong> [{"(name)[string][必填][&gt;=100|&lt;=1000][用户名]":"描述"}]
+	</div>
+  	
+  	<div class="form-group">
+    	<label>请求参数：</label>
+    	<textarea class="form-control" rows="5" placeholder="请求参数" name="api_request_args"></textarea>
+  	</div>
+  	<div class="form-group">
+    	<label>响应参数：</label>
+    	<textarea class="form-control" rows="5" placeholder="响应参数" name="api_response_args"></textarea>
+  	</div>
+  	
+  	<div class="form-group">
+  		<label>详细说明：</label>
+  		<script id="api_explain_editor" type="text/plain" style="width:100%;min-height: 500px;"></script>
+		<div name="UEditor-javascript"></div>
+  	</div>
+	
+	
+</div>
+
+<div style="height: 100px;"></div>

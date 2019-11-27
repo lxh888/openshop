@@ -1,0 +1,60 @@
+<script id="content" type="text/template">
+	<div class="form-group">
+    	<label>商品ID：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{response.get.shop_goods_id}-->">
+  	</div>
+	<div class="form-group">
+    	<label>商品名称：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{response.get.shop_goods_name}-->">
+  	</div>
+  	
+	<button type="button" class="btn btn-primary" name="goods-type-submit"><span class="glyphicon glyphicon-floppy-disk"></span> 保存编辑</button>
+  
+  <br/><br/>
+<table class="table table-striped table-hover">
+  	<tbody>
+  	
+  	<!--if{response.type_module_shop_goods_option.length}-->
+	<!--for{var i in response.type_module_shop_goods_option}-->
+  	
+    <tr>
+      <th style="width: 200px;">
+      	<!--{response.type_module_shop_goods_option[i].type_name}-->
+      	<!--if{parseInt(response.type_module_shop_goods_option[i].type_state)}-->
+		<!--else-->
+			<span style="color: red;">隐藏</span>
+		<!--/if-->
+      </th>
+      <td>
+      	
+      	<!--if{response.type_module_shop_goods_option[i].son.length}-->
+		<!--for{var s in response.type_module_shop_goods_option[i].son}-->
+		<label class="checkbox-inline" style="margin: 0px 10px;">
+			<input type="checkbox" name="goods-type-checkbox" <!--if helper{"goods_type in_array" (response.type_module_shop_goods_option[i].son[s].type_id, response.get.shop_goods_type)}-->checked="checked"<!--/if--> style="margin-left: -16px;" value="<!--{response.type_module_shop_goods_option[i].son[s].type_id}-->">
+			<!--{response.type_module_shop_goods_option[i].son[s].type_name}-->
+			<!--if{parseInt(response.type_module_shop_goods_option[i].son[s].type_state)}-->
+			<!--else-->
+			<span style="color: red;">隐藏</span>
+			<!--/if-->
+		</label>
+		<!--/for-->
+		<!--else-->
+		<span style="color: #999999;margin-left: 15px;">无子选项 <a href="#/application/type/?type_parent_id=<!--{response.type_module_shop_goods_option[i].type_id}-->" class="btn btn-default btn-xs" ><span class="glyphicon glyphicon-plus"></span> 立即添加</a></span>
+		<!--/if-->
+      	
+      </td>
+    </tr>
+    
+    <!--/for-->
+    <!--else-->
+    <span style="color: #999999;margin-left: 15px;">无分类 <a href="#/application/type" class="btn btn-default btn-xs" ><span class="glyphicon glyphicon-plus"></span> 立即添加</a></span>
+	<!--/if-->
+    
+  	</tbody>
+</table>  
+  
+  
+	<hr/>
+	<span style="color: #999999;">更新时间：<!--{WangAho().date("yyyy/MM/dd HH:mm EEE", parseInt(response.get.shop_goods_update_time) * 1000)}--></span>
+	<div style="height: 100px;"></div>
+</script>

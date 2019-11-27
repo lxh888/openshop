@@ -1,0 +1,43 @@
+<script id="content" type="text/template">
+	<div class="form-group">
+    	<label>产品ID：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{response.get.ss_product_id}-->">
+  	</div>
+	<div class="form-group">
+    	<label>产品名称：</label>
+    	<input type="text" class="form-control" readonly="readonly" value="<!--{response.get.ss_product_name}-->">
+  	</div>
+  	
+	<button type="button" class="btn btn-primary" name="product-type-submit"><span class="glyphicon glyphicon-floppy-disk"></span> 保存编辑</button>
+  	
+<!--if{response.softstore_type_option.length}-->
+<!--for{var i in response.softstore_type_option}-->
+<hr/>
+<h4>
+<!--{response.softstore_type_option[i].ss_type_name}-->
+<!--if{parseInt(response.softstore_type_option[i].ss_type_state)}-->
+  <!--else-->
+  <span class="label label-danger">隐藏</span>
+  <!--/if-->
+</h4>
+
+<!--if{response.softstore_type_option[i].son.length}-->
+<!--for{var s in response.softstore_type_option[i].son}-->
+<label class="checkbox-inline" style="margin-right: 10px;">
+  <input type="checkbox" name="product-type-checkbox" <!--if helper{"product_type in_array" (response.softstore_type_option[i].son[s].ss_type_id, response.get.ss_product_type)}-->checked="checked"<!--/if--> style="margin-left: -16px;" value="<!--{response.softstore_type_option[i].son[s].ss_type_id}-->">
+  <!--{response.softstore_type_option[i].son[s].ss_type_name}-->
+  <!--if{parseInt(response.softstore_type_option[i].son[s].ss_type_state)}-->
+  <!--else-->
+  <span class="label label-danger">隐藏</span>
+  <!--/if-->
+</label>
+<!--/for-->
+<!--else-->
+<span style="color: #999999;">无子分类</span>
+<!--/if-->
+
+
+<!--/for-->
+<!--/if-->
+	
+</script>

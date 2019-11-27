@@ -1,0 +1,134 @@
+<div av-if="data" class="panel panel-default">
+	<div class="panel-body">
+		<div>商品ID：{{data.shop_goods_id}}</div>
+		<div>商品名称：{{data.shop_goods_name}}</div>
+		<div>商品状态：
+			<span av-if="data.shop_goods_state==0" class="label label-danger">审核失败</span>
+			<span av-elseif="data.shop_goods_state==1" class="label label-success">售卖中</span>
+			<span av-elseif="data.shop_goods_state==2" class="label label-warning">等待审核</span>
+			<span av-elseif="data.shop_goods_state==3" class="label label-info">停售编辑中</span>
+		</div>
+		<div>操作：
+			<a av-attr="[href] '#/shop-goodsRegionAdd/?id='+data.shop_goods_id" class="btn btn-default btn-xs">
+				<span class="glyphicon glyphicon-plus"></span> 添加售卖地区
+			</a>
+		</div>
+	</div>
+</div>
+
+<div class="btn-group" style="margin-right: 5px;">
+	<button av-event="[click] eventQuery(:node,:event,'state', false)" class="btn btn-default" av-class="{'active':( typeof state == 'undefined' )}">全部销售地区状态</button>
+	<button av-event="[click] eventQuery(:node,:event,'state', 1)" class="btn btn-default" av-class="{'active':( state == 1 )}">正常</button>
+	<button av-event="[click] eventQuery(:node,:event,'state', 0)" class="btn btn-default" av-class="{'active':( state == 0 )}">封禁</button>
+</div>
+
+<div class="btn-group" style="margin-right: 5px;">
+	<button av-event="[click] eventQuery(:node,:event,'shop_goods_state', false)" class="btn btn-default" av-class="{'active':( typeof shop_goods_state == 'undefined' )}">全部商品状态</button>
+	<button av-event="[click] eventQuery(:node,:event,'shop_goods_state', 3)" class="btn btn-default" av-class="{'active':( shop_goods_state == 3 )}">停售编辑中</button>
+	<button av-event="[click] eventQuery(:node,:event,'shop_goods_state', 2)" class="btn btn-default" av-class="{'active':( shop_goods_state == 2 )}">等待审核</button>
+	<button av-event="[click] eventQuery(:node,:event,'shop_goods_state', 1)" class="btn btn-default" av-class="{'active':( shop_goods_state == 1 )}">售卖中</button>
+	<button av-event="[click] eventQuery(:node,:event,'shop_goods_state', 0)" class="btn btn-default" av-class="{'active':( shop_goods_state == 0 )}">审核失败</button>
+</div>
+
+<button av-event="[click]eventPass(:node,:event)" class="btn btn-default" type="button" style="margin-left: 5px;"><span class="glyphicon glyphicon-ok"></span> 正常</button>
+<button av-event="[click]eventFail(:node,:event)" class="btn btn-default" type="button" style="margin-left: 5px;"><span class="glyphicon glyphicon-remove"></span> 封禁</button>
+<button class="btn btn-danger" av-event="[click] eventRemove(:node,:event)" type="button" style="margin-left: 5px;"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+<button class="btn btn-default" av-event="[click] eventSearch(:node,:event)" type="button" style="margin-left: 5px;"><span class="glyphicon glyphicon-filter"></span> 筛选</button>
+<span av-if="checkRouterAnchorQuerySearch()" class="label label-default" style="margin-left: 5px;">存在筛选</span>
+<hr/>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th style="width: 2%;"><input type="checkbox" checkbox="checkbox-all"></th>
+			<th style="width: 3%;">#</th>
+			<th av-if="!data" style="width: 20%;">
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'shop_goods_name_asc', 'shop_goods_name_desc')"><span av-if="existSort('shop_goods_name_asc', 'shop_goods_name_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('shop_goods_name_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('shop_goods_name_desc')}"></span>商品名称</a>
+			</th>
+			<th av-if="!data" style="width: 8%;">
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'shop_goods_state_asc', 'shop_goods_state_desc')"><span av-if="existSort('shop_goods_state_asc', 'shop_goods_state_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('shop_goods_state_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('shop_goods_state_desc')}"></span>商品状态</a>
+			</th>
+			<th style="width: 20%;">
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'scope_asc', 'scope_desc')"><span av-if="existSort('scope_asc', 'scope_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('scope_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('scope_desc')}"></span>销售范围</a>
+				/
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'province_asc', 'province_desc')"><span av-if="existSort('province_asc', 'province_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('province_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('province_desc')}"></span>省份</a>
+				/
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'city_asc', 'city_desc')"><span av-if="existSort('city_asc', 'city_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('city_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('city_desc')}"></span>市级</a>
+				/
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'district_asc', 'district_desc')"><span av-if="existSort('district_asc', 'district_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('district_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('district_desc')}"></span>区级</a>
+			</th>
+			<th style="width: 10%;">
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'state_asc', 'state_desc')"><span av-if="existSort('state_asc', 'state_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('state_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('state_desc')}"></span>状态</a>
+			</th>
+			<th style="width: 17%;">
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'update_time_asc', 'update_time_desc')"><span av-if="existSort('update_time_asc', 'update_time_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('update_time_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('update_time_desc')}"></span>更新时间</a>
+			</th>
+			<th av-if="!data" style="width: 20%;">操作</th>
+		</tr>
+
+	</thead>
+	<tbody>
+		<tr av-if="list && list.data && list.data.length" av-for="(value, key) list.data" av-event="[dblclick] eventTrDblclick(:node,:event)" av-attr="[data-id] value.shop_goods_region_id" data-checkbox="checkbox">
+			<th><input type="checkbox" checkbox="checkbox" av-attr="[data-id] value.shop_goods_region_id"></th>
+			<td>{{parseInt(key)+1+((parseInt(list.page_now) - 1) * list.page_size)}}</td>
+			<td av-if="!data">
+				<div style="color: #999;">ID:{{value.shop_goods_id}}</div>
+				<span av-if="value.shop_goods_property == 1" class="label label-primary">积分商品</span>
+				<span>{{value.shop_goods_name}}</span>
+			</td>
+			<td av-if="!data">
+				<span av-if="value.shop_goods_state==0" class="label label-danger">审核失败</span>
+				<span av-elseif="value.shop_goods_state==1" class="label label-success">售卖中</span>
+				<span av-elseif="value.shop_goods_state==2" class="label label-warning">等待审核</span>
+				<span av-elseif="value.shop_goods_state==3" class="label label-info">停售编辑中</span>
+			</td>
+			<td>
+				<span av-if="value.shop_goods_region_scope == 0">
+              未知
+          </span>
+				<span av-if="value.shop_goods_region_scope == 1">
+              [省]{{value.shop_goods_region_province}}
+          </span>
+				<span av-if="value.shop_goods_region_scope == 2">
+              [市]
+          {{value.shop_goods_region_province}}/{{value.shop_goods_region_city}}
+          </span>
+				<span av-if="value.shop_goods_region_scope == 3">
+              [区]
+          {{value.shop_goods_region_province}}/{{value.shop_goods_region_city}}/{{value.shop_goods_region_district}}
+          </span>
+			</td>
+
+			<td>
+				<span av-if="value.shop_goods_region_state == 1" class="label label-success">正常</span>
+				<span av-else-if="value.shop_goods_region_state == 0" class="label label-danger">封禁</span>
+				<span av-else class="label label-default">未知</span>
+			</td>
+			<td>
+				<span av-if="parseInt(value.shop_goods_update_time)">{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(value.shop_goods_update_time) * 1000)}}</span>
+				<span av-else>-</span>
+			</td>
+			<td av-if="!data">
+				<a av-attr="[href] '#/shop-goodsRegionList/?sort=update_time_desc&search=%257B%2522shop_goods_id%2522%253A%2522'+value.shop_goods_id+'%2522%257D'" class="btn btn-default btn-sm">
+					<span class="glyphicon glyphicon-filter"></span> 只查看该商品
+				</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<div av-if="list.data.length" style="text-align: center;">
+	<button class="btn btn-default" data-page="1" av-class="{'disabled':isFirstPage(list.page_now)}" type="button" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">首页</button>
+	<button class="btn btn-default" av-attr="[data-page] parseInt(list.page_now) - 1" av-class="{'disabled':isFirstPage(list.page_now)}" type="button" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">上一页</button>
+	<button class="btn btn-default" type="button" style="margin-right: 5px;">
+        第{{list.page_now}}页
+        / 共{{list.page_count}}页
+        / 有{{list.row_count}}条数据</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] parseInt(list.page_now) + 1" av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">下一页</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] list.page_count" av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">尾页</button>
+</div>
+<div class="form-inline" style="text-align: center;margin-top: 10px;">
+	<div class="form-group" style="margin-right: 5px;">
+		<input type="text" class="form-control" input-page="requestPageRequestValue" placeholder="输入跳转页" style="width: 100px;">
+	</div>
+	<button type="button" class="btn btn-default" av-event="[click]eventPageRequestSubmit(:node,:event)">跳转</button>
+</div>

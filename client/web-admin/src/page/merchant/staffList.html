@@ -1,0 +1,113 @@
+<div class="btn-group" style="margin-right:20px ;">
+	<button av-event="[click] eventQuery(:node,:event,'state', false)" class="btn btn-default" av-class="{'active':( typeof state== 'undefined' )}">全部状态</button>
+	<button av-event="[click] eventQuery(:node,:event,'state', 2)" class="btn btn-default" av-class="{'active':( state== 2 )}">等待审核</button>
+	<button av-event="[click] eventQuery(:node,:event,'state', 1)" class="btn btn-default" av-class="{'active':( state== 1 )}">审核通过</button>
+	<button av-event="[click] eventQuery(:node,:event,'state', 0)" class="btn btn-default" av-class="{'active':( state== 0 )}">审核未通过</button>
+</div>
+
+
+
+
+<button class="btn btn-default" av-event="[click] eventSearch(:node,:event)" type="button" style="margin-left: 20px;"><span class="glyphicon glyphicon-filter"></span> 筛选</button>
+<span av-if="checkRouterAnchorQuerySearch()" class="label label-default" style="margin-left: 5px;">存在筛选</span>
+
+<hr/>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<!-- <th style="width: 2%;"><input type="checkbox" checkbox="checkbox-all"></th> -->
+			<th style="width: 3%;">#</th>
+			<th style="width:10%;">
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'cashier_name_asc', 'cashier_name_desc')">
+					<span av-if="existSort('cashier_name_asc', 'cashier_name_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('cashier_name_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('cashier_name_desc')}"></span>
+					员工名称</a>
+			</th>
+			<th style="width:10%;">员工手机号</th>
+			<th style="width:10%;">用户昵称/用户手机号</th>
+			<th style="width: 10%;">
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'cashier_state_asc', 'cashier_state_desc')">
+					<span av-if="existSort('cashier_state_asc', 'cashier_state_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('cashier_state_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('cashier_state_desc')}">					
+					</span>状态
+				</a>
+			</th>
+		
+
+			<th style="width: 12%;">
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'insert_time_asc', 'insert_time_desc')">
+					<span av-if="existSort('insert_time_asc', 'insert_time_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('insert_time_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('insert_time_desc')}">					
+					</span>注册时间
+				</a>
+			</th>
+			<th style="width: 12%;">
+				<a href="javascript:;" av-event="[click] eventSort(:node,:event,'update_time_asc', 'update_time_desc')">
+					<span av-if="existSort('update_time_asc', 'update_time_desc')" class="glyphicon" av-class="{'glyphicon glyphicon-sort-by-attributes':checkSort('update_time_asc'), 'glyphicon-sort-by-attributes-alt':checkSort('update_time_desc')}">					
+					</span>更新时间
+				</a>
+			</th>
+			<th style="width: 20%;">操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr av-if="list && list.data && list.data.length" av-for="(value, key) list.data" av-event="[dblclick] eventTrDblclick(:node,:event)" av-attr="[data-id] value.shop_goods_id" data-checkbox="checkbox">
+			<!-- <th><input type="checkbox" checkbox="checkbox" av-attr="[data-id] value.shop_goods_id"></th> -->
+			<td>
+				{{parseInt(key)+1+((parseInt(list.page_now) - 1) * list.page_size)}}
+			</td>
+			<td>
+				<div>
+					<span style="color: #07141E;">{{value.merchant_cashier_name}} </span>
+				</div>
+			</td>
+			<td>
+				{{value.merchant_cashier_phone}} 
+			</td>
+			<td>
+				<img av-is="value.user_logo_image_id" av-attr="[src] applicationConfig.qiniu_domain+value.user_logo_image_id+'?imageView2/1/w/40'" class="img-circle">
+				<span av-if="value.user_nickname">{{value.user_nickname}}</span>
+				<span av-else style="color: #999999;">未设置昵称</span>
+				<div style="max-width: 200px;display: inline-block;">
+						<span av-if="value.user_phone_verify_list" style="word-wrap:break-word;display: block;font-weight: bold;">
+						({{value.user_phone_verify_list}})
+					</span></div>
+			</td>
+			
+			
+			<td>
+				<span av-if="value.merchant_cashier_state==0" class="label label-danger">审核失败</span>
+				<span av-elseif="value.merchant_cashier_state==1" class="label label-success">审核通过</span>
+				<span av-elseif="value.merchant_cashier_state==2" class="label label-warning">等待审核</span>
+				<span av-else>未知</span>
+			</td>
+
+			<td>
+					{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(value.merchant_cashier_insert_time) * 1000)}}
+				</td>
+			<td>
+				{{av.date("yyyy/MM/dd HH:mm EEE", parseInt(value.merchant_cashier_update_time) * 1000)}}
+			</td>
+			<td>
+					<button av-if="value.merchant_cashier_state==2" class="btn btn-success" type="button" style="margin-right: 10px" av-event="[click] eventPassApply(value.merchant_cashier_id)"> 通过审核</button>
+					<button av-if="value.merchant_cashier_state==2" class="btn btn-danger" type="button" style="margin-right: 10px"  av-event="[click] eventNotPassApply(value.merchant_cashier_id)">驳回申请</button>
+					<button  class="btn btn-danger" type="button" style="margin-right: 10px"  av-event="[click] eventDeleteStaff(value.merchant_cashier_id)">删除</button>
+			</td>
+
+		</tr>
+		<tr av-else>
+			<td colspan="15" align="center">无数据</td>
+		</tr>
+	</tbody>
+</table>
+
+<!--if{response.list.data.length}-->
+<div av-if="list.data.length" style="text-align: center;">
+	<button class="btn btn-default" data-page="1" av-class="{'disabled':isFirstPage(list.page_now)}" type="button" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">首页</button>
+	<button class="btn btn-default" av-attr="[data-page] parseInt(list.page_now) - 1" av-class="{'disabled':isFirstPage(list.page_now)}" type="button" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">上一页</button>
+	<button class="btn btn-default" type="button" style="margin-right: 5px;">
+		第{{list.page_now}}页
+		/ 共{{list.page_count}}页
+		/ 有{{list.row_count}}条数据</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] parseInt(list.page_now) + 1" av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">下一页</button>
+	<button class="btn btn-default" type="button" av-attr="[data-page] list.page_count" av-class="{'disabled':isEndPage(list.page_now, list.page_count)}" style="margin-right: 5px;" av-event="[click] eventPageRequest(:node,:event)">尾页</button>
+</div>
+<!--/if-->
+
