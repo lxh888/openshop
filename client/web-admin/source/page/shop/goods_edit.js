@@ -229,7 +229,7 @@ WangAho({
 					$('select[name="shop_goods_state"], select[name="shop_goods_stock_mode"], select[name="shop_goods_property"], select[name="shop_goods_index"]').chosen({
 						width: '100%',
 						//placeholder_text_single: '-', //默认值
-						earch_contains: true,
+						search_contains: true,
 						no_results_text: "没有匹配结果",
 						case_sensitive_search: false //搜索大小写敏感。此处设为不敏感
 			        	//group_search: false //选项组是否可搜。此处搜索不可搜
@@ -631,7 +631,7 @@ WangAho({
 			$('select[name="shop_goods_spu_parent_id"]').chosen({
 				width: '100%',
 				//placeholder_text_single: '-', //默认值
-				earch_contains: true,
+				search_contains: true,
 				no_results_text: "没有匹配结果",
 				case_sensitive_search: false //搜索大小写敏感。此处设为不敏感
 	        	//group_search: false //选项组是否可搜。此处搜索不可搜
@@ -751,7 +751,7 @@ WangAho({
 			$('select[name="shop_goods_spu_parent_id"]').chosen({
 				width: '100%',
 				//placeholder_text_single: '-', //默认值
-				earch_contains: true,
+				search_contains: true,
 				no_results_text: "没有匹配结果",
 				case_sensitive_search: false //搜索大小写敏感。此处设为不敏感
 	        	//group_search: false //选项组是否可搜。此处搜索不可搜
